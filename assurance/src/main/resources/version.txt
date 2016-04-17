@@ -1,0 +1,4 @@
+name=${app.shortName}
+applicationName=${project.name}
+version=${project.version}
+buildNumber=${app.buildNumber}

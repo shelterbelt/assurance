@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.6.1.201408250730-RELEASE]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[true]]></enableImports>
+	<configs>
+		<config>src/main/resources/META-INF/spring/app-context.xml</config>
+		<config>src/test/resources/com/digitalgeneralists/assurance/AppDelegateTests-context.xml</config>
+		<config>src/test/resources/com/digitalgeneralists/assurance/model/PersistenceTests-context.xml</config>
+		<config>src/test/resources/com/digitalgeneralists/assurance/model/compare/file/ComparisonTests-context.xml</config>
+		<config>src/test/resources/com/digitalgeneralists/assurance/model/compare/ComparisonEngineTests-context.xml</config>
+	</configs>
+	<autoconfigs>
+	</autoconfigs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>

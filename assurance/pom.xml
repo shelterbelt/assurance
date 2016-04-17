@@ -1,0 +1,775 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Assurance
+ 
+ Created by Mark Johnson
+ 
+ Copyright (c) 2015 Digital Generalists, LLC.
+
+ Copyright 2015 Digital Generalists, LLC.
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+    http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.digitalgeneralists</groupId>
+	<artifactId>assurance</artifactId>
+	<version>1.0.2${release.identifier}</version>
+	<packaging>jar</packaging>
+	<name>Assurance Backup Manager</name>
+	<url>http://www.digitalgeneralists.com/assurance</url>
+	<description>Cross-platform application to analyze and synchronize the contents of file system directories.</description>
+	<properties>
+	   	<timestamp>${maven.build.timestamp}</timestamp>
+   		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>		
+		<maven.test.failure.ignore>false</maven.test.failure.ignore>
+		<spring.framework.version>3.2.11.RELEASE</spring.framework.version>
+		<app.shortName>Assurance</app.shortName>
+		<app.buildNumber>DEVBUILD</app.buildNumber>
+		<app.iconFile>${basedir}/src/main/resources/assurance.icns</app.iconFile>
+		<app.windowsIconFile>${basedir}/src/main/resources/assurance.ico</app.windowsIconFile>
+		<!-- Having to define the version number twice is sub-optimal, but seems necessary
+		     given the tooling behavior and how I want the numbers to propagate per platform. -->
+		<app.windowsVersionNumber>1.0.0.${app.buildNumber}</app.windowsVersionNumber>
+		
+		<!-- NOTE: These properties can be defined as environment variables (and referenced via ${env.<var_name>) in 
+		     /etc/launchd.conf on OSX < Yosemite.  But the mechanism for passing env variables to GUI apps 
+		     significantly changed in Yosemite. So for my own development, I explicitly set the targets
+		     here.  On a build server via a command line build, environment variables should work on all platforms. -->
+		<ant.home>/usr/local/ant</ant.home>
+		<java.embedJDK>/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home</java.embedJDK>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.3.5.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.7</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.framework.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.framework.version}</version>
+		   	<exclusions>
+		 		<!-- Swap out the standard JCL logging framework for SLF -->
+		      	<exclusion>
+		        	<groupId>commons-logging</groupId>
+		         	<artifactId>commons-logging</artifactId>
+		   		</exclusion>
+		 		<!-- END:  Swap out the standard JCL logging framework for SLF -->
+		   	</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>1.8.0.10</version>
+		</dependency>
+ 		
+ 		<!-- NOTE: Swap out the standard JCL logging framework for SLF -->
+		<dependency>
+		   <groupId>org.slf4j</groupId>
+		   <artifactId>jcl-over-slf4j</artifactId>
+		   <version>1.5.8</version>
+		   <scope>runtime</scope>
+		</dependency>
+		<dependency>
+		   <groupId>org.slf4j</groupId>
+		   <artifactId>slf4j-api</artifactId>
+		   <version>1.5.8</version>
+		   <scope>runtime</scope>
+		</dependency>
+		<dependency>
+		   <groupId>org.slf4j</groupId>
+		   <artifactId>slf4j-log4j12</artifactId>
+		   <version>1.5.8</version>
+		   <scope>runtime</scope>
+		</dependency>
+   		<!-- END:  Swap out the standard JCL logging framework for SLF -->
+  
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.32</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+  			<version>3.3.2</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.h2database</groupId>
+		    <artifactId>h2</artifactId>
+		    <version>1.4.184</version>
+		</dependency>
+		<dependency>
+			<groupId>com.apple</groupId>
+			<artifactId>AppleJavaExtensions</artifactId>
+			<version>1.4</version>
+		</dependency>
+	</dependencies>
+
+	<scm>
+		<connection>scm:git:http://digitalgeneralists.unfuddle.com/git/digitalgeneralists_dgassurancebm/</connection>
+		<developerConnection>scm:git:https://digitalgeneralists.unfuddle.com/git/digitalgeneralists_dgassurancebm/</developerConnection>
+		<url>https://digitalgeneralists.unfuddle.com/git/digitalgeneralists_dgassurancebm/</url>
+	</scm>
+	
+	<profiles>
+		<profile>
+			<id>development</id>
+			<activation>
+      			<activeByDefault>true</activeByDefault>
+     			<property>
+	        		<name>profile</name>
+	        		<value>development</value>
+	        	</property>
+        	</activation>
+        	<properties>
+        		<release.identifier>-SNAPSHOT</release.identifier>
+        		<project.buildprefix>DEV</project.buildprefix>
+        		<release.tagname>snapshot</release.tagname>
+        	</properties>
+        	<build>
+        		<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.7</version>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<configuration>
+									<target>
+										<taskdef name="bundleapp" classname="com.oracle.appbundler.AppBundlerTask" classpath="${ant.home}/lib/appbundler-1.0.jar" />
+										<dependencyfilesets prefix="com.digitalgeneralists.assurance."/>
+										<!-- NOTE: There is a patch on Java.net to allow specification of version="${app.buildNumber}" -->
+									    <bundleapp 
+									        outputdirectory="${project.build.directory}" 
+									        name="${app.shortName}" 
+									        displayname="${project.name}" 
+									        icon="${app.iconFile}"
+									        identifier="${project.groupId}.${project.artifactId}" 
+									        shortversion="${project.version}"
+									        applicationCategory="public.app-category.productivity"
+									        mainclassname="com.digitalgeneralists.assurance.Application">
+		  							        <runtime dir="${java.embedJDK}" />
+		  							        
+											<classpath refid="com.digitalgeneralists.assurance.maven.project.dependencies" />
+											<classpath file="${project.build.directory}/${project.artifactId}-${project.version}.jar" />
+									        
+									        <option value="-Xdock:name=${app.shortName}"/>
+		        							<option value="-Xdock:icon=$APP_ROOT/Contents/Resources/assurance.icns"/>
+		        							<option value="-Dapple.laf.useScreenMenuBar=true"/>
+		        							<option value="-Dcom.apple.macos.use-file-dialog-packages=true"/>
+		        							<option value="-Dcom.apple.macos.useScreenMenuBar=true"/>
+		        							<option value="-Dcom.apple.mrj.application.apple.menu.about.name=${app.shortName}"/>
+		        							<option value="-Dcom.apple.smallTabs=true"/>
+		       								<option value="-Dcom.apple.textantialiasing=true"/>
+		        							<option value="-Dcom.apple.antialiasing=true"/>
+		        							<option value="-Dcom.apple.showGrowBox=true"/>
+		        							<option value="-Dapple.awt.fullscreencapturealldisplays=false"/>
+		        							<option value="-Dapple.awt.fullscreenusefade=true"/>
+		        							<option value="-Xms32M"/>
+									        <option value="-Xmx1024M"/>
+									    </bundleapp>
+										<!-- NOTE: This is platform dependent.  There is a patch on Java.net to allow specification of version="${app.buildNumber}" -->
+										<exec executable="/usr/libexec/PlistBuddy"
+										  outputproperty="PListOutput"
+										  errorproperty="PListError"
+										>       
+										  <arg value="-c"/>
+										  <arg value ="Set :CFBundleVersion ${app.buildNumber}" />              
+										  <arg value="${project.build.directory}/${app.shortName}.app/Contents/Info.plist"/>
+										</exec>
+									    <delete dir="${project.build.directory}/antrun"/>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+        		</plugins>
+        	</build>
+		</profile>
+		<profile>
+			<id>development-windows</id>
+			<activation>
+     			<property>
+	        		<name>profile</name>
+	        		<value>development-windows</value>
+	        	</property>
+        	</activation>
+        	<properties>
+        		<release.identifier>-SNAPSHOT</release.identifier>
+        		<project.buildprefix>DEV</project.buildprefix>
+        		<release.tagname>snapshot</release.tagname>
+				<app.buildNumber>0</app.buildNumber>
+        	</properties>
+        	<build>
+        		<plugins>
+	        		<!-- NOTE: Should use POM inheritance for these common definitions. -->
+					<plugin>
+					    <groupId>org.bluestemsoftware.open.maven.plugin</groupId>
+					    <artifactId>launch4j-plugin</artifactId>
+					    <version>1.5.0.0</version>
+					    <executions>
+					
+					        <execution>
+					            <id>l4j-gui</id>
+					            <phase>package</phase>
+					            <goals>
+					                <goal>launch4j</goal>
+					            </goals>
+					            <configuration>
+					                <headerType>gui</headerType>
+					                <outfile>target/${project.artifactId}.exe</outfile>
+					                <jar>target/${project.artifactId}-${project.version}.jar</jar>
+					                <errTitle>${app.shortName} Error</errTitle>
+					                <classPath>
+					                    <mainClass>com.digitalgeneralists.assurance.Application</mainClass>
+                    					<preCp>dependency_libs/*.jar</preCp>
+					                </classPath>
+					                <icon>${app.windowsIconFile}</icon>
+					                <jre>
+					                    <minVersion>1.8.0</minVersion>
+					                    <maxVersion>1.8.0_99</maxVersion>
+					                    <initialHeapSize>32</initialHeapSize>
+					                    <maxHeapSize>1024</maxHeapSize>
+					                </jre>
+					                <versionInfo>
+					                    <fileVersion>${app.windowsVersionNumber}</fileVersion>
+					                    <txtFileVersion>${project.version}</txtFileVersion>
+					                    <fileDescription>${project.description}</fileDescription>
+					                    <copyright>2015 - ${project.organization.name}</copyright>
+					                    <productVersion>${app.windowsVersionNumber}</productVersion>
+					                    <txtProductVersion>${project.version}</txtProductVersion>
+					                    <productName>${project.name}</productName>
+					                    <internalName>${app.shortName}</internalName>
+					                    <originalFilename>${project.artifactId}.exe</originalFilename>
+					                </versionInfo>
+					            </configuration>
+					        </execution>
+					    </executions>
+					</plugin>
+					<plugin>
+					    <groupId>org.apache.maven.plugins</groupId>
+					    <artifactId>maven-dependency-plugin</artifactId>
+					    <version>2.9</version>
+					    <executions>
+					        <execution>
+					            <id>copy-dependencies</id>
+					            <phase>package</phase>
+					            <goals>
+					                <goal>copy-dependencies</goal>
+					            </goals>
+					            <configuration>
+					                <outputDirectory>${project.build.directory}/dependency_libs</outputDirectory>
+					                <overWriteReleases>false</overWriteReleases>
+					                <overWriteSnapshots>false</overWriteSnapshots>
+					                <overWriteIfNewer>true</overWriteIfNewer>
+					            </configuration>
+					        </execution>
+					    </executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>intrelease</id>
+			<activation>
+				<property>
+	        		<name>profile</name>
+	        		<value>intrelease</value>
+	        	</property>
+			</activation>
+        	<properties>
+        		<release.identifier>-RC</release.identifier>
+        		<project.buildprefix>RC</project.buildprefix>
+        		<release.tagname>RC</release.tagname>
+				<app.buildNumber>${timestamp}</app.buildNumber>
+        	</properties>
+        	<build>
+        		<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.7</version>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<configuration>
+									<target>
+										<taskdef name="bundleapp" classname="com.oracle.appbundler.AppBundlerTask" classpath="${ant.home}/lib/appbundler-1.0.jar" />
+										<dependencyfilesets prefix="com.digitalgeneralists.assurance."/>
+										<!-- NOTE: There is a patch on Java.net to allow specification of version="${app.buildNumber}" -->
+									    <bundleapp 
+									        outputdirectory="${project.build.directory}" 
+									        name="${app.shortName}" 
+									        displayname="${project.name}" 
+									        icon="${app.iconFile}"
+									        identifier="${project.groupId}.${project.artifactId}" 
+									        shortversion="${project.version}"
+									        applicationCategory="public.app-category.productivity"
+									        mainclassname="com.digitalgeneralists.assurance.Application">
+		  							        <runtime dir="${java.embedJDK}" />
+		  							        
+											<classpath refid="com.digitalgeneralists.assurance.maven.project.dependencies" />
+											<classpath file="${project.build.directory}/${project.artifactId}-${project.version}.jar" />
+									        
+									        <option value="-Xdock:name=${app.shortName}"/>
+		        							<option value="-Xdock:icon=$APP_ROOT/Contents/Resources/assurance.icns"/>
+		        							<option value="-Dapple.laf.useScreenMenuBar=true"/>
+		        							<option value="-Dcom.apple.macos.use-file-dialog-packages=true"/>
+		        							<option value="-Dcom.apple.macos.useScreenMenuBar=true"/>
+		        							<option value="-Dcom.apple.mrj.application.apple.menu.about.name=${app.shortName}"/>
+		        							<option value="-Dcom.apple.smallTabs=true"/>
+		       								<option value="-Dcom.apple.textantialiasing=true"/>
+		        							<option value="-Dcom.apple.antialiasing=true"/>
+		        							<option value="-Dcom.apple.showGrowBox=true"/>
+		        							<option value="-Dapple.awt.fullscreencapturealldisplays=false"/>
+		        							<option value="-Dapple.awt.fullscreenusefade=true"/>
+		        							<option value="-Xms32M"/>
+									        <option value="-Xmx1024M"/>
+									    </bundleapp>
+										<!-- NOTE: This is platform dependent.  There is a patch on Java.net to allow specification of version="${app.buildNumber}" -->
+										<exec executable="/usr/libexec/PlistBuddy"
+										  outputproperty="PListOutput"
+										  errorproperty="PListError"
+										>       
+										  <arg value="-c"/>
+										  <arg value ="Set :CFBundleVersion ${app.buildNumber}" />              
+										  <arg value="${project.build.directory}/${app.shortName}.app/Contents/Info.plist"/>
+										</exec>
+									    <delete dir="${project.build.directory}/antrun"/>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+        		</plugins>
+        	</build>
+		</profile>
+		<profile>
+			<id>intrelease-windows</id>
+			<activation>
+				<property>
+	        		<name>profile</name>
+	        		<value>intrelease-windows</value>
+	        	</property>
+			</activation>
+        	<properties>
+        		<release.identifier>-RC</release.identifier>
+        		<project.buildprefix>RC</project.buildprefix>
+        		<release.tagname>RC</release.tagname>
+				<app.buildNumber>0</app.buildNumber>
+        	</properties>
+        	<build>
+        		<plugins>
+	        		<!-- NOTE: Should use POM inheritance for these common definitions. -->
+					<plugin>
+					    <groupId>org.bluestemsoftware.open.maven.plugin</groupId>
+					    <artifactId>launch4j-plugin</artifactId>
+					    <version>1.5.0.0</version>
+					    <executions>
+					
+					        <execution>
+					            <id>l4j-gui</id>
+					            <phase>package</phase>
+					            <goals>
+					                <goal>launch4j</goal>
+					            </goals>
+					            <configuration>
+					                <headerType>gui</headerType>
+					                <outfile>target/${project.artifactId}.exe</outfile>
+					                <jar>target/${project.artifactId}-${project.version}.jar</jar>
+					                <errTitle>${app.shortName} Error</errTitle>
+					                <classPath>
+					                    <mainClass>com.digitalgeneralists.assurance.Application</mainClass>
+                    					<preCp>dependency_libs/*.jar</preCp>
+					                </classPath>
+					                <icon>${app.windowsIconFile}</icon>
+					                <jre>
+					                    <minVersion>1.8.0</minVersion>
+					                    <maxVersion>1.8.0_99</maxVersion>
+					                    <initialHeapSize>32</initialHeapSize>
+					                    <maxHeapSize>1024</maxHeapSize>
+					                </jre>
+					                <versionInfo>
+					                    <fileVersion>${app.windowsVersionNumber}</fileVersion>
+					                    <txtFileVersion>${project.version}</txtFileVersion>
+					                    <fileDescription>${project.description}</fileDescription>
+					                    <copyright>2015 - ${project.organization.name}</copyright>
+					                    <productVersion>${app.windowsVersionNumber}</productVersion>
+					                    <txtProductVersion>${project.version}</txtProductVersion>
+					                    <productName>${project.name}</productName>
+					                    <internalName>${app.shortName}</internalName>
+					                    <originalFilename>${project.artifactId}.exe</originalFilename>
+					                </versionInfo>
+					            </configuration>
+					        </execution>
+					    </executions>
+					</plugin>
+					<plugin>
+					    <groupId>org.apache.maven.plugins</groupId>
+					    <artifactId>maven-dependency-plugin</artifactId>
+					    <version>2.9</version>
+					    <executions>
+					        <execution>
+					            <id>copy-dependencies</id>
+					            <phase>package</phase>
+					            <goals>
+					                <goal>copy-dependencies</goal>
+					            </goals>
+					            <configuration>
+					                <outputDirectory>${project.build.directory}/dependency_libs</outputDirectory>
+					                <overWriteReleases>false</overWriteReleases>
+					                <overWriteSnapshots>false</overWriteSnapshots>
+					                <overWriteIfNewer>true</overWriteIfNewer>
+					            </configuration>
+					        </execution>
+					    </executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>release</id>
+			<activation>
+				<property>
+	        		<name>profile</name>
+	        		<value>release</value>
+				</property>
+			</activation>
+        	<properties>
+        		<release.identifier></release.identifier>
+        		<project.buildprefix>REL</project.buildprefix>
+        		<release.tagname>release</release.tagname>
+				<app.buildNumber>${timestamp}</app.buildNumber>
+        	</properties>
+        	<build>
+        		<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.7</version>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<configuration>
+									<target>
+										<taskdef name="bundleapp" classname="com.oracle.appbundler.AppBundlerTask" classpath="${ant.home}/lib/appbundler-1.0.jar" />
+										<dependencyfilesets prefix="com.digitalgeneralists.assurance."/>
+										<!-- NOTE: There is a patch on Java.net to allow specification of version="${app.buildNumber}" -->
+									    <bundleapp 
+									        outputdirectory="${project.build.directory}" 
+									        name="${app.shortName}" 
+									        displayname="${project.name}" 
+									        icon="${app.iconFile}"
+									        identifier="${project.groupId}.${project.artifactId}" 
+									        shortversion="${project.version}"
+									        applicationCategory="public.app-category.productivity"
+									        mainclassname="com.digitalgeneralists.assurance.Application">
+		  							        <runtime dir="${java.embedJDK}" />
+		  							        
+											<classpath refid="com.digitalgeneralists.assurance.maven.project.dependencies" />
+											<classpath file="${project.build.directory}/${project.artifactId}-${project.version}.jar" />
+									        
+									        <option value="-Xdock:name=${app.shortName}"/>
+		        							<option value="-Xdock:icon=$APP_ROOT/Contents/Resources/assurance.icns"/>
+		        							<option value="-Dapple.laf.useScreenMenuBar=true"/>
+		        							<option value="-Dcom.apple.macos.use-file-dialog-packages=true"/>
+		        							<option value="-Dcom.apple.macos.useScreenMenuBar=true"/>
+		        							<option value="-Dcom.apple.mrj.application.apple.menu.about.name=${app.shortName}"/>
+		        							<option value="-Dcom.apple.smallTabs=true"/>
+		       								<option value="-Dcom.apple.textantialiasing=true"/>
+		        							<option value="-Dcom.apple.antialiasing=true"/>
+		        							<option value="-Dcom.apple.showGrowBox=true"/>
+		        							<option value="-Dapple.awt.fullscreencapturealldisplays=false"/>
+		        							<option value="-Dapple.awt.fullscreenusefade=true"/>
+		        							<option value="-Xms32M"/>
+									        <option value="-Xmx1024M"/>
+									    </bundleapp>
+										<!-- NOTE: This is platform dependent.  There is a patch on Java.net to allow specification of version="${app.buildNumber}" -->
+										<exec executable="/usr/libexec/PlistBuddy"
+										  outputproperty="PListOutput"
+										  errorproperty="PListError"
+										>       
+										  <arg value="-c"/>
+										  <arg value ="Set :CFBundleVersion ${app.buildNumber}" />              
+										  <arg value="${project.build.directory}/${app.shortName}.app/Contents/Info.plist"/>
+										</exec>
+									    <delete dir="${project.build.directory}/antrun"/>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+        		</plugins>
+        	</build>
+		</profile>
+		<profile>
+			<id>release-windows</id>
+			<activation>
+				<property>
+	        		<name>profile</name>
+	        		<value>release-windows</value>
+				</property>
+			</activation>
+        	<properties>
+        		<release.identifier></release.identifier>
+        		<project.buildprefix>REL</project.buildprefix>
+        		<release.tagname>release</release.tagname>
+				<app.buildNumber>0</app.buildNumber>
+        	</properties>
+        	<build>
+        		<plugins>
+	        		<!-- NOTE: Should use POM inheritance for these common definitions. -->
+					<plugin>
+					    <groupId>org.bluestemsoftware.open.maven.plugin</groupId>
+					    <artifactId>launch4j-plugin</artifactId>
+					    <version>1.5.0.0</version>
+					    <executions>
+					
+					        <execution>
+					            <id>l4j-gui</id>
+					            <phase>package</phase>
+					            <goals>
+					                <goal>launch4j</goal>
+					            </goals>
+					            <configuration>
+					                <headerType>gui</headerType>
+					                <outfile>target/${project.artifactId}.exe</outfile>
+					                <jar>target/${project.artifactId}-${project.version}.jar</jar>
+					                <errTitle>${app.shortName} Error</errTitle>
+					                <classPath>
+					                    <mainClass>com.digitalgeneralists.assurance.Application</mainClass>
+                    					<preCp>dependency_libs/*.jar</preCp>
+					                </classPath>
+					                <icon>${app.windowsIconFile}</icon>
+					                <jre>
+					                    <minVersion>1.8.0</minVersion>
+					                    <maxVersion>1.8.0_99</maxVersion>
+					                    <initialHeapSize>32</initialHeapSize>
+					                    <maxHeapSize>1024</maxHeapSize>
+					                </jre>
+					                <versionInfo>
+					                    <fileVersion>${app.windowsVersionNumber}</fileVersion>
+					                    <txtFileVersion>${project.version}</txtFileVersion>
+					                    <fileDescription>${project.description}</fileDescription>
+					                    <copyright>2015 - ${project.organization.name}</copyright>
+					                    <productVersion>${app.windowsVersionNumber}</productVersion>
+					                    <txtProductVersion>${project.version}</txtProductVersion>
+					                    <productName>${project.name}</productName>
+					                    <internalName>${app.shortName}</internalName>
+					                    <originalFilename>${project.artifactId}.exe</originalFilename>
+					                </versionInfo>
+					            </configuration>
+					        </execution>
+					    </executions>
+					</plugin>
+					<plugin>
+					    <groupId>org.apache.maven.plugins</groupId>
+					    <artifactId>maven-dependency-plugin</artifactId>
+					    <version>2.9</version>
+					    <executions>
+					        <execution>
+					            <id>copy-dependencies</id>
+					            <phase>package</phase>
+					            <goals>
+					                <goal>copy-dependencies</goal>
+					            </goals>
+					            <configuration>
+					                <outputDirectory>${project.build.directory}/dependency_libs</outputDirectory>
+					                <overWriteReleases>false</overWriteReleases>
+					                <overWriteSnapshots>false</overWriteSnapshots>
+					                <overWriteIfNewer>true</overWriteIfNewer>
+					            </configuration>
+					        </execution>
+					    </executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	
+	<build>
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+			    	<filtering>true</filtering>
+				<excludes>
+					<exclude>*.icns</exclude>
+					<exclude>*.ico</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+			    	<include>**/version.txt</include>
+				</includes>
+			</resource>
+			<resource>
+			  	<directory>${basedir}/src/main/resources</directory>
+			  	<filtering>false</filtering>
+			  	<excludes>
+			    	<exclude>**/version.txt</exclude>
+			  	</excludes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+			<plugin>
+			  	<groupId>org.apache.maven.plugins</groupId>
+			  	<artifactId>maven-surefire-plugin</artifactId>
+			  	<version>2.17</version>
+				<configuration>
+				    <includes>
+            			<include>**/*Tests.java</include>
+		        	</includes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<version>1.3</version>
+			    <configuration>
+				    <revisionOnScmFailure>DEVBUILD</revisionOnScmFailure>
+				    <useLastCommittedRevision>false</useLastCommittedRevision>
+			    	<doCheck>false</doCheck>
+			    	<doUpdate>false</doUpdate>
+      				<format>{0,date,yyyyMMddHHmmss}</format>
+	      			<items>
+        				<item>timestamp</item>
+      				</items>
+				</configuration>
+    			<executions>
+					<execution>
+				     	<phase>validate</phase>
+				     	<goals>
+				     		<goal>create</goal>
+				   		</goals>
+				 	</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+				  	<archive>
+				    	<manifest>
+				      		<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+				    	</manifest>
+				    	<manifestEntries>
+				      		<Implementation-Build>${project.buildprefix}${buildNumber}</Implementation-Build>
+				    	</manifestEntries>
+				  	</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-scm-plugin</artifactId>
+				<dependencies>
+					<dependency>
+						<groupId>org.codehaus.plexus</groupId>
+						<artifactId>plexus-utils</artifactId>
+						<version>2.1</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.maven.scm</groupId>
+						<artifactId>maven-scm-provider-gitexe</artifactId>
+						<version>1.2</version>
+					</dependency>
+				</dependencies>
+				<version>1.0</version>
+				<configuration>
+					<tag>${release.tagname}${project.version}</tag>
+				</configuration>
+				<executions>
+					<execution>
+						<id>tag</id>
+						<phase>install</phase>
+						<goals>
+							<goal>tag</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>	
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>org.jboss.repository.releases</id>
+			<name>JBoss Maven Release Repository</name>
+			<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+	</repositories>
+
+	<organization>
+		<name>Digital Generalists, LLC.</name>
+		<url>http://www.digitalgeneralists.com</url>
+	</organization>
+</project>
