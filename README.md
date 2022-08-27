@@ -16,7 +16,7 @@ At it's core, it is a tool to comprehensively compare and optionally synchronize
 
 ## License
 
-Assurance is released under the [Apache License 2.0] [4].
+Assurance is released under the [Apache License 2.0](4).
 
 See the LICENSE.txt file for the formal license specification.
 
@@ -24,9 +24,9 @@ See the LICENSE.txt file for the formal license specification.
 
 The following tools need to be installed to build Assurance:
 
-* Apache Maven 3.2.3 [download] [1]
-* Apache Ant 1.9.3 [download] [2]
-* Oracle Java JDK 1.8u20 [download] [3]
+* Apache Maven 3.2.3 [download](1)
+* Apache Ant 1.9.3 [download](2)
+* Oracle Java JDK 1.8u20 [download](3)
 
 The Maven configuration will download and install the appropriate versions of the following tools:
 
@@ -41,7 +41,7 @@ The Maven configuration will download and install the appropriate versions of th
 
 The following dependencies are required to run binary distributions of Assurance on Windows:
 
-* Oracle Java JRE 1.8u20 [download] [3]
+* Oracle Java JRE 1.8u20 [download](3)
 
 The Mac distributions of Assurance package the appropriate JRE with the application bundle.  Windows distributions require the appropriate JRE is installed prior to starting the application.
 
@@ -119,5 +119,5 @@ The build scripts and configuration files likely contain assumptions that the pr
 
 If you are a Windows developer, I sincerely apologize if the build environment and documentation are not up to par.
 
-*Copyright (c) 2016 [Digital Generalists, LLC.] [5]*
+*Copyright (c) 2016 [Digital Generalists, LLC.](5)*
 
