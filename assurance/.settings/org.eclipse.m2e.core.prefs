@@ -1,0 +1,4 @@
+activeProfiles=development, development-windows, intrelease, intrelease-windows, release, release-windows
+eclipse.preferences.version=1
+resolveWorkspaceProjects=true
+version=1
