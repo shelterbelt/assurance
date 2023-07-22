@@ -4,9 +4,9 @@
  
  Created by Mark Johnson
  
- Copyright (c) 2015 Digital Generalists, LLC.
+ Copyright (c) 2015 Mark Johnson
 
- Copyright 2015 Digital Generalists, LLC.
+ Copyright 2015 Mark Johnson
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -45,15 +45,15 @@
 		<property name="password" value="${jdbc.password}" />
 	</bean>
 
-	<context:component-scan base-package="com.digitalgeneralists.assurance" />
+	<context:component-scan base-package="com.markallenjohnson.assurance" />
 
 	<context:annotation-config />
 
-	<bean  id="FileCompareValidator" class="com.digitalgeneralists.assurance.model.compare.file.ComprehensiveMD5FileCompareValidator" />
-	<bean  id="LightweightFileCompareValidator" class="com.digitalgeneralists.assurance.model.compare.file.QuickCompareMD5FileCompareValidator" />
-  	<bean  id="DeepScanFileCompareValidator" class="com.digitalgeneralists.assurance.model.compare.file.ComprehensiveMD5FileCompareValidator" />
+	<bean  id="FileCompareValidator" class="com.markallenjohnson.assurance.model.compare.file.ComprehensiveMD5FileCompareValidator" />
+	<bean  id="LightweightFileCompareValidator" class="com.markallenjohnson.assurance.model.compare.file.QuickCompareMD5FileCompareValidator" />
+  	<bean  id="DeepScanFileCompareValidator" class="com.markallenjohnson.assurance.model.compare.file.ComprehensiveMD5FileCompareValidator" />
   	
- 	<bean  id="LightweightFileAttributeCompareValidator" class="com.digitalgeneralists.assurance.model.compare.file.attributes.QuickCompareFileAttributeCompareValidator" />
- 	<bean  id="DeepScanFileAttributeCompareValidator" class="com.digitalgeneralists.assurance.model.compare.file.attributes.ComprehensiveFileAttributeCompareValidator" />
+ 	<bean  id="LightweightFileAttributeCompareValidator" class="com.markallenjohnson.assurance.model.compare.file.attributes.QuickCompareFileAttributeCompareValidator" />
+ 	<bean  id="DeepScanFileAttributeCompareValidator" class="com.markallenjohnson.assurance.model.compare.file.attributes.ComprehensiveFileAttributeCompareValidator" />
  	
 </beans>

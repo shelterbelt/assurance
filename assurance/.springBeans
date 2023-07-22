@@ -8,10 +8,10 @@
 	<enableImports><![CDATA[true]]></enableImports>
 	<configs>
 		<config>src/main/resources/META-INF/spring/app-context.xml</config>
-		<config>src/test/resources/com/digitalgeneralists/assurance/AppDelegateTests-context.xml</config>
-		<config>src/test/resources/com/digitalgeneralists/assurance/model/PersistenceTests-context.xml</config>
-		<config>src/test/resources/com/digitalgeneralists/assurance/model/compare/file/ComparisonTests-context.xml</config>
-		<config>src/test/resources/com/digitalgeneralists/assurance/model/compare/ComparisonEngineTests-context.xml</config>
+		<config>src/test/resources/com/markallenjohnson/assurance/AppDelegateTests-context.xml</config>
+		<config>src/test/resources/com/markallenjohnson/assurance/model/PersistenceTests-context.xml</config>
+		<config>src/test/resources/com/markallenjohnson/assurance/model/compare/file/ComparisonTests-context.xml</config>
+		<config>src/test/resources/com/markallenjohnson/assurance/model/compare/ComparisonEngineTests-context.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
