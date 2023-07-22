@@ -1,8 +1,10 @@
 # Assurance
 
-> The motivation for the project was gaining greater familiarity with many of the popular technologies in the Java ecosystem at the time.
+*A cross-platform application to analyze and synchronize the contents of file system directories.*
 
-A cross-platform application to analyze and synchronize the contents of file system directories.
+> **Year Implemented: 2015**
+>
+> The motivation for Assurance was gaining greater familiarity with many of the popular technologies in the Java ecosystem at the time.
 
 ## What Is Assurance
 
@@ -20,9 +22,9 @@ See the LICENSE.txt file for the formal license specification.
 
 The following tools need to be installed to build Assurance:
 
-* Apache Maven 3.2.3 [download](https://maven.apache.org/download.cgi)
-* Apache Ant 1.9.3 [download](https://ant.apache.org/bindownload.cgi)
-* Oracle Java JDK 1.8u20 [download](http://www.oracle.com/technetwork/articles/javase/index-jsp-138363.html)
+* Apache Maven 3.2.3 \[[download](https://maven.apache.org/download.cgi)\]
+* Apache Ant 1.9.3 \[[download](https://ant.apache.org/bindownload.cgi)\]
+* Oracle Java JDK 1.8u20 \[[download](http://www.oracle.com/technetwork/articles/javase/index-jsp-138363.html)\]
 
 The Maven configuration will download and install the appropriate versions of the following tools:
 
@@ -37,7 +39,7 @@ The Maven configuration will download and install the appropriate versions of th
 
 The following dependencies are required to run binary distributions of Assurance on Windows:
 
-* Oracle Java JRE 1.8u20 [download](http://www.oracle.com/technetwork/articles/javase/index-jsp-138363.html)
+* Oracle Java JRE 1.8u20 \[[download](http://www.oracle.com/technetwork/articles/javase/index-jsp-138363.html)\]
 
 The Mac distributions of Assurance package the appropriate JRE with the application bundle.  Windows distributions require the appropriate JRE is installed prior to starting the application.
 
@@ -109,4 +111,4 @@ class from the iBATIS Apache project.
 
 Assurance was built and tested primarily on a Mac environment.  The Windows implementation has not been tested/vetted nearly to the degree the Mac version has.  Linux viability theoretically exists but is essentially unproven.
 
-*Copyright © 2016-2023 [Mark Johnson](http://markallenjohnson.com)*
+*Copyright © 2015-2023 [Mark Johnson](http://www.markallenjohnson.com)*
