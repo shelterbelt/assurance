@@ -109,6 +109,6 @@ class from the iBATIS Apache project.
 
 ## Disclaimers
 
-Assurance was built and tested primarily on a Mac environment.  The Windows implementation has not been tested/vetted nearly to the degree the Mac version has.  Linux viability theoretically exists but is essentially unproven.
+Assurance was built and tested primarily on a Mac environment.  The Windows implementation has not been tested/vetted nearly to the degree the Mac version has.  Linux viability exists but is essentially untested.
 
 *Copyright © 2015-2023 [Mark Johnson](http://www.markallenjohnson.com)*
