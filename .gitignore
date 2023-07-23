@@ -1,6 +1,8 @@
 .metadata
+.vscode
 .DS_Store
 RemoteSystemsTempFiles
+Servers
 target
 test_output
 test_database

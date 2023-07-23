@@ -2,9 +2,9 @@
 -- 
 -- Created by Mark Johnson
 -- 
--- Copyright (c) 2015 Digital Generalists, LLC.
+-- Copyright (c) 2015 Mark Johnson
 --
--- Copyright 2015 Digital Generalists, LLC.
+-- Copyright 2015 Mark Johnson
 -- 
 -- Licensed under the Apache License, Version 2.0 (the "License");
 -- you may not use this file except in compliance with the License.

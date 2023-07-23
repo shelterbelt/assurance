@@ -4,9 +4,9 @@
  
  Created by Mark Johnson
  
- Copyright (c) 2015 Digital Generalists, LLC.
+ Copyright (c) 2015 Mark Johnson
 
- Copyright 2015 Digital Generalists, LLC.
+ Copyright 2015 Mark Johnson
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -24,12 +24,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.digitalgeneralists</groupId>
+	<groupId>com.markallenjohnson</groupId>
 	<artifactId>assurance</artifactId>
 	<version>1.0.2${release.identifier}</version>
 	<packaging>jar</packaging>
 	<name>Assurance Backup Manager</name>
-	<url>http://www.digitalgeneralists.com/assurance</url>
+	<url>http://www.markallenjohnson.com/assurance</url>
 	<description>Cross-platform application to analyze and synchronize the contents of file system directories.</description>
 	<properties>
 	   	<timestamp>${maven.build.timestamp}</timestamp>
@@ -153,9 +153,9 @@
 	</dependencies>
 
 	<scm>
-		<connection>scm:git:http://digitalgeneralists.unfuddle.com/git/digitalgeneralists_dgassurancebm/</connection>
-		<developerConnection>scm:git:https://digitalgeneralists.unfuddle.com/git/digitalgeneralists_dgassurancebm/</developerConnection>
-		<url>https://digitalgeneralists.unfuddle.com/git/digitalgeneralists_dgassurancebm/</url>
+		<connection>scm:git:http://markallenjohnson.unfuddle.com/git/markallenjohnson_dgassurancebm/</connection>
+		<developerConnection>scm:git:https://markallenjohnson.unfuddle.com/git/markallenjohnson_dgassurancebm/</developerConnection>
+		<url>https://markallenjohnson.unfuddle.com/git/markallenjohnson_dgassurancebm/</url>
 	</scm>
 	
 	<profiles>
@@ -184,7 +184,7 @@
 								<configuration>
 									<target>
 										<taskdef name="bundleapp" classname="com.oracle.appbundler.AppBundlerTask" classpath="${ant.home}/lib/appbundler-1.0.jar" />
-										<dependencyfilesets prefix="com.digitalgeneralists.assurance."/>
+										<dependencyfilesets prefix="com.markallenjohnson.assurance."/>
 										<!-- NOTE: There is a patch on Java.net to allow specification of version="${app.buildNumber}" -->
 									    <bundleapp 
 									        outputdirectory="${project.build.directory}" 
@@ -194,10 +194,10 @@
 									        identifier="${project.groupId}.${project.artifactId}" 
 									        shortversion="${project.version}"
 									        applicationCategory="public.app-category.productivity"
-									        mainclassname="com.digitalgeneralists.assurance.Application">
+									        mainclassname="com.markallenjohnson.assurance.Application">
 		  							        <runtime dir="${java.embedJDK}" />
 		  							        
-											<classpath refid="com.digitalgeneralists.assurance.maven.project.dependencies" />
+											<classpath refid="com.markallenjohnson.assurance.maven.project.dependencies" />
 											<classpath file="${project.build.directory}/${project.artifactId}-${project.version}.jar" />
 									        
 									        <option value="-Xdock:name=${app.shortName}"/>
@@ -271,7 +271,7 @@
 					                <jar>target/${project.artifactId}-${project.version}.jar</jar>
 					                <errTitle>${app.shortName} Error</errTitle>
 					                <classPath>
-					                    <mainClass>com.digitalgeneralists.assurance.Application</mainClass>
+					                    <mainClass>com.markallenjohnson.assurance.Application</mainClass>
                     					<preCp>dependency_libs/*.jar</preCp>
 					                </classPath>
 					                <icon>${app.windowsIconFile}</icon>
@@ -344,7 +344,7 @@
 								<configuration>
 									<target>
 										<taskdef name="bundleapp" classname="com.oracle.appbundler.AppBundlerTask" classpath="${ant.home}/lib/appbundler-1.0.jar" />
-										<dependencyfilesets prefix="com.digitalgeneralists.assurance."/>
+										<dependencyfilesets prefix="com.markallenjohnson.assurance."/>
 										<!-- NOTE: There is a patch on Java.net to allow specification of version="${app.buildNumber}" -->
 									    <bundleapp 
 									        outputdirectory="${project.build.directory}" 
@@ -354,10 +354,10 @@
 									        identifier="${project.groupId}.${project.artifactId}" 
 									        shortversion="${project.version}"
 									        applicationCategory="public.app-category.productivity"
-									        mainclassname="com.digitalgeneralists.assurance.Application">
+									        mainclassname="com.markallenjohnson.assurance.Application">
 		  							        <runtime dir="${java.embedJDK}" />
 		  							        
-											<classpath refid="com.digitalgeneralists.assurance.maven.project.dependencies" />
+											<classpath refid="com.markallenjohnson.assurance.maven.project.dependencies" />
 											<classpath file="${project.build.directory}/${project.artifactId}-${project.version}.jar" />
 									        
 									        <option value="-Xdock:name=${app.shortName}"/>
@@ -431,7 +431,7 @@
 					                <jar>target/${project.artifactId}-${project.version}.jar</jar>
 					                <errTitle>${app.shortName} Error</errTitle>
 					                <classPath>
-					                    <mainClass>com.digitalgeneralists.assurance.Application</mainClass>
+					                    <mainClass>com.markallenjohnson.assurance.Application</mainClass>
                     					<preCp>dependency_libs/*.jar</preCp>
 					                </classPath>
 					                <icon>${app.windowsIconFile}</icon>
@@ -504,7 +504,7 @@
 								<configuration>
 									<target>
 										<taskdef name="bundleapp" classname="com.oracle.appbundler.AppBundlerTask" classpath="${ant.home}/lib/appbundler-1.0.jar" />
-										<dependencyfilesets prefix="com.digitalgeneralists.assurance."/>
+										<dependencyfilesets prefix="com.markallenjohnson.assurance."/>
 										<!-- NOTE: There is a patch on Java.net to allow specification of version="${app.buildNumber}" -->
 									    <bundleapp 
 									        outputdirectory="${project.build.directory}" 
@@ -514,10 +514,10 @@
 									        identifier="${project.groupId}.${project.artifactId}" 
 									        shortversion="${project.version}"
 									        applicationCategory="public.app-category.productivity"
-									        mainclassname="com.digitalgeneralists.assurance.Application">
+									        mainclassname="com.markallenjohnson.assurance.Application">
 		  							        <runtime dir="${java.embedJDK}" />
 		  							        
-											<classpath refid="com.digitalgeneralists.assurance.maven.project.dependencies" />
+											<classpath refid="com.markallenjohnson.assurance.maven.project.dependencies" />
 											<classpath file="${project.build.directory}/${project.artifactId}-${project.version}.jar" />
 									        
 									        <option value="-Xdock:name=${app.shortName}"/>
@@ -591,7 +591,7 @@
 					                <jar>target/${project.artifactId}-${project.version}.jar</jar>
 					                <errTitle>${app.shortName} Error</errTitle>
 					                <classPath>
-					                    <mainClass>com.digitalgeneralists.assurance.Application</mainClass>
+					                    <mainClass>com.markallenjohnson.assurance.Application</mainClass>
                     					<preCp>dependency_libs/*.jar</preCp>
 					                </classPath>
 					                <icon>${app.windowsIconFile}</icon>
@@ -769,7 +769,7 @@
 	</repositories>
 
 	<organization>
-		<name>Digital Generalists, LLC.</name>
-		<url>http://www.digitalgeneralists.com</url>
+		<name>Mark Johnson</name>
+		<url>http://www.markallenjohnson.com</url>
 	</organization>
 </project>
