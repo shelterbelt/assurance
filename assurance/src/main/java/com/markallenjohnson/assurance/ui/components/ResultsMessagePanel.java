@@ -45,6 +45,7 @@ public class ResultsMessagePanel extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 
+	@SuppressWarnings("unused")
 	@Autowired
 	private IApplicationDelegate applicationDelegate;
 

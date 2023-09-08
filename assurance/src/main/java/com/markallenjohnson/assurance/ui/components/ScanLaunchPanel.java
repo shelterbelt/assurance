@@ -324,7 +324,7 @@ public class ScanLaunchPanel extends JPanel implements ActionListener, IDialogRe
 		startScanButton.setEnabled(itemIsSelected);
 		startScanAndMergeButton.setEnabled(itemIsSelected);
 
-		applicationDelegate.fireEvent(new SetScanDefinitionMenuStateEvent(new Boolean(itemIsSelected)));
+		applicationDelegate.fireEvent(new SetScanDefinitionMenuStateEvent(Boolean.valueOf(false)/*new Boolean(itemIsSelected)*/));
 	}
 
 	public Collection<ScanDefinition> getListData() 

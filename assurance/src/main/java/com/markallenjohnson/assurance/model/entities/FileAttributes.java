@@ -603,7 +603,7 @@ public class FileAttributes
 			{
 				// TODO:  Build out.  Currently not comparing the UDFAs in a Windows environment.
 				StringBuilder hash = new StringBuilder(128);
-				this.userDefinedAttributesHash = hash.append("Not Implemented: ").append(new Integer(userDefinedFileAttributes.hashCode()).toString()).toString();
+				this.userDefinedAttributesHash = hash.append("Not Implemented: ").append(Integer.valueOf(userDefinedFileAttributes.hashCode())/*Integer(userDefinedFileAttributes.hashCode())*/.toString()).toString();
 				hash.setLength(0);
 				hash = null;
 			}

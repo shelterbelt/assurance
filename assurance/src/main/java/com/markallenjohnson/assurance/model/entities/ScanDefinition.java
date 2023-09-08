@@ -140,7 +140,7 @@ public class ScanDefinition implements IInitializableEntity, IListDataProvider<S
 	}
 
 	@Column(name = "AUTO_RESOLVE")
-	private Boolean autoResolveConflicts = new Boolean(false);
+	private Boolean autoResolveConflicts = Boolean.valueOf(false);//new Boolean(false);
 
 	public Boolean getIncludeNonCreationTimestamps() {
 		if (includeNonCreationTimestamps == null)
@@ -155,7 +155,7 @@ public class ScanDefinition implements IInitializableEntity, IListDataProvider<S
 	}
 
 	@Column(name = "INCLUDE_TIMESTAMPS")
-	private Boolean includeNonCreationTimestamps = new Boolean(false);
+	private Boolean includeNonCreationTimestamps = Boolean.valueOf(false);//new Boolean(false);
 
 	public Boolean getIncludeAdvancedAttributes() {
 		if (includeAdvancedAttributes == null)
@@ -170,7 +170,7 @@ public class ScanDefinition implements IInitializableEntity, IListDataProvider<S
 	}
 
 	@Column(name = "INCLUDE_ADVANCED_ATTRIBUTES")
-	private Boolean includeAdvancedAttributes = new Boolean(false);
+	private Boolean includeAdvancedAttributes = Boolean.valueOf(false);//new Boolean(false);
 
 	@Override
 	public String toString()

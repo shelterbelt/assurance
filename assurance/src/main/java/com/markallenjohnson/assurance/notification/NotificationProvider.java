@@ -55,6 +55,7 @@ public class NotificationProvider implements INotificationProvider
 		eventObservers = null;
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	public void removeEventObserver(Class<? extends IAssuranceEvent> eventClass, IEventObserver observer)
 	{
 		Collection<IEventObserver> eventObservers = eventObserverList.get(eventClass);

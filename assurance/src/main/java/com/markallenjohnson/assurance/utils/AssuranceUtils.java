@@ -91,7 +91,7 @@ public class AssuranceUtils
 		String formattedProcessingTime = "";
 
 		StringBuilder timestampString = new StringBuilder(128);
-		formattedProcessingTime = timestampString.append(new Long(timestamp / (24 * 60 * 60 *1000)).toString()).append(" days, ").append(String.format("%02d", new Long((timestamp / (60 * 60 *1000) % 24)))).append(":").append(String.format("%02d", new Long((timestamp / (60 *1000) % 60)))).append(":").append(String.format("%02d", new Long((timestamp / (1000) % 60)))).toString();
+		formattedProcessingTime = timestampString.append(/*new Long(timestamp / (24 * 60 * 60 *1000))*/Long.valueOf(timestamp / (24 * 60 * 60 *1000)).toString()).append(" days, ").append(String.format("%02d", /*new Long((timestamp / (60 * 60 *1000) % 24))*/Long.valueOf(timestamp / (60 * 60 *1000) % 24))).append(":").append(String.format("%02d", /*new Long((timestamp / (60 *1000) % 60))*/Long.valueOf(timestamp / (60 *1000) % 60))).append(":").append(String.format("%02d", /*new Long((timestamp / (1000) % 60))*/Long.valueOf(timestamp / (1000) % 60))).toString();
 		timestampString.setLength(0);
 		timestampString = null;
 		
