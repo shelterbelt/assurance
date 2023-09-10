@@ -33,10 +33,11 @@
 	<url>http://www.markallenjohnson.com/assurance</url>
 	<description>Cross-platform application to analyze and synchronize the contents of file system directories.</description>
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	   	<timestamp>${maven.build.timestamp}</timestamp>
    		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>		
 		<maven.test.failure.ignore>false</maven.test.failure.ignore>
-		<spring.framework.version>5.3.29</spring.framework.version>
+		<spring.framework.version>6.0.11</spring.framework.version>
 		<app.shortName>Assurance</app.shortName>
 		<app.buildNumber>DEVBUILD</app.buildNumber>
 		<app.iconFile>${basedir}/src/main/resources/assurance.icns</app.iconFile>
@@ -55,9 +56,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.hibernate</groupId>
+			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>5.6.15.Final</version>
+			<version>6.3.0.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -154,9 +155,9 @@
 	</dependencies>
 
 	<scm>
-		<connection>scm:git:http://markallenjohnson.unfuddle.com/git/markallenjohnson_dgassurancebm/</connection>
-		<developerConnection>scm:git:https://markallenjohnson.unfuddle.com/git/markallenjohnson_dgassurancebm/</developerConnection>
-		<url>https://markallenjohnson.unfuddle.com/git/markallenjohnson_dgassurancebm/</url>
+		<connection>scm:git:git@github.com:shelterbelt/assurance.git</connection>
+		<developerConnection>scm:git:git@github.com:shelterbelt/assurance.git/</developerConnection>
+		<url>https://github.com/shelterbelt/assurance</url>
 	</scm>
 	
 	<profiles>

@@ -27,7 +27,7 @@ package com.markallenjohnson.assurance.model;
 
 import java.util.Properties;
 
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.hibernate.dialect.H2Dialect;

@@ -64,7 +64,7 @@ public class FilePickerTextField extends AbstractInputPanel implements ActionLis
 	
 	public void setFieldName(String name)
 	{
-		if (!StringUtils.isEmpty(name))
+		if (StringUtils.hasText(name))
 		{
 			this.fieldName = name;
 		}
@@ -167,7 +167,7 @@ public class FilePickerTextField extends AbstractInputPanel implements ActionLis
 	{
 		boolean result = true;
 		
-		if (StringUtils.isEmpty(this.pathTextField.getText()))
+		if (!StringUtils.hasText(this.pathTextField.getText()))
 		{
 			this.pathTextField.setBackground(this.controlInErrorBackgroundColor);
 			result = false;

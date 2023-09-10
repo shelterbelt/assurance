@@ -362,7 +362,7 @@ public class ScanDefinitionPanel extends AbstractDialogInputPanel implements IDi
 
 		boolean result = true;
 
-		if (StringUtils.isEmpty(this.nameTextField.getText()))
+		if (!StringUtils.hasText(this.nameTextField.getText()))
 		{
 			this.nameTextField.setBackground(controlInErrorBackgroundColor);
 			result = false;

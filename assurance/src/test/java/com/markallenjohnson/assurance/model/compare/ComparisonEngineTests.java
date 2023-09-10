@@ -38,8 +38,8 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 import org.junit.After;
 import org.junit.Before;
