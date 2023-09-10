@@ -281,9 +281,9 @@
 					                </classPath>
 					                <icon>${app.windowsIconFile}</icon>
 					                <jre>
-					                    <minVersion>1.8.0</minVersion>
-					                    <maxVersion>1.8.0_99</maxVersion>
-					                    <initialHeapSize>32</initialHeapSize>
+					                    <minVersion>17</minVersion>
+					                    <maxVersion>17</maxVersion>
+					                    <initialHeapSize>128</initialHeapSize>
 					                    <maxHeapSize>1024</maxHeapSize>
 					                </jre>
 					                <versionInfo>
@@ -304,7 +304,7 @@
 					<plugin>
 					    <groupId>org.apache.maven.plugins</groupId>
 					    <artifactId>maven-dependency-plugin</artifactId>
-					    <version>2.9</version>
+					    <version>3.6.0</version>
 					    <executions>
 					        <execution>
 					            <id>copy-dependencies</id>
@@ -342,7 +342,7 @@
         		<plugins>
 					<plugin>
 						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.7</version>
+						<version>3.1.0</version>
 						<executions>
 							<execution>
 								<phase>package</phase>
@@ -441,9 +441,9 @@
 					                </classPath>
 					                <icon>${app.windowsIconFile}</icon>
 					                <jre>
-					                    <minVersion>1.8.0</minVersion>
-					                    <maxVersion>1.8.0_99</maxVersion>
-					                    <initialHeapSize>32</initialHeapSize>
+					                    <minVersion>17</minVersion>
+					                    <maxVersion>17</maxVersion>
+					                    <initialHeapSize>128</initialHeapSize>
 					                    <maxHeapSize>1024</maxHeapSize>
 					                </jre>
 					                <versionInfo>
@@ -464,7 +464,7 @@
 					<plugin>
 					    <groupId>org.apache.maven.plugins</groupId>
 					    <artifactId>maven-dependency-plugin</artifactId>
-					    <version>2.9</version>
+					    <version>3.6.0</version>
 					    <executions>
 					        <execution>
 					            <id>copy-dependencies</id>
@@ -502,7 +502,7 @@
         		<plugins>
 					<plugin>
 						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.7</version>
+						<version>3.1.0</version>
 						<executions>
 							<execution>
 								<phase>package</phase>
@@ -601,9 +601,9 @@
 					                </classPath>
 					                <icon>${app.windowsIconFile}</icon>
 					                <jre>
-					                    <minVersion>1.8.0</minVersion>
-					                    <maxVersion>1.8.0_99</maxVersion>
-					                    <initialHeapSize>32</initialHeapSize>
+					                    <minVersion>17</minVersion>
+					                    <maxVersion>17</maxVersion>
+					                    <initialHeapSize>128</initialHeapSize>
 					                    <maxHeapSize>1024</maxHeapSize>
 					                </jre>
 					                <versionInfo>
@@ -624,7 +624,7 @@
 					<plugin>
 					    <groupId>org.apache.maven.plugins</groupId>
 					    <artifactId>maven-dependency-plugin</artifactId>
-					    <version>2.9</version>
+					    <version>3.6.0</version>
 					    <executions>
 					        <execution>
 					            <id>copy-dependencies</id>
@@ -684,7 +684,7 @@
 			<plugin>
 			  	<groupId>org.apache.maven.plugins</groupId>
 			  	<artifactId>maven-surefire-plugin</artifactId>
-			  	<version>2.17</version>
+			  	<version>3.1.2</version>
 				<configuration>
 				    <includes>
             			<include>**/*Tests.java</include>
@@ -717,7 +717,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.1</version>
+				<version>3.3.0</version>
 				<configuration>
 				  	<archive>
 				    	<manifest>
@@ -736,15 +736,15 @@
 					<dependency>
 						<groupId>org.codehaus.plexus</groupId>
 						<artifactId>plexus-utils</artifactId>
-						<version>2.1</version>
+						<version>4.0.0</version>
 					</dependency>
 					<dependency>
 						<groupId>org.apache.maven.scm</groupId>
 						<artifactId>maven-scm-provider-gitexe</artifactId>
-						<version>1.2</version>
+						<version>2.0.1</version>
 					</dependency>
 				</dependencies>
-				<version>1.0</version>
+				<version>2.0.1</version>
 				<configuration>
 					<tag>${release.tagname}${project.version}</tag>
 				</configuration>
