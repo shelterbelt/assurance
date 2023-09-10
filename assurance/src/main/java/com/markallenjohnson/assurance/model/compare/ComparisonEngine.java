@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.markallenjohnson.assurance.model.compare.file.IFileComparor;
+import com.markallenjohnson.assurance.model.compare.file.IFileComparer;
 import com.markallenjohnson.assurance.model.concurrency.ComparisonWorker;
 import com.markallenjohnson.assurance.model.concurrency.IAssuranceThreadPool;
 import com.markallenjohnson.assurance.model.entities.ComparisonResult;
@@ -44,7 +44,7 @@ import com.markallenjohnson.assurance.model.entities.Scan;
 import com.markallenjohnson.assurance.model.entities.ScanDefinition;
 import com.markallenjohnson.assurance.model.enums.AssuranceResultReason;
 import com.markallenjohnson.assurance.model.enums.AssuranceResultResolution;
-import com.markallenjohnson.assurance.model.factories.IFileComparorFactory;
+import com.markallenjohnson.assurance.model.factories.IFileComparerFactory;
 import com.markallenjohnson.assurance.notification.IProgressMonitor;
 import com.markallenjohnson.assurance.utils.AssuranceUtils;
 
@@ -54,7 +54,7 @@ public class ComparisonEngine implements IComparisonEngine
 	private Logger logger = Logger.getLogger(ComparisonEngine.class);
 
 	@Autowired
-	private IFileComparorFactory comparorFactory;
+	private IFileComparerFactory comparerFactory;
 
 	public void determineDifferences(File source, File target, Scan scan, IAssuranceThreadPool threadPool, IScanOptions options)
 	{
@@ -68,8 +68,8 @@ public class ComparisonEngine implements IComparisonEngine
 
 	public void determineDifferences(File source, File target, Scan scan, IAssuranceThreadPool threadPool, IScanOptions options, Collection<FileReference> exclusions, IProgressMonitor monitor)
 	{
-		IFileComparor comparor = comparorFactory.createInstance();
-		this.determineDifferences(source, target, scan, comparor, threadPool, options, exclusions, monitor);
+		IFileComparer comparer = comparerFactory.createInstance();
+		this.determineDifferences(source, target, scan, comparer, threadPool, options, exclusions, monitor);
 	}
 
 	public void determineDifferences(File source, File target, Scan scan, IAssuranceThreadPool threadPool, IScanOptions options, boolean performDeepScan)
@@ -84,12 +84,12 @@ public class ComparisonEngine implements IComparisonEngine
 
 	public void determineDifferences(File source, File target, Scan scan, IAssuranceThreadPool threadPool, IScanOptions options, Collection<FileReference> exclusions, IProgressMonitor monitor, boolean performDeepScan)
 	{
-		IFileComparor comparor = comparorFactory.createInstance(performDeepScan);
-		this.determineDifferences(source, target, scan, comparor, threadPool, options, exclusions, monitor);
-		comparor = null;
+		IFileComparer comparer = comparerFactory.createInstance(performDeepScan);
+		this.determineDifferences(source, target, scan, comparer, threadPool, options, exclusions, monitor);
+		comparer = null;
 	}
 	
-	private void determineDifferences(File source, File target, Scan scan, IFileComparor comparor, IAssuranceThreadPool threadPool, IScanOptions options, Collection<FileReference> exclusions, IProgressMonitor monitor)
+	private void determineDifferences(File source, File target, Scan scan, IFileComparer comparer, IAssuranceThreadPool threadPool, IScanOptions options, Collection<FileReference> exclusions, IProgressMonitor monitor)
 	{
 		if (monitor != null)
 		{
@@ -126,7 +126,7 @@ public class ComparisonEngine implements IComparisonEngine
 				{
 					if ((source.isDirectory()) && (!target.isDirectory()) || ((!source.isDirectory()) && (target.isDirectory())))
 					{
-						ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.FILE_DIRECTORY_MISMATCH, comparor);
+						ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.FILE_DIRECTORY_MISMATCH, comparer);
 						scan.addResult(result);
 						result = null;
 						StringBuffer message = new StringBuffer(512);
@@ -147,7 +147,7 @@ public class ComparisonEngine implements IComparisonEngine
 							// Both files are symbolic links.  Only compare the paths.
 							if (!(source.getPath().equals(target.getPath())))
 							{
-								ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.COMPARE_FAILED, comparor);
+								ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.COMPARE_FAILED, comparer);
 								scan.addResult(result);
 								result = null;
 								StringBuffer message = new StringBuffer(512);
@@ -163,7 +163,7 @@ public class ComparisonEngine implements IComparisonEngine
 							if ( (sourceIsSymbolicLink && !targetIsSymbolicLink) || 
 								 (!sourceIsSymbolicLink && targetIsSymbolicLink) )
 							{
-								ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.SYMBOLIC_LINK_MISMATCH, comparor);
+								ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.SYMBOLIC_LINK_MISMATCH, comparer);
 								scan.addResult(result);
 								result = null;
 								StringBuffer message = new StringBuffer(512);
@@ -201,7 +201,7 @@ public class ComparisonEngine implements IComparisonEngine
 										}
 										else
 										{
-											ComparisonResult result = new ComparisonResult(sourceFile, targetFile, AssuranceResultReason.TARGET_DOES_NOT_EXIST, comparor);
+											ComparisonResult result = new ComparisonResult(sourceFile, targetFile, AssuranceResultReason.TARGET_DOES_NOT_EXIST, comparer);
 											scan.addResult(result);
 											result = null;
 											StringBuffer message = new StringBuffer(512);
@@ -215,7 +215,7 @@ public class ComparisonEngine implements IComparisonEngine
 									targetFile = null;
 								}
 	
-								this.identifyTargetItemsNotInSource(source, target, scan, comparor, options, exclusions, monitor);
+								this.identifyTargetItemsNotInSource(source, target, scan, comparer, options, exclusions, monitor);
 							}
 							else
 							{
@@ -232,7 +232,7 @@ public class ComparisonEngine implements IComparisonEngine
 									}
 									scanDefinition = null;
 									
-									if (comparor.compare(source, target, includeTimestamps, includeAdvancedAttributes))
+									if (comparer.compare(source, target, includeTimestamps, includeAdvancedAttributes))
 									{
 										StringBuffer message = new StringBuffer(512);
 										logger.info(message.append(source).append(" is identical to ").append(target));
@@ -241,7 +241,7 @@ public class ComparisonEngine implements IComparisonEngine
 									}
 									else
 									{
-										ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.COMPARE_FAILED, comparor);
+										ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.COMPARE_FAILED, comparer);
 										scan.addResult(result);
 										result = null;
 										StringBuffer message = new StringBuffer(512);
@@ -252,7 +252,7 @@ public class ComparisonEngine implements IComparisonEngine
 								}
 								catch (NoSuchAlgorithmException e)
 								{
-									ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.UNDETERMINED, comparor);
+									ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.UNDETERMINED, comparer);
 									result.setResolution(AssuranceResultResolution.PROCESSING_ERROR_ENCOUNTERED);
 									result.setResolutionError(e.getMessage());
 									scan.addResult(result);
@@ -264,7 +264,7 @@ public class ComparisonEngine implements IComparisonEngine
 								}
 								catch (IOException e)
 								{
-									ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.UNDETERMINED, comparor);
+									ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.UNDETERMINED, comparer);
 									result.setResolution(AssuranceResultResolution.PROCESSING_ERROR_ENCOUNTERED);
 									result.setResolutionError(e.getMessage());
 									scan.addResult(result);
@@ -280,7 +280,7 @@ public class ComparisonEngine implements IComparisonEngine
 				}
 				else
 				{
-					ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.FILE_NULL, comparor);
+					ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.FILE_NULL, comparer);
 					scan.addResult(result);
 					result = null;
 					StringBuffer message = new StringBuffer(512);
@@ -292,7 +292,7 @@ public class ComparisonEngine implements IComparisonEngine
 		}
 	}
 
-	private void identifyTargetItemsNotInSource(File source, File target, Scan scan, IFileComparor comparor, IScanOptions options, Collection<FileReference> exclusions, IProgressMonitor monitor)
+	private void identifyTargetItemsNotInSource(File source, File target, Scan scan, IFileComparer comparer, IScanOptions options, Collection<FileReference> exclusions, IProgressMonitor monitor)
 	{
 		if (target.isDirectory() && source.isDirectory())
 		{
@@ -313,7 +313,7 @@ public class ComparisonEngine implements IComparisonEngine
 				{
 					if (!sourceFile.exists())
 					{
-						ComparisonResult result = new ComparisonResult(sourceFile, targetFile, AssuranceResultReason.SOURCE_DOES_NOT_EXIST, comparor);
+						ComparisonResult result = new ComparisonResult(sourceFile, targetFile, AssuranceResultReason.SOURCE_DOES_NOT_EXIST, comparer);
 						scan.addResult(result);
 						result = null;
 						StringBuffer message = new StringBuffer(512);

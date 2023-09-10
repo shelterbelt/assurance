@@ -29,33 +29,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.markallenjohnson.assurance.model.compare.file.IFileComparor;
+import com.markallenjohnson.assurance.model.compare.file.IFileComparer;
 
-@Component("FileComparorFactory")
-public class FileCompareValidatorFactory implements IFileComparorFactory
+@Component("FileComparerFactory")
+public class FileCompareValidatorFactory implements IFileComparerFactory
 {
 	@Autowired
 	@Qualifier("DeepScanFileCompareValidator")
-	private IFileComparor deepScanComparor;
+	private IFileComparer deepScanComparer;
 	@Autowired
 	@Qualifier("LightweightFileCompareValidator")
-	private IFileComparor lightweightComparor;
+	private IFileComparer lightweightComparer;
 	@Autowired
 	@Qualifier("FileCompareValidator")
-	private IFileComparor comparor;
+	private IFileComparer comparer;
 
-	public IFileComparor createInstance()
+	public IFileComparer createInstance()
 	{
-		return comparor;
+		return comparer;
 	}
 
-	public IFileComparor createInstance(boolean enableDeepScan)
+	public IFileComparer createInstance(boolean enableDeepScan)
 	{
 		if (enableDeepScan)
 		{
-			return deepScanComparor;
+			return deepScanComparer;
 		}
 
-		return lightweightComparor;
+		return lightweightComparer;
 	}
 }

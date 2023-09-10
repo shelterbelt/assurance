@@ -34,7 +34,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import com.markallenjohnson.assurance.model.compare.file.attributes.IFileAttributeComparor;
+import com.markallenjohnson.assurance.model.compare.file.attributes.IFileAttributeComparer;
 
 public class QuickCompareMD5FileCompareValidator extends MD5FileCompareValidator
 {
@@ -42,7 +42,7 @@ public class QuickCompareMD5FileCompareValidator extends MD5FileCompareValidator
 
 	@Autowired
 	@Qualifier("LightweightFileAttributeCompareValidator")
-	protected IFileAttributeComparor attributeComparor;
+	protected IFileAttributeComparer attributeComparer;
 
 	public QuickCompareMD5FileCompareValidator()
 	{
@@ -59,7 +59,7 @@ public class QuickCompareMD5FileCompareValidator extends MD5FileCompareValidator
 		{
 			if (this.areFilesComparable(file1, file2))
 			{
-				if (attributeComparor.compareFileAttributes(file1, file2, includeTimestamps, includeAdvancedAttributes))
+				if (attributeComparer.compareFileAttributes(file1, file2, includeTimestamps, includeAdvancedAttributes))
 				{
 					boolean result = this.performMD5Compare(file1, file2);
 					return result;

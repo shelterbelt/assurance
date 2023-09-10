@@ -31,7 +31,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.file.attribute.UserDefinedFileAttributeView;
 
-public abstract class FileAttributeCompareValidator implements IFileAttributeComparor
+public abstract class FileAttributeCompareValidator implements IFileAttributeComparer
 {
 	public abstract boolean compareFileAttributes(File file1, File file2, boolean includeTimestamps, boolean includeAdvancedAttributes) throws IOException;
 

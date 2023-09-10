@@ -25,10 +25,10 @@
 
 package com.markallenjohnson.assurance.model.factories;
 
-import com.markallenjohnson.assurance.model.compare.file.IFileComparor;
+import com.markallenjohnson.assurance.model.compare.file.IFileComparer;
 
-public interface IFileComparorFactory
+public interface IFileComparerFactory
 {
-	IFileComparor createInstance();
-	IFileComparor createInstance(boolean enableDeepScan);
+	IFileComparer createInstance();
+	IFileComparer createInstance(boolean enableDeepScan);
 }

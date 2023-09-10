@@ -44,14 +44,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.markallenjohnson.assurance.UnitTestUtils;
-import com.markallenjohnson.assurance.model.factories.IFileComparorFactory;
+import com.markallenjohnson.assurance.model.factories.IFileComparerFactory;
 
 @ContextConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ComparisonTests
 {
 	@Autowired
-	private IFileComparorFactory comparorFactory;
+	private IFileComparerFactory comparerFactory;
 
 	private UnitTestUtils testHarness = new UnitTestUtils();
 
@@ -76,11 +76,11 @@ public class ComparisonTests
 	{
 		try
 		{
-			IFileComparor fileComparor = comparorFactory.createInstance(false);
+			IFileComparer fileComparer = comparerFactory.createInstance(false);
 
 			File testFile = testHarness.createTestFile("test.txt", UnitTestUtils.basicTestContent);
 
-			boolean result = fileComparor.compare(testFile, testFile, true, true);
+			boolean result = fileComparer.compare(testFile, testFile, true, true);
 			assertTrue(result);
 		}
 		finally
@@ -94,12 +94,12 @@ public class ComparisonTests
 	{
 		try
 		{
-			IFileComparor fileComparor = comparorFactory.createInstance(false);
+			IFileComparer fileComparer = comparerFactory.createInstance(false);
 
 			File testFile1 = testHarness.createTestFile("test1.txt", UnitTestUtils.basicTestContent);
 			File testFile2 = testHarness.createTestFile("test2.txt", UnitTestUtils.alternateBasicTestContent);
 
-			boolean result = fileComparor.compare(testFile1, testFile2, true, true);
+			boolean result = fileComparer.compare(testFile1, testFile2, true, true);
 			assertFalse(result);
 		}
 		finally
@@ -113,12 +113,12 @@ public class ComparisonTests
 	{
 		try
 		{
-			IFileComparor fileComparor = comparorFactory.createInstance(false);
+			IFileComparer fileComparer = comparerFactory.createInstance(false);
 
 			File testFile1 = testHarness.createTestFile("test1" + File.separator + "test.txt", UnitTestUtils.basicTestContent);
 			File testFile2 = testHarness.createTestFile("test2" + File.separator + "test.txt", UnitTestUtils.basicTestContent);
 
-			boolean result = fileComparor.compare(testFile1, testFile2, true, true);
+			boolean result = fileComparer.compare(testFile1, testFile2, true, true);
 			assertTrue(result);
 		}
 		finally
@@ -132,11 +132,11 @@ public class ComparisonTests
 	{
 		try
 		{
-			IFileComparor fileComparor = comparorFactory.createInstance(false);
+			IFileComparer fileComparer = comparerFactory.createInstance(false);
 
 			File testFile = testHarness.createTestFile("test.txt", UnitTestUtils.basicTestContent);
 
-			boolean result = fileComparor.compare(null, testFile, true, true);
+			boolean result = fileComparer.compare(null, testFile, true, true);
 			assertFalse(result);
 		}
 		finally
@@ -150,11 +150,11 @@ public class ComparisonTests
 	{
 		try
 		{
-			IFileComparor fileComparor = comparorFactory.createInstance(false);
+			IFileComparer fileComparer = comparerFactory.createInstance(false);
 
 			File testFile = testHarness.createTestFile("test.txt", UnitTestUtils.basicTestContent);
 
-			boolean result = fileComparor.compare(testFile, null, true, true);
+			boolean result = fileComparer.compare(testFile, null, true, true);
 			assertFalse(result);
 		}
 		finally
@@ -168,12 +168,12 @@ public class ComparisonTests
 	{
 		try
 		{
-			IFileComparor fileComparor = comparorFactory.createInstance(false);
+			IFileComparer fileComparer = comparerFactory.createInstance(false);
 
 			File testFile1 = testHarness.createTestFile("test1" + File.separator + "test.txt", UnitTestUtils.basicTestContent);
 			File testFile2 = testHarness.createTestFile("test2" + File.separator + "test.txt", UnitTestUtils.alternateBasicTestContent);
 
-			boolean result = fileComparor.compare(testFile1, testFile2, true, true);
+			boolean result = fileComparer.compare(testFile1, testFile2, true, true);
 			assertFalse(result);
 		}
 		finally
@@ -187,12 +187,12 @@ public class ComparisonTests
 	{
 		try
 		{
-			IFileComparor fileComparor = comparorFactory.createInstance(false);
+			IFileComparer fileComparer = comparerFactory.createInstance(false);
 
 			File testFile1 = testHarness.createTestFile("test1" + File.separator + "test.txt", UnitTestUtils.basicTestContent);
 			File testFile2 = testHarness.createTestFile("test2" + File.separator + "test.txt", UnitTestUtils.alternateBasicTestContent);
 
-			boolean result = fileComparor.compare(testFile1, testFile2, true, true);
+			boolean result = fileComparer.compare(testFile1, testFile2, true, true);
 			assertFalse(result);
 		}
 		finally
@@ -206,11 +206,11 @@ public class ComparisonTests
 	{
 		try
 		{
-			IFileComparor fileComparor = comparorFactory.createInstance(true);
+			IFileComparer fileComparer = comparerFactory.createInstance(true);
 
 			File testFile = testHarness.createTestFile("test.txt", UnitTestUtils.basicTestContent);
 
-			boolean result = fileComparor.compare(testFile, testFile, true, true);
+			boolean result = fileComparer.compare(testFile, testFile, true, true);
 			assertTrue(result);
 		}
 		finally
@@ -224,12 +224,12 @@ public class ComparisonTests
 	{
 		try
 		{
-			IFileComparor fileComparor = comparorFactory.createInstance(true);
+			IFileComparer fileComparer = comparerFactory.createInstance(true);
 
 			File testFile1 = testHarness.createTestFile("test1.txt", UnitTestUtils.basicTestContent);
 			File testFile2 = testHarness.createTestFile("test2.txt", UnitTestUtils.alternateBasicTestContent);
 
-			boolean result = fileComparor.compare(testFile1, testFile2, true, true);
+			boolean result = fileComparer.compare(testFile1, testFile2, true, true);
 			assertFalse(result);
 		}
 		finally
@@ -243,12 +243,12 @@ public class ComparisonTests
 	{
 		try
 		{
-			IFileComparor fileComparor = comparorFactory.createInstance(true);
+			IFileComparer fileComparer = comparerFactory.createInstance(true);
 
 			File testFile1 = testHarness.createTestFile("test1" + File.separator + "test.txt", UnitTestUtils.basicTestContent);
 			File testFile2 = testHarness.createTestFile("test2" + File.separator + "test.txt", UnitTestUtils.basicTestContent);
 
-			boolean result = fileComparor.compare(testFile1, testFile2, true, true);
+			boolean result = fileComparer.compare(testFile1, testFile2, true, true);
 			assertTrue(result);
 		}
 		finally
@@ -262,11 +262,11 @@ public class ComparisonTests
 	{
 		try
 		{
-			IFileComparor fileComparor = comparorFactory.createInstance(true);
+			IFileComparer fileComparer = comparerFactory.createInstance(true);
 
 			File testFile = testHarness.createTestFile("test.txt", UnitTestUtils.basicTestContent);
 
-			boolean result = fileComparor.compare(null, testFile, true, true);
+			boolean result = fileComparer.compare(null, testFile, true, true);
 			assertFalse(result);
 		}
 		finally
@@ -280,11 +280,11 @@ public class ComparisonTests
 	{
 		try
 		{
-			IFileComparor fileComparor = comparorFactory.createInstance(true);
+			IFileComparer fileComparer = comparerFactory.createInstance(true);
 
 			File testFile = testHarness.createTestFile("test.txt", UnitTestUtils.basicTestContent);
 
-			boolean result = fileComparor.compare(testFile, null, true, true);
+			boolean result = fileComparer.compare(testFile, null, true, true);
 			assertFalse(result);
 		}
 		finally
@@ -298,12 +298,12 @@ public class ComparisonTests
 	{
 		try
 		{
-			IFileComparor fileComparor = comparorFactory.createInstance(true);
+			IFileComparer fileComparer = comparerFactory.createInstance(true);
 
 			File testFile1 = testHarness.createTestFile("test1" + File.separator + "test.txt", UnitTestUtils.basicTestContent);
 			File testFile2 = testHarness.createTestFile("test2" + File.separator + "test.txt", UnitTestUtils.alternateBasicTestContent);
 
-			boolean result = fileComparor.compare(testFile1, testFile2, true, true);
+			boolean result = fileComparer.compare(testFile1, testFile2, true, true);
 			assertFalse(result);
 		}
 		finally
@@ -317,12 +317,12 @@ public class ComparisonTests
 	{
 		try
 		{
-			IFileComparor fileComparor = comparorFactory.createInstance(true);
+			IFileComparer fileComparer = comparerFactory.createInstance(true);
 
 			File testFile1 = testHarness.createTestFile("test1" + File.separator + "test.txt", UnitTestUtils.basicTestContent);
 			File testFile2 = testHarness.createTestFile("test2" + File.separator + "test.txt", UnitTestUtils.alternateBasicTestContent);
 
-			boolean result = fileComparor.compare(testFile1, testFile2, true, true);
+			boolean result = fileComparer.compare(testFile1, testFile2, true, true);
 			assertFalse(result);
 		}
 		finally

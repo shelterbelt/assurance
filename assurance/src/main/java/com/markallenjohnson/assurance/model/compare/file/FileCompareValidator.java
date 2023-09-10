@@ -33,15 +33,15 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import com.markallenjohnson.assurance.model.compare.file.attributes.IFileAttributeComparor;
+import com.markallenjohnson.assurance.model.compare.file.attributes.IFileAttributeComparer;
 
-public abstract class FileCompareValidator implements IFileComparor
+public abstract class FileCompareValidator implements IFileComparer
 {
 	private Logger logger = Logger.getLogger(FileCompareValidator.class);
 
 	@Autowired
 	@Qualifier("DeepScanFileAttributeCompareValidator")
-	protected IFileAttributeComparor attributeComparor;
+	protected IFileAttributeComparer attributeComparer;
 
 	public abstract boolean compare(File file1, File file2, boolean includeTimestamps, boolean includeAdvancedAttributes) throws NoSuchAlgorithmException, IOException;
 	

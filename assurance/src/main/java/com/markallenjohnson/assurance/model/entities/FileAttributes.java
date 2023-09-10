@@ -52,7 +52,7 @@ import jakarta.persistence.Transient;
 
 import org.apache.log4j.Logger;
 
-import com.markallenjohnson.assurance.model.compare.file.IFileComparor;
+import com.markallenjohnson.assurance.model.compare.file.IFileComparer;
 
 @Entity
 @Table(name = "FILE_ATTRIBUTES")
@@ -143,9 +143,9 @@ public class FileAttributes
 		this(file, null);
 	}
 
-	public FileAttributes(File file, IFileComparor comparor)
+	public FileAttributes(File file, IFileComparer comparer)
 	{
-		this.captureFileAttributes(file, comparor);
+		this.captureFileAttributes(file, comparer);
 	}
 
 	public Long getId()
@@ -358,17 +358,17 @@ public class FileAttributes
 		this.userDefinedAttributesHash = userDefinedAttributesHash;
 	}
 
-	private void captureFileAttributes(File file, IFileComparor comparor)
+	private void captureFileAttributes(File file, IFileComparer comparer)
 	{
 		// NOTE:  Reading all of these attributes a second time for each failed result isn't great.  
 		// It would be nice to store these the first time we read them.
 		if (file != null)
 		{
-			if (comparor != null)
+			if (comparer != null)
 			{
 				try 
 				{
-					this.contentsHash = comparor.calculateHashForFile(file).toString();
+					this.contentsHash = comparer.calculateHashForFile(file).toString();
 				}
 				catch (NoSuchAlgorithmException e)
 				{

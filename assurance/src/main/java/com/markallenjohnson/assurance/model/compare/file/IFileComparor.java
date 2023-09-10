@@ -29,7 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
-public interface IFileComparor
+public interface IFileComparer
 {
 
 	// NOTE:  This bleed of configuration into the functional signatures isn't ideal.  

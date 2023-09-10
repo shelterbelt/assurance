@@ -42,11 +42,11 @@ public class RawByteFileCompareValidator extends FileCompareValidator
 		{
 			try
 			{
-				if (attributeComparor.compareFileAttributes(file1, file2, includeTimestamps, includeAdvancedAttributes))
+				if (attributeComparer.compareFileAttributes(file1, file2, includeTimestamps, includeAdvancedAttributes))
 				{
 					// NOTE:  This implementation is not built out, but demonstrates the strategy-based 
 					// notion of how to provide different comparison algorithms.
-					logger.warn("Raw file comparor is not implemented.");
+					logger.warn("Raw file comparer is not implemented.");
 				}
 			}
 			finally
@@ -63,7 +63,7 @@ public class RawByteFileCompareValidator extends FileCompareValidator
 	{
 		// NOTE:  This implementation is not built out, but demonstrates the strategy-based 
 		// notion of how to provide different comparison algorithms.
-		logger.warn("Raw file comparor is not implemented.");
+		logger.warn("Raw file comparer is not implemented.");
 		
 		return null;
 	}

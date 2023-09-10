@@ -41,7 +41,7 @@ import jakarta.persistence.Transient;
 
 import org.springframework.util.StringUtils;
 
-import com.markallenjohnson.assurance.model.compare.file.IFileComparor;
+import com.markallenjohnson.assurance.model.compare.file.IFileComparer;
 
 @Entity
 @Table(name = "FILE_REFERENCE")
@@ -64,7 +64,7 @@ public class FileReference
 	private ScanMappingDefinition scanMappingDefinition;
 
 	@Transient
-	private IFileComparor comparor;
+	private IFileComparer comparer;
 
 	public FileReference()
 	{
@@ -76,13 +76,13 @@ public class FileReference
 		this(file, null);
 	}
 
-	// NOTE:  Cascading the comparor down in this fashion just to facilitate the hash calculation is 
+	// NOTE:  Cascading the comparer down in this fashion just to facilitate the hash calculation is 
 	// far from ideal and a good example of a problem with some of the assumptions made about the 
 	// comparison architecture early on.
-	public FileReference(File file, IFileComparor comparor)
+	public FileReference(File file, IFileComparer comparer)
 	{
 		this.setFile(file);
-		this.setComparor(comparor);
+		this.setComparer(comparer);
 	}
 
 	public Long getId()
@@ -154,20 +154,20 @@ public class FileReference
 		this.scanMappingDefinition = scanMappingDefinition;
 	}
 
-	// NOTE:  Cascading the comparor down in this fashion just to facilitate the hash calculation is 
+	// NOTE:  Cascading the comparer down in this fashion just to facilitate the hash calculation is 
 	// far from ideal and a good example of a problem with some of the assumptions made about the 
 	// comparison architecture early on.
-	public IFileComparor getComparor()
+	public IFileComparer getComparer()
 	{
-		return comparor;
+		return comparer;
 	}
 
-	// NOTE:  Cascading the comparor down in this fashion just to facilitate the hash calculation is 
+	// NOTE:  Cascading the comparer down in this fashion just to facilitate the hash calculation is 
 	// far from ideal and a good example of a problem with some of the assumptions made about the 
 	// comparison architecture early on.
-	protected void setComparor(IFileComparor comparor)
+	protected void setComparer(IFileComparer comparer)
 	{
-		this.comparor = comparor;
+		this.comparer = comparer;
 	}
 	
 	@Override

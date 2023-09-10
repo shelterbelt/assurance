@@ -40,7 +40,7 @@ import jakarta.persistence.Table;
 
 import org.h2.util.StringUtils;
 
-import com.markallenjohnson.assurance.model.compare.file.IFileComparor;
+import com.markallenjohnson.assurance.model.compare.file.IFileComparer;
 import com.markallenjohnson.assurance.model.enums.AssuranceResultReason;
 import com.markallenjohnson.assurance.model.enums.AssuranceResultResolution;
 
@@ -94,13 +94,13 @@ public class ComparisonResult
 		this.setReason(reason);
 	}
 
-	// NOTE:  Cascading the comparor down in this fashion just to facilitate the hash calculation is 
+	// NOTE:  Cascading the comparer down in this fashion just to facilitate the hash calculation is 
 	// far from ideal and a good example of a problem with some of the assumptions made about the 
 	// comparison architecture early on.
-	public ComparisonResult(File source, File target, AssuranceResultReason reason, IFileComparor comparor)
+	public ComparisonResult(File source, File target, AssuranceResultReason reason, IFileComparer comparer)
 	{
-		this.setSource(source, comparor);
-		this.setTarget(target, comparor);
+		this.setSource(source, comparer);
+		this.setTarget(target, comparer);
 		this.setReason(reason);
 	}
 
@@ -133,7 +133,7 @@ public class ComparisonResult
 	{
 		if (source != null)
 		{
-			FileAttributes attributes = new FileAttributes(source.getFile(), source.getComparor());
+			FileAttributes attributes = new FileAttributes(source.getFile(), source.getComparer());
 			source.setFileAttributes(attributes);
 			attributes = null;
 		}
@@ -147,12 +147,12 @@ public class ComparisonResult
 		sourceRef = null;
 	}
 
-	// NOTE:  Cascading the comparor down in this fashion just to facilitate the hash calculation is 
+	// NOTE:  Cascading the comparer down in this fashion just to facilitate the hash calculation is 
 	// far from ideal and a good example of a problem with some of the assumptions made about the 
 	// comparison architecture early on.
-	public void setSource(File source, IFileComparor comparor)
+	public void setSource(File source, IFileComparer comparer)
 	{
-		FileReference sourceRef = new FileReference(source, comparor);
+		FileReference sourceRef = new FileReference(source, comparer);
 		this.setSource(sourceRef);
 		sourceRef = null;
 	}
@@ -166,7 +166,7 @@ public class ComparisonResult
 	{
 		if (target != null)
 		{
-			FileAttributes attributes = new FileAttributes(target.getFile(), target.getComparor());
+			FileAttributes attributes = new FileAttributes(target.getFile(), target.getComparer());
 			target.setFileAttributes(attributes);
 			attributes = null;
 		}
@@ -180,12 +180,12 @@ public class ComparisonResult
 		targetRef = null;
 	}
 
-	// NOTE:  Cascading the comparor down in this fashion just to facilitate the hash calculation is 
+	// NOTE:  Cascading the comparer down in this fashion just to facilitate the hash calculation is 
 	// far from ideal and a good example of a problem with some of the assumptions made about the 
 	// comparison architecture early on.
-	public void setTarget(File target, IFileComparor comparor)
+	public void setTarget(File target, IFileComparer comparer)
 	{
-		FileReference targetRef = new FileReference(target, comparor);
+		FileReference targetRef = new FileReference(target, comparer);
 		this.setTarget(targetRef);
 		targetRef = null;
 	}

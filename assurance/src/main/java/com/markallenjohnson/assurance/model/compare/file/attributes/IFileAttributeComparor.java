@@ -28,7 +28,7 @@ package com.markallenjohnson.assurance.model.compare.file.attributes;
 import java.io.File;
 import java.io.IOException;
 
-public interface IFileAttributeComparor
+public interface IFileAttributeComparer
 {
 	boolean compareFileAttributes(File file1, File file2, boolean includeTimestamps, boolean includeAdvancedAttributes) throws IOException;
 }

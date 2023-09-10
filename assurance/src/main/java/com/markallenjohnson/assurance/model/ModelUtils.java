@@ -33,7 +33,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.markallenjohnson.assurance.model.compare.file.IFileComparor;
+import com.markallenjohnson.assurance.model.compare.file.IFileComparer;
 
 public class ModelUtils 
 {
@@ -106,9 +106,9 @@ public class ModelUtils
 			try
 			{
 				springContext = new ClassPathXmlApplicationContext("/META-INF/spring/app-context.xml");
-				IFileComparor comparor = (IFileComparor) springContext.getBean("FileCompareValidator");
+				IFileComparer comparer = (IFileComparer) springContext.getBean("FileCompareValidator");
 
-				byte[] hash = comparor.calculateHashForFile(file);
+				byte[] hash = comparer.calculateHashForFile(file);
 				if (hash != null)
 				{
 					result = hash.toString();
@@ -122,7 +122,7 @@ public class ModelUtils
 					result = result.substring(0, 511);
 				}
 				
-				comparor = null;
+				comparer = null;
 			}
 			catch (NoSuchAlgorithmException e)
 			{
