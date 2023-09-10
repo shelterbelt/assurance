@@ -36,7 +36,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-import org.apache.commons.lang3.text.StrTokenizer;
+import org.apache.commons.text.StringTokenizer;
 import org.springframework.util.StringUtils;
 
 import com.markallenjohnson.assurance.model.compare.IScanOptions;
@@ -134,7 +134,7 @@ public class ApplicationConfiguration implements IScanOptions
 	
 	private List<String> transformStringPropertyToListProperty(String property, boolean removeExtensionPatterns)
 	{
-		StrTokenizer tokenizer = new StrTokenizer(property, ',');
+		StringTokenizer tokenizer = new StringTokenizer(property, ',');
 		List<String> tokenizedList = tokenizer.getTokenList();
 		// NOTE: May want to reconsider the toLowercase conversion.
 		ListIterator<String> iterator = tokenizedList.listIterator();

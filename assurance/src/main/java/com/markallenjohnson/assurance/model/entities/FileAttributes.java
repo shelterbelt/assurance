@@ -51,7 +51,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 import org.apache.logging.log4j.Logger;
-import org.h2.store.fs.FileUtils;
 import org.apache.logging.log4j.LogManager;
 
 import com.markallenjohnson.assurance.model.compare.file.IFileComparer;
@@ -364,7 +363,7 @@ public class FileAttributes
 	{
 		// NOTE:  Reading all of these attributes a second time for each failed result isn't great.  
 		// It would be nice to store these the first time we read them.
-		if ((file != null) && (FileUtils.exists(file.getPath())))
+		if ((file != null) && (file.exists()))
 		{
 
 			if (comparer != null)
