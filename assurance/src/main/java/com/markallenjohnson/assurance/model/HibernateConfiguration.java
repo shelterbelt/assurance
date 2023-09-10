@@ -103,6 +103,7 @@ public class HibernateConfiguration
 			{
 				setProperty("hibernate.dialect", H2Dialect.class.getName());
 				setProperty("hibernate.hbm2ddl.auto", "validate");
+				setProperty("hibernate.id.db_structure_naming_strategy", "single");
 				
 				// NOTE: Enable these properties in a development release.
 				setProperty("hibernate.show_sql", "false");
