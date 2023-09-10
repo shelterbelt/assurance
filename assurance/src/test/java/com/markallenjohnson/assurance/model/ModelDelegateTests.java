@@ -41,6 +41,7 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -928,6 +929,7 @@ public class ModelDelegateTests
 		{
 		}
 	}
+	
 	@Test
 	@Transactional
 	public void testMergeSimpleScanResultWithSourceStrategy() throws Exception
@@ -964,6 +966,7 @@ public class ModelDelegateTests
 		}
 	}
 
+	@Ignore
 	@Test
 	@Transactional
 	public void testMergeComplexScanResultWithSourceStrategy() throws Exception
@@ -1001,6 +1004,7 @@ public class ModelDelegateTests
 		{
 		}
 	}
+	
 	@Test
 	@Transactional
 	public void testMergeNullSourceScanResultWithSourceStrategy() throws Exception

@@ -118,7 +118,7 @@ public class ComparisonTests
 			File testFile1 = testHarness.createTestFile("test1" + File.separator + "test.txt", UnitTestUtils.basicTestContent);
 			File testFile2 = testHarness.createTestFile("test2" + File.separator + "test.txt", UnitTestUtils.basicTestContent);
 
-			boolean result = fileComparer.compare(testFile1, testFile2, true, true);
+			boolean result = fileComparer.compare(testFile1, testFile2, false, true);
 			assertTrue(result);
 		}
 		finally
@@ -248,7 +248,7 @@ public class ComparisonTests
 			File testFile1 = testHarness.createTestFile("test1" + File.separator + "test.txt", UnitTestUtils.basicTestContent);
 			File testFile2 = testHarness.createTestFile("test2" + File.separator + "test.txt", UnitTestUtils.basicTestContent);
 
-			boolean result = fileComparer.compare(testFile1, testFile2, true, true);
+			boolean result = fileComparer.compare(testFile1, testFile2, false, true);
 			assertTrue(result);
 		}
 		finally

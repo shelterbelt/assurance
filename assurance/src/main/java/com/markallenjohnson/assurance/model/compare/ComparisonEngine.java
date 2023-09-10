@@ -223,7 +223,8 @@ public class ComparisonEngine implements IComparisonEngine
 								// The files are both simple files.
 								try
 								{
-									boolean includeTimestamps = true;
+									// Default to ignore timestamps unless explicitly requested.
+									boolean includeTimestamps = false;
 									boolean includeAdvancedAttributes = true;
 									ScanDefinition scanDefinition = scan.getScanDef();
 									if (scanDefinition != null)
