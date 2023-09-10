@@ -29,7 +29,8 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.SwingWorker;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.markallenjohnson.assurance.model.IModelDelegate;
@@ -43,7 +44,7 @@ import com.markallenjohnson.assurance.notification.events.ScanMergeStartedEvent;
 
 public class MergeScanWorker extends SwingWorker<Scan, Object> implements IProgressMonitor
 {
-	private Logger logger = Logger.getLogger(MergeScanWorker.class);
+	private Logger logger = LogManager.getLogger(MergeScanWorker.class);
 
 	private Scan scan;
 

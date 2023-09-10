@@ -47,7 +47,8 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -74,7 +75,7 @@ import com.markallenjohnson.assurance.ui.renderers.ComparisonResultListRenderer;
 @Component("ResultsPanel")
 public class ResultsPanel extends JPanel implements IEventObserver
 {
-	private Logger logger = Logger.getLogger(ResultsPanel.class);
+	private Logger logger = LogManager.getLogger(ResultsPanel.class);
 
 	@Autowired
 	private ComparisonResultListRenderer comparisonResultListRenderer;

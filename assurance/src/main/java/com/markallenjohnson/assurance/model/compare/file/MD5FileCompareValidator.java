@@ -33,11 +33,12 @@ import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public abstract class MD5FileCompareValidator extends FileCompareValidator
 {
-	private Logger logger = Logger.getLogger(MD5FileCompareValidator.class);
+	private Logger logger = LogManager.getLogger(MD5FileCompareValidator.class);
 
 	protected boolean performMD5Compare(File file1, File file2) throws NoSuchAlgorithmException, IOException
 	{

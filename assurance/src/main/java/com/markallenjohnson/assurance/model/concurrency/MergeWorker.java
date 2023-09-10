@@ -25,7 +25,8 @@
 
 package com.markallenjohnson.assurance.model.concurrency;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.markallenjohnson.assurance.exceptions.AssuranceNullFileReferenceException;
 import com.markallenjohnson.assurance.model.entities.ComparisonResult;
@@ -36,7 +37,7 @@ import com.markallenjohnson.assurance.notification.IProgressMonitor;
 
 public class MergeWorker implements Runnable
 {
-	private Logger logger = Logger.getLogger(MergeWorker.class);
+	private Logger logger = LogManager.getLogger(MergeWorker.class);
 
 	private IMergeEngine engine;
 	private IAssuranceThreadPool threadPool;

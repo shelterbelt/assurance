@@ -29,7 +29,9 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import org.springframework.stereotype.Component;
 
 import com.markallenjohnson.assurance.exceptions.AssuranceNullFileReferenceException;
@@ -40,7 +42,7 @@ import com.markallenjohnson.assurance.notification.IProgressMonitor;
 @Component("TargetMergeEngine")
 public class TargetMergeEngine extends MergeEngine implements IMergeEngine
 {
-	private Logger logger = Logger.getLogger(TargetMergeEngine.class);
+	private Logger logger = LogManager.getLogger(TargetMergeEngine.class);
 
 	@Override
 	public void mergeResult(ComparisonResult result, IProgressMonitor monitor) throws AssuranceNullFileReferenceException

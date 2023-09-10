@@ -34,11 +34,12 @@ import java.nio.file.attribute.DosFileAttributes;
 import java.nio.file.attribute.FileOwnerAttributeView;
 import java.nio.file.attribute.PosixFileAttributes;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class ComprehensiveFileAttributeCompareValidator extends FileAttributeCompareValidator
 {
-	private Logger logger = Logger.getLogger(ComprehensiveFileAttributeCompareValidator.class);
+	private Logger logger = LogManager.getLogger(ComprehensiveFileAttributeCompareValidator.class);
 
 	@Override
 	public boolean compareFileAttributes(File file1, File file2, boolean includeTimestamps, boolean includeAdvancedAttributes) throws IOException

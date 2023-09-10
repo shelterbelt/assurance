@@ -25,7 +25,8 @@
 
 package com.markallenjohnson.assurance;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -54,7 +55,7 @@ import com.markallenjohnson.assurance.ui.workers.SaveScanDefinitionWorker;
 @Component("ApplicationDelegate")
 public class ApplicationDelegate implements IApplicationDelegate
 {
-	private Logger logger = Logger.getLogger(ApplicationDelegate.class);
+	private Logger logger = LogManager.getLogger(ApplicationDelegate.class);
 
 	@Autowired
 	private INotificationProvider notificationProvider;

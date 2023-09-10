@@ -29,11 +29,12 @@ import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class RawByteFileCompareValidator extends FileCompareValidator
 {
-	private Logger logger = Logger.getLogger(RawByteFileCompareValidator.class);
+	private Logger logger = LogManager.getLogger(RawByteFileCompareValidator.class);
 
 	@Override
 	public boolean compare(File file1, File file2, boolean includeTimestamps, boolean includeAdvancedAttributes) throws IOException

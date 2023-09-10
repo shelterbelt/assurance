@@ -38,13 +38,14 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.stereotype.Component;
 
 @Component("AboutPanel")
 public class AboutPanel extends AbstractDialogPanel
 {
-	private Logger logger = Logger.getLogger(AboutPanel.class);
+	private Logger logger = LogManager.getLogger(AboutPanel.class);
 	private static final long serialVersionUID = 1L;
 	private boolean initialized = false;
 

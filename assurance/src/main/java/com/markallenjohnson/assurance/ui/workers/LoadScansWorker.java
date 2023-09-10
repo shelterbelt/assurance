@@ -30,7 +30,8 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.SwingWorker;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.markallenjohnson.assurance.model.IModelDelegate;
@@ -40,7 +41,7 @@ import com.markallenjohnson.assurance.notification.events.ScansLoadedEvent;
 
 public class LoadScansWorker extends SwingWorker<List<Scan>, Object>
 {
-	private Logger logger = Logger.getLogger(LoadScansWorker.class);
+	private Logger logger = LogManager.getLogger(LoadScansWorker.class);
 
 	private INotificationProvider notifier;
 

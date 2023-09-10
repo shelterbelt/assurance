@@ -29,7 +29,9 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import org.springframework.stereotype.Component;
 
 import com.markallenjohnson.assurance.Application;
@@ -46,7 +48,7 @@ import com.markallenjohnson.assurance.notification.IProgressMonitor;
 @Component("MergeEngine")
 public abstract class MergeEngine implements IMergeEngine
 {
-	private Logger logger = Logger.getLogger(MergeEngine.class);
+	private Logger logger = LogManager.getLogger(MergeEngine.class);
 
 	// NOTE:  Since these are statics, using a SB to construct the path is more complex than
 	// the possible benefit may warrant.

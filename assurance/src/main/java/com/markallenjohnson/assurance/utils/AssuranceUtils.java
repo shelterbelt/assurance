@@ -29,7 +29,8 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class AssuranceUtils
 {
@@ -57,7 +58,7 @@ public class AssuranceUtils
 
 	public static boolean checkIfFileIsSymbolicLink(File file)
 	{
-		Logger logger = Logger.getLogger(AssuranceUtils.class);
+		Logger logger = LogManager.getLogger(AssuranceUtils.class);
 
 		boolean result = false;
 		

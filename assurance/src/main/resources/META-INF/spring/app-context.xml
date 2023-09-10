@@ -31,7 +31,7 @@
 
 	<tx:annotation-driven/>
 
- 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location">
 			<value>properties/database.properties</value>
 		</property>

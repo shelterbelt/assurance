@@ -29,7 +29,8 @@ import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.hibernate.Hibernate;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -86,7 +87,7 @@ public class ModelUtils
 	
 	public static String calculateHashForFile(File file) 
 	{
-		Logger logger = Logger.getLogger(ModelUtils.class);
+		Logger logger = LogManager.getLogger(ModelUtils.class);
 
 		String result = null;
 		

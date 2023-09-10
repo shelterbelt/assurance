@@ -52,7 +52,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
@@ -78,7 +79,7 @@ import com.markallenjohnson.assurance.ui.factories.IDialogFactory;
 @Component("ScanResultComponent")
 public class ComparisonResultPanel extends JPanel implements ActionListener, IEventObserver
 {
-	private Logger logger = Logger.getLogger(ComparisonResultPanel.class);
+	private Logger logger = LogManager.getLogger(ComparisonResultPanel.class);
 
 	@Autowired
 	private IApplicationDelegate applicationDelegate;

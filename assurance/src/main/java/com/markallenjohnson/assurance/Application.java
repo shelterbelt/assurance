@@ -38,7 +38,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.markallenjohnson.assurance.model.ScriptRunner;
@@ -55,7 +56,7 @@ public class Application
 
 	public static void main(String[] args)
 	{
-		Logger logger = Logger.getLogger(Application.class);
+		Logger logger = LogManager.getLogger(Application.class);
 
 		logger.info("App is starting.");
 
@@ -97,7 +98,7 @@ public class Application
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable()
 		{
-			private Logger logger = Logger.getLogger(Application.class);
+			private Logger logger = LogManager.getLogger(Application.class);
 
 			public void run()
 			{
@@ -184,7 +185,7 @@ public class Application
 
 	static void installDb(InputStream propertiesFileStream, InputStream dbScriptStream) throws IOException, SQLException
 	{
-		Logger logger = Logger.getLogger(Application.class);
+		Logger logger = LogManager.getLogger(Application.class);
 
 		Connection dbConnection = null;
 		ResultSet rs = null;

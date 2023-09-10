@@ -29,7 +29,8 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.SwingWorker;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.markallenjohnson.assurance.model.entities.Scan;
@@ -38,7 +39,7 @@ import com.markallenjohnson.assurance.notification.events.ScanResultsLoadedEvent
 
 public class LoadScanResultsWorker extends SwingWorker<Scan, Object>
 {
-	private Logger logger = Logger.getLogger(LoadScanResultsWorker.class);
+	private Logger logger = LogManager.getLogger(LoadScanResultsWorker.class);
 
 	private Scan scan;
 	private INotificationProvider notifier;

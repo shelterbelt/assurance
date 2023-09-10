@@ -47,7 +47,8 @@ import javax.swing.KeyStroke;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -73,7 +74,7 @@ import com.markallenjohnson.assurance.utils.Platform;
 @Component("ApplicationUI")
 public class MainWindow extends JFrame implements IApplicationUI, IEventObserver, ActionListener
 {
-	private Logger logger = Logger.getLogger(MainWindow.class);
+	private Logger logger = LogManager.getLogger(MainWindow.class);
 
 	private boolean initialized = false;
 

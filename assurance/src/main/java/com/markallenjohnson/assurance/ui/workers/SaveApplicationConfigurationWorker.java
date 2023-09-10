@@ -29,7 +29,8 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.SwingWorker;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.markallenjohnson.assurance.model.IModelDelegate;
@@ -39,7 +40,7 @@ import com.markallenjohnson.assurance.notification.events.ApplicationConfigurati
 
 public class SaveApplicationConfigurationWorker extends SwingWorker<ApplicationConfiguration, Object>
 {
-	private Logger logger = Logger.getLogger(SaveApplicationConfigurationWorker.class);
+	private Logger logger = LogManager.getLogger(SaveApplicationConfigurationWorker.class);
 
 	private ApplicationConfiguration configuration;
 

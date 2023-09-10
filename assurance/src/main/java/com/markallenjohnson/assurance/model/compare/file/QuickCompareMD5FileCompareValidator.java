@@ -30,7 +30,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -38,7 +40,7 @@ import com.markallenjohnson.assurance.model.compare.file.attributes.IFileAttribu
 
 public class QuickCompareMD5FileCompareValidator extends MD5FileCompareValidator
 {
-	private Logger logger = Logger.getLogger(QuickCompareMD5FileCompareValidator.class);
+	private Logger logger = LogManager.getLogger(QuickCompareMD5FileCompareValidator.class);
 
 	@Autowired
 	@Qualifier("LightweightFileAttributeCompareValidator")

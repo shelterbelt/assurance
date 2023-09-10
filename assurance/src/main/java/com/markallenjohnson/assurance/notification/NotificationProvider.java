@@ -30,7 +30,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.stereotype.Component;
 
 import com.markallenjohnson.assurance.notification.events.IAssuranceEvent;
@@ -38,7 +39,7 @@ import com.markallenjohnson.assurance.notification.events.IAssuranceEvent;
 @Component("NotificationProvider")
 public class NotificationProvider implements INotificationProvider
 {
-	private Logger logger = Logger.getLogger(NotificationProvider.class);
+	private Logger logger = LogManager.getLogger(NotificationProvider.class);
 
 	protected Map<Class<? extends IAssuranceEvent>, Collection<IEventObserver>> eventObserverList = new HashMap<Class<? extends IAssuranceEvent>, Collection<IEventObserver>>();
 

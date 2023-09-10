@@ -29,7 +29,8 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.SwingWorker;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.markallenjohnson.assurance.exceptions.AssuranceIncompleteScanDefinitionException;
@@ -48,7 +49,7 @@ import com.markallenjohnson.assurance.notification.events.ScanStartedEvent;
 
 public class PerformScanWorker extends SwingWorker<Scan, Object> implements IProgressMonitor
 {
-	private Logger logger = Logger.getLogger(PerformScanWorker.class);
+	private Logger logger = LogManager.getLogger(PerformScanWorker.class);
 
 	private ScanDefinition scanDefinition;
 

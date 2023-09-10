@@ -50,7 +50,8 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.markallenjohnson.assurance.model.compare.file.IFileComparer;
 
@@ -59,7 +60,7 @@ import com.markallenjohnson.assurance.model.compare.file.IFileComparer;
 public class FileAttributes
 {
 	@Transient
-	private Logger logger = Logger.getLogger(FileAttributes.class);
+	private Logger logger = LogManager.getLogger(FileAttributes.class);
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

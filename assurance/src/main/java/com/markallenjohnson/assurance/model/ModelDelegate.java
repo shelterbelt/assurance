@@ -34,7 +34,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -60,7 +61,7 @@ import com.markallenjohnson.assurance.notification.IProgressMonitor;
 @Component("ModelDelegate")
 public class ModelDelegate implements IModelDelegate
 {
-	private Logger logger = Logger.getLogger(ModelDelegate.class);
+	private Logger logger = LogManager.getLogger(ModelDelegate.class);
 
 	@PersistenceContext
 	private EntityManager entityManager;

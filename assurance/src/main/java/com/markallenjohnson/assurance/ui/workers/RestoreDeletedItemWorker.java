@@ -29,7 +29,8 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.SwingWorker;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.markallenjohnson.assurance.model.IModelDelegate;
@@ -42,7 +43,7 @@ import com.markallenjohnson.assurance.notification.events.DeletedItemRestoreStar
 
 public class RestoreDeletedItemWorker extends SwingWorker<ComparisonResult, Object> implements IProgressMonitor
 {
-	private Logger logger = Logger.getLogger(RestoreDeletedItemWorker.class);
+	private Logger logger = LogManager.getLogger(RestoreDeletedItemWorker.class);
 
 	private ComparisonResult result;
 

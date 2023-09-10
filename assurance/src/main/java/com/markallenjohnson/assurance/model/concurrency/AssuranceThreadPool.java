@@ -32,7 +32,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.Phaser;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import org.springframework.stereotype.Component;
 
 @Component("ThreadPool")
@@ -40,7 +42,7 @@ public class AssuranceThreadPool implements IAssuranceThreadPool {
 	
 	private static final Integer DEFAULT_NUMBER_OF_THREADS = 4;
 
-	private Logger logger = Logger.getLogger(AssuranceThreadPool.class);
+	private Logger logger = LogManager.getLogger(AssuranceThreadPool.class);
 
 	private Collection<Future<?>> futures = new LinkedList<Future<?>>();
 	
