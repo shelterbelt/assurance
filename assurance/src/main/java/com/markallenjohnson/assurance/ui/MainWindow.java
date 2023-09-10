@@ -148,8 +148,9 @@ public class MainWindow extends JFrame implements IApplicationUI, IEventObserver
 
 				System.setProperty("apple.laf.useScreenMenuBar", "true");
 				com.apple.eawt.Application macApplication = com.apple.eawt.Application.getApplication();
-				MacApplicationAdapter macAdapter = new MacApplicationAdapter(this);
-				macApplication.addApplicationListener(macAdapter);
+// TODO:  Need to fix.
+//				MacApplicationAdapter macAdapter = new MacApplicationAdapter(this);
+//				macApplication.addApplicationListener(macAdapter);
 				macApplication.setEnabledPreferencesMenu(true);
 			}
 
