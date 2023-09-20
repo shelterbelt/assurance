@@ -1,0 +1,17 @@
+.actions-panel-container {
+    // width: 100%;
+    height: 100%;
+
+    .row {
+        height:48%;
+    }
+
+    .row.spacer-row {
+        height: 4%;
+    }
+
+    .btn.action-button {
+        width: 100%;
+        height: 100%;
+    }
+}
