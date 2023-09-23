@@ -2,13 +2,13 @@
 
 *A cross-platform application to analyze and synchronize the contents of file system directories.*
 
-> **Year Implemented: V1 2015, V2 2023**
+> **Years Implemented: V1 2015, V2 2023**
 >
 > The motivation for Assurance was to gain greater familiarity with many of the popular technologies in the Java ecosystem at the time. V2 replaced the AWT/Swing UI with an Electron UI.
 
 ## What Is Assurance
 
-Assurance is a cross-platform, client-only application written in Java that leverages both Spring and Hibernate with a Swing-based UI.
+Assurance is a cross-platform, client-only application written in Java that leverages both Spring and Hibernate with an Electron-based UI.
 
 At it's core, it is a tool to comprehensively compare and optionally synchronize the contents of two or more directories.
 
