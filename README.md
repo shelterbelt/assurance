@@ -2,9 +2,9 @@
 
 *A cross-platform application to analyze and synchronize the contents of file system directories.*
 
-> **Year Implemented: 2015**
+> **Year Implemented: V1 2015, V2 2023**
 >
-> The motivation for Assurance was to gain greater familiarity with many of the popular technologies in the Java ecosystem at the time.
+> The motivation for Assurance was to gain greater familiarity with many of the popular technologies in the Java ecosystem at the time. V2 replaced the AWT/Swing UI with an Electron UI.
 
 ## What Is Assurance
 
