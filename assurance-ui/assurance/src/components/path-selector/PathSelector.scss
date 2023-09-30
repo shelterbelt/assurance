@@ -1,0 +1,17 @@
+.scan-location-field {
+    .form-control {
+        margin-bottom: 6px;
+    }
+
+    .input-group-text {
+        padding-top: 0;
+        padding-bottom: 8px;
+        margin-bottom: 6px;
+
+    }
+
+    .input-group-text:hover {
+        background-color: var(--bs-link-hover-color);
+        cursor: default;
+    }
+}

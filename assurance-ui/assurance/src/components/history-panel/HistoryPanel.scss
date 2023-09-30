@@ -1,9 +1,8 @@
 .previous-scans-list-container {
-    // width: 100%;
+    max-width: none;
     height: 100%;
 
     .previous-scans-list-group {
-        // padding: 12pt;
         width: 100%;
         height: 100pt;
         overflow-y: scroll;
