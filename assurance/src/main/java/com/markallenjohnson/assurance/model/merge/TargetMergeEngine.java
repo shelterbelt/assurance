@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -40,7 +36,7 @@ import com.markallenjohnson.assurance.model.enums.AssuranceResultResolution;
 import com.markallenjohnson.assurance.notification.IProgressMonitor;
 
 @Component("TargetMergeEngine")
-public class TargetMergeEngine extends MergeEngine implements IMergeEngine
+public class TargetMergeEngine extends MergeEngine
 {
 	private Logger logger = LogManager.getLogger(TargetMergeEngine.class);
 
@@ -60,7 +56,6 @@ public class TargetMergeEngine extends MergeEngine implements IMergeEngine
 			StringBuilder message = new StringBuilder(512);
 			monitor.publish(message.append("Merging ").append(targetFile.toString()).append(" to ").append(sourceFile.toString()).toString());
 			message.setLength(0);
-			message = null;
 		}
 
 		if (targetFile.exists())
@@ -109,18 +104,13 @@ public class TargetMergeEngine extends MergeEngine implements IMergeEngine
 				}
 				catch (IOException e)
 				{
-					StringBuffer message = new StringBuffer(512);
+					StringBuilder message = new StringBuilder(512);
 					logger.error(message.append("Could not move item to deleted items location ").append(sourceFile.getPath()));
 					message.setLength(0);
-					message = null;
 					result.setResolution(AssuranceResultResolution.PROCESSING_ERROR_ENCOUNTERED);
 					result.setResolutionError(e.getMessage());
 				}
-				scanDeletedItemsLocation = null;
 			}
 		}
-		
-		sourceFile = null;
-		targetFile = null;
 	}
 }

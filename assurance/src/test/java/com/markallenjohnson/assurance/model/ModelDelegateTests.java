@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -104,7 +100,7 @@ public class ModelDelegateTests
 			threadPool.register();
 			
 			Scan scan = modelDelegate.performScan(scanDefinition, threadPool, testHarness.getScanOptions());
-			assertTrue(scan.getUnmodifiableResults().size() == 0);
+			assertEquals(0, scan.getUnmodifiableResults().size());
 		}
 		finally
 		{
@@ -125,7 +121,7 @@ public class ModelDelegateTests
 			threadPool.register();
 			
 			Scan scan = modelDelegate.performScan(scanDefinition, threadPool, testHarness.getScanOptions());
-			assertTrue(scan.getUnmodifiableResults().size() == 0);
+			assertEquals(0, scan.getUnmodifiableResults().size());
 		}
 		finally
 		{
@@ -147,7 +143,7 @@ public class ModelDelegateTests
 			
 			Scan scan = modelDelegate.performScan(scanDefinition, threadPool, testHarness.getScanOptions());
 			assertNotNull(scan.getScanStarted());
-			assertTrue(scan.getUnmodifiableResults().size() == 1);
+			assertEquals(1, scan.getUnmodifiableResults().size());
 			for (ComparisonResult result : scan.getUnmodifiableResults())
 			{
 				assertEquals(AssuranceResultReason.FILE_DIRECTORY_MISMATCH, result.getReason());
@@ -174,7 +170,7 @@ public class ModelDelegateTests
 			
 			Scan scan = modelDelegate.performScan(scanDefinition, threadPool, testHarness.getScanOptions());
 			assertNotNull(scan.getScanStarted());
-			assertTrue(scan.getUnmodifiableResults().size() == 1);
+			assertEquals(1, scan.getUnmodifiableResults().size());
 			for (ComparisonResult result : scan.getUnmodifiableResults())
 			{
 				assertEquals(AssuranceResultReason.FILE_DIRECTORY_MISMATCH, result.getReason());
@@ -201,7 +197,7 @@ public class ModelDelegateTests
 			
 			Scan scan = modelDelegate.performScan(scanDefinition, threadPool, testHarness.getScanOptions());
 			assertNotNull(scan.getScanStarted());
-			assertTrue(scan.getUnmodifiableResults().size() == 0);
+			assertEquals(0, scan.getUnmodifiableResults().size());
 		}
 		finally
 		{
@@ -223,7 +219,7 @@ public class ModelDelegateTests
 			
 			Scan scan = modelDelegate.performScan(scanDefinition, threadPool, testHarness.getScanOptions());
 			assertNotNull(scan.getScanStarted());
-			assertTrue(scan.getUnmodifiableResults().size() == 1);
+			assertEquals(1, scan.getUnmodifiableResults().size());
 			for (ComparisonResult result : scan.getUnmodifiableResults())
 			{
 				assertEquals(AssuranceResultReason.COMPARE_FAILED, result.getReason());
@@ -250,7 +246,7 @@ public class ModelDelegateTests
 			
 			Scan scan = modelDelegate.performScan(scanDefinition, threadPool, testHarness.getScanOptions());
 			assertNotNull(scan.getScanStarted());
-			assertTrue(scan.getUnmodifiableResults().size() == 0);
+			assertEquals(0, scan.getUnmodifiableResults().size());
 		}
 		finally
 		{
@@ -1507,7 +1503,7 @@ public class ModelDelegateTests
 			
 			Scan scan = modelDelegate.performScan(scanDefinition, threadPool, testHarness.getScanOptions());
 
-			ComparisonResult result = null;
+			ComparisonResult result = new ComparisonResult();
 			for (ComparisonResult fetchedResult : scan.getUnmodifiableResults())
 			{
 				if (fetchedResult.getReason() == AssuranceResultReason.COMPARE_FAILED)
@@ -1546,7 +1542,7 @@ public class ModelDelegateTests
 			
 			Scan scan = modelDelegate.performScan(scanDefinition, threadPool, testHarness.getScanOptions());
 
-			ComparisonResult result = null;
+			ComparisonResult result = new ComparisonResult();
 			for (ComparisonResult fetchedResult : scan.getUnmodifiableResults())
 			{
 				if (fetchedResult.getReason() == AssuranceResultReason.COMPARE_FAILED)

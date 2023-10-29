@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -41,18 +37,11 @@ public class RawByteFileCompareValidator extends FileCompareValidator
 	{
 		if (this.areFilesComparable(file1, file2))
 		{
-			try
+			if (attributeComparer.compareFileAttributes(file1, file2, includeTimestamps, includeAdvancedAttributes))
 			{
-				if (attributeComparer.compareFileAttributes(file1, file2, includeTimestamps, includeAdvancedAttributes))
-				{
-					// NOTE:  This implementation is not built out, but demonstrates the strategy-based 
-					// notion of how to provide different comparison algorithms.
-					logger.warn("Raw file comparer is not implemented.");
-				}
-			}
-			finally
-			{
-
+				// NOTE:  This implementation is not built out, but demonstrates the strategy-based 
+				// notion of how to provide different comparison algorithms.
+				logger.warn("Raw file comparer is not implemented.");
 			}
 		}
 		
@@ -66,6 +55,6 @@ public class RawByteFileCompareValidator extends FileCompareValidator
 		// notion of how to provide different comparison algorithms.
 		logger.warn("Raw file comparer is not implemented.");
 		
-		return null;
+		return new byte[0];
 	}
 }

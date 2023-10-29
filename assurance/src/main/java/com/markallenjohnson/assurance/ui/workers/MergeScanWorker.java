@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -61,7 +57,7 @@ public class MergeScanWorker extends SwingWorker<Scan, Object> implements IProgr
 	{
 		this.notifier.fireEvent(new ScanMergeStartedEvent(this.scan));
 
-		Scan scan = null;
+		Scan localScan = null;
 
 		// Because we are operating in a Swing application, the session context
 		// closes after the initial bootstrap run. There appears to be an
@@ -81,7 +77,7 @@ public class MergeScanWorker extends SwingWorker<Scan, Object> implements IProgr
 			IAssuranceThreadPool threadPool = (IAssuranceThreadPool) springContext.getBean("ThreadPool");
 			threadPool.setNumberOfThreads(modelDelegate.getApplicationConfiguration().getNumberOfScanThreads());
 
-			scan = modelDelegate.mergeScan(this.scan, threadPool, this);
+			localScan = modelDelegate.mergeScan(this.scan, threadPool, this);
 			modelDelegate = null;
 			threadPool = null;
 		}
@@ -94,7 +90,7 @@ public class MergeScanWorker extends SwingWorker<Scan, Object> implements IProgr
 			springContext = null;
 		}
 
-		return scan;
+		return localScan;
 	}
 
 	@Override
@@ -107,6 +103,7 @@ public class MergeScanWorker extends SwingWorker<Scan, Object> implements IProgr
 		catch (InterruptedException e)
 		{
 			logger.info("Merge scans was aborted.");
+			Thread.currentThread().interrupt();
 		}
 		catch (ExecutionException e)
 		{

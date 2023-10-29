@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -100,21 +96,17 @@ public class PerformScanWorker extends SwingWorker<Scan, Object> implements IPro
 			modelDelegate = null;
 			threadPool = null;
 		}
-		catch (AssuranceNullFileReferenceException e)
+		catch (AssuranceNullFileReferenceException | AssuranceIncompleteScanDefinitionException e)
 		{
 			logger.error("An error was encountered when attempting to perform the scan", e);
 		}
-		catch (AssuranceIncompleteScanDefinitionException e)
-		{
-			logger.error("An error was encountered when attempting to perform the scan", e);
-		}
+		
 		finally
 		{
 			if (springContext != null)
 			{
 				springContext.close();
 			}
-			springContext = null;
 		}
 
 		return scan;
@@ -130,6 +122,7 @@ public class PerformScanWorker extends SwingWorker<Scan, Object> implements IPro
 		catch (InterruptedException e)
 		{
 			logger.info("Perform scan was aborted.");
+			Thread.currentThread().interrupt();
 		}
 		catch (ExecutionException e)
 		{

@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -130,7 +126,7 @@ public class ScanLaunchPanel extends JPanel implements ActionListener, IDialogRe
 			existingScanDefinitionsListConstraints.gridwidth = 2;
 			existingScanDefinitionsListConstraints.insets = new Insets(5, 5, 5, 5);
 
-			this.existingScanDefinitionsListPanel = new ListInputPanel<ScanDefinition>(this, this);
+			this.existingScanDefinitionsListPanel = new ListInputPanel<>(this, this);
 			existingScansPanel.add(this.existingScanDefinitionsListPanel, existingScanDefinitionsListConstraints);
 
 			GridBagConstraints scanButtonConstraints = new GridBagConstraints();
@@ -185,6 +181,7 @@ public class ScanLaunchPanel extends JPanel implements ActionListener, IDialogRe
 
 				public void ancestorMoved(AncestorEvent event)
 				{
+					// No op
 				}
 			});
 

@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -77,28 +73,28 @@ public class ComparisonResultListRenderer extends JPanel implements TableCellRen
 
 	public java.awt.Component getTableCellRendererComponent(JTable list, Object value, boolean isSelected, boolean cellHasFocus, int row, int column)
 	{
-		ComparisonResultPanel panel = new ComparisonResultPanel((ComparisonResult) value);
+		ComparisonResultPanel localPanel = new ComparisonResultPanel((ComparisonResult) value);
 
 		if (isSelected)
 		{
-			panel.setBackground(list.getSelectionBackground());
-			panel.setForeground(list.getSelectionForeground());
+			localPanel.setBackground(list.getSelectionBackground());
+			localPanel.setForeground(list.getSelectionForeground());
 		}
 		else
 		{
 			if ((row % 2.0) == 0)
 			{
-				panel.setBackground(Color.white);
+				localPanel.setBackground(Color.white);
 			}
 			else
 			{
-				panel.setBackground(Color.lightGray);
+				localPanel.setBackground(Color.lightGray);
 			}
 		}
 
-		list.setRowHeight(row, ((panel.getNumberOfLines() * 18) + 70));
+		list.setRowHeight(row, ((localPanel.getNumberOfLines() * 18) + 70));
 
-		return panel;
+		return localPanel;
 	}
 
 	public Object getCellEditorValue()
@@ -128,19 +124,21 @@ public class ComparisonResultListRenderer extends JPanel implements TableCellRen
 			if (!this.getPanel().isMerging())
 			{
 				if (this.getPanel().getParent() != null)
-				{
-					this.getPanel().getParent().remove(this.getPanel());
-				}
+		{
+			this.getPanel().getParent().remove(this.getPanel());
+}
 			}
 		}
 	}
 
 	public void addCellEditorListener(CellEditorListener l)
 	{
+		// No op
 	}
 
 	public void removeCellEditorListener(CellEditorListener l)
 	{
+		// No op
 	}
 
 	public java.awt.Component getTableCellEditorComponent(JTable list, Object value, boolean isSelected, int row, int column)

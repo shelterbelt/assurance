@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -124,8 +120,8 @@ public class PersistenceTests
 		assertEquals(1, other.getUnmodifiableResults().size());
 		ComparisonResult otherResult = scan.getUnmodifiableResults().iterator().next();
 		assertEquals(other.getId(), otherResult.getScan().getId());
-		assertEquals(otherResult.getReason(), AssuranceResultReason.COMPARE_FAILED);
-		assertEquals(otherResult.getResolution(), AssuranceResultResolution.UNRESOLVED);
+		assertEquals(AssuranceResultReason.COMPARE_FAILED, otherResult.getReason());
+		assertEquals(AssuranceResultResolution.UNRESOLVED, otherResult.getResolution());
 		assertEquals(otherResult.getSource().getFile().getPath(), testHarness.getTestFile1().getPath());
 		assertEquals(otherResult.getTarget().getFile().getPath(), testHarness.getTestFile3().getPath());
 		assertEquals(otherResult.getSource().getFileAttributes().getFileReference().getId(), otherResult.getSource().getId());
@@ -152,8 +148,8 @@ public class PersistenceTests
 		assertEquals(1, other.getUnmodifiableResults().size());
 		ComparisonResult otherResult = scan.getUnmodifiableResults().iterator().next();
 		assertEquals(other.getId(), otherResult.getScan().getId());
-		assertEquals(otherResult.getReason(), AssuranceResultReason.COMPARE_FAILED);
-		assertEquals(otherResult.getResolution(), AssuranceResultResolution.UNRESOLVED);
+		assertEquals(AssuranceResultReason.COMPARE_FAILED, otherResult.getReason());
+		assertEquals(AssuranceResultResolution.UNRESOLVED, otherResult.getResolution());
 		assertEquals(otherResult.getSource().getFile().getPath(), testHarness.getTestFile1().getPath());
 		assertEquals(otherResult.getTarget().getFile().getPath(), testHarness.getTestFile3().getPath());
 		assertEquals(otherResult.getSource().getFileAttributes().getFileReference().getId(), otherResult.getSource().getId());
@@ -303,8 +299,8 @@ public class PersistenceTests
 		entityManager.flush();
 		entityManager.clear();
 		ScanDefinition other = (ScanDefinition) entityManager.find(ScanDefinition.class, scanDefinition.getId());
-		assertEquals(other.getName(), "Test Scan Definition");
-		assertEquals(other.getMergeStrategy(), AssuranceMergeStrategy.TARGET);
+		assertEquals("Test Scan Definition", other.getName());
+		assertEquals(AssuranceMergeStrategy.TARGET, other.getMergeStrategy());
 		assertTrue(other.getAutoResolveConflicts());
 		assertEquals(1, other.getUnmodifiableScanMapping().size());
 		ScanDefinition originalScanDefinition = other.getUnmodifiableScanMapping().iterator().next().getScanDefinition();
@@ -331,8 +327,8 @@ public class PersistenceTests
 		entityManager.flush();
 		entityManager.clear();
 		ScanDefinition other = (ScanDefinition) entityManager.createQuery("select s from ScanDefinition s join s.scanMapping r where r.scanDefinition = :scanDefinition").setParameter("scanDefinition", scanDefinition).getSingleResult();
-		assertEquals(other.getName(), "Test Scan Definition");
-		assertEquals(other.getMergeStrategy(), AssuranceMergeStrategy.TARGET);
+		assertEquals("Test Scan Definition", other.getName());
+		assertEquals(AssuranceMergeStrategy.TARGET, other.getMergeStrategy());
 		assertTrue(other.getAutoResolveConflicts());
 		assertEquals(1, other.getUnmodifiableScanMapping().size());
 		ScanDefinition originalScanDefinition = other.getUnmodifiableScanMapping().iterator().next().getScanDefinition();

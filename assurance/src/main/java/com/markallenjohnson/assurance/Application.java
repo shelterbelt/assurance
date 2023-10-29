@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -87,7 +83,9 @@ public class Application
 		{
 			try 
 			{
-				inputStream.close();
+				if (inputStream != null) {
+					inputStream.close();
+				}
 			}
 			catch (IOException e) 
 			{
@@ -98,7 +96,7 @@ public class Application
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable()
 		{
-			private Logger logger = LogManager.getLogger(Application.class);
+			private Logger logger = LogManager.getLogger(".class");
 
 			public void run()
 			{
@@ -108,23 +106,18 @@ public class Application
 				{
 					Application.installDb();
 				}
-				catch (IOException e)
+				catch (IOException | SQLException e)
 				{
 					logger.fatal("Unable to install the application database.", e);
 					System.exit(1);
 				}
-				catch (SQLException e)
-				{
-					logger.fatal("Unable to install the application database.", e);
-					System.exit(1);
-				}
-
+				
 				IApplicationUI window = null;
 				ClassPathXmlApplicationContext springContext = null;
 				try
 				{
 					springContext = new ClassPathXmlApplicationContext("/META-INF/spring/app-context.xml");
-					StringBuffer message = new StringBuffer(256);
+					StringBuilder message = new StringBuilder(256);
 					logger.info(message.append("Spring Context: ").append(springContext));
 					message.setLength(0);
 					window = (IApplicationUI) springContext.getBean("ApplicationUI");
@@ -204,10 +197,10 @@ public class Application
 			String dbUrl = (String) properties.get("jdbc.url");
 			String dbUser = (String) properties.get("jdbc.username");
 			String dbPassword = (String) properties.get("jdbc.password");
-
+		
 			dbConnection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
-			ArrayList<String> listOfDatabases = new ArrayList<String>();
+			ArrayList<String> listOfDatabases = new ArrayList<>();
 			DatabaseMetaData meta = dbConnection.getMetaData();
 			String[] tableTypes = { "TABLE" };
 			rs = meta.getTables(null, null, Application.verificationTableName, tableTypes);

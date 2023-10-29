@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -56,7 +52,7 @@ public class ScanDefinition implements IInitializableEntity, IListDataProvider<S
 	private Long id;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "scanDefinition", orphanRemoval=true)
-	private Collection<ScanMappingDefinition> scanMapping = new LinkedHashSet<ScanMappingDefinition>();
+	private Collection<ScanMappingDefinition> scanMapping = new LinkedHashSet<>();
 
 	@Column(name = "STRATEGY")
 	private AssuranceMergeStrategy mergeStrategy = AssuranceMergeStrategy.SOURCE;
@@ -140,7 +136,7 @@ public class ScanDefinition implements IInitializableEntity, IListDataProvider<S
 	}
 
 	@Column(name = "AUTO_RESOLVE")
-	private Boolean autoResolveConflicts = Boolean.valueOf(false);//new Boolean(false);
+	private Boolean autoResolveConflicts = Boolean.valueOf(false);
 
 	public Boolean getIncludeNonCreationTimestamps() {
 		if (includeNonCreationTimestamps == null)
@@ -155,7 +151,7 @@ public class ScanDefinition implements IInitializableEntity, IListDataProvider<S
 	}
 
 	@Column(name = "INCLUDE_TIMESTAMPS")
-	private Boolean includeNonCreationTimestamps = Boolean.valueOf(false);//new Boolean(false);
+	private Boolean includeNonCreationTimestamps = Boolean.valueOf(false);
 
 	public Boolean getIncludeAdvancedAttributes() {
 		if (includeAdvancedAttributes == null)
@@ -170,7 +166,7 @@ public class ScanDefinition implements IInitializableEntity, IListDataProvider<S
 	}
 
 	@Column(name = "INCLUDE_ADVANCED_ATTRIBUTES")
-	private Boolean includeAdvancedAttributes = Boolean.valueOf(false);//new Boolean(false);
+	private Boolean includeAdvancedAttributes = Boolean.valueOf(false);
 
 	@Override
 	public String toString()

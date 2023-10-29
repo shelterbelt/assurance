@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -62,14 +58,12 @@ public class ApplicationDelegate implements IApplicationDelegate
 
 	public void loadApplicationInitializationState() 
 	{
-		StringBuffer message = new StringBuffer(256);
+		StringBuilder message = new StringBuilder(256);
 		logger.info(message.append("Starting application state initialization."));
 		message.setLength(0);
-		message = null;
 
 		InitializeApplicationStateWorker thread = new InitializeApplicationStateWorker(this.notificationProvider);
 		thread.execute();
-		thread = null;
 	}
 
 	public void performScan(ScanDefinition scanDefinition)
@@ -79,40 +73,34 @@ public class ApplicationDelegate implements IApplicationDelegate
 
 	public void performScan(ScanDefinition scanDefinition, boolean merge)
 	{
-		StringBuffer message = new StringBuffer(256);
+		StringBuilder message = new StringBuilder(256);
 		logger.info(message.append("Starting scan with scan defintion: ").append(scanDefinition));
 		message.setLength(0);
-		message = null;
 
 		PerformScanWorker thread = new PerformScanWorker(scanDefinition, merge, this.notificationProvider);
 		thread.execute();
-		thread = null;
 	}
 
 	public void mergeScan(Scan scan)
 	{
 		MergeScanWorker thread = new MergeScanWorker(scan, this.notificationProvider);
 		thread.execute();
-		thread = null;
 	}
 
 	public void mergeScanResult(ComparisonResult result, AssuranceMergeStrategy strategy)
 	{
 		MergeScanResultWorker thread = new MergeScanResultWorker(result, strategy, this.notificationProvider);
 		thread.execute();
-		thread = null;
 	}
 
 	public void saveScanDefinition(ScanDefinition scanDefinition)
 	{
-		StringBuffer message = new StringBuffer(256);
+		StringBuilder message = new StringBuilder(256);
 		logger.info(message.append("Saving scan defintion: ").append(scanDefinition));
 		message.setLength(0);
-		message = null;
 
 		SaveScanDefinitionWorker thread = new SaveScanDefinitionWorker(scanDefinition, this.notificationProvider);
 		thread.execute();
-		thread = null;
 	}
 
 	public void loadApplicationConfiguration() {
@@ -120,7 +108,6 @@ public class ApplicationDelegate implements IApplicationDelegate
 
 		LoadApplicationConfigurationWorker thread = new LoadApplicationConfigurationWorker(this.notificationProvider);
 		thread.execute();
-		thread = null;
 	}
 
 	public void saveApplicationConfiguration(ApplicationConfiguration configuration) 
@@ -129,7 +116,6 @@ public class ApplicationDelegate implements IApplicationDelegate
 
 		SaveApplicationConfigurationWorker thread = new SaveApplicationConfigurationWorker(configuration, this.notificationProvider);
 		thread.execute();
-		thread = null;
 	}
 
 	public void loadScanDefinitions()
@@ -138,31 +124,26 @@ public class ApplicationDelegate implements IApplicationDelegate
 
 		LoadScanDefinitionsWorker thread = new LoadScanDefinitionsWorker(this.notificationProvider);
 		thread.execute();
-		thread = null;
 	}
 
 	public void deleteScanDefinition(ScanDefinition scanDefinition)
 	{
-		StringBuffer message = new StringBuffer(256);
+		StringBuilder message = new StringBuilder(256);
 		logger.info(message.append("Deleting scan defintion: ").append(scanDefinition));
 		message.setLength(0);
-		message = null;
 
 		DeleteScanDefinitionWorker thread = new DeleteScanDefinitionWorker(scanDefinition, this.notificationProvider);
 		thread.execute();
-		thread = null;
 	}
 
 	public void loadScanResults(Scan scan)
 	{
-		StringBuffer message = new StringBuffer(256);
+		StringBuilder message = new StringBuilder(256);
 		logger.info(message.append("Loading results for scan: ").append(scan));
 		message.setLength(0);
-		message = null;
 
 		LoadScanResultsWorker thread = new LoadScanResultsWorker(scan, this.notificationProvider);
 		thread.execute();
-		thread = null;
 	}
 
 	public void loadScans()
@@ -171,31 +152,26 @@ public class ApplicationDelegate implements IApplicationDelegate
 
 		LoadScansWorker thread = new LoadScansWorker(this.notificationProvider);
 		thread.execute();
-		thread = null;
 	}
 
 	public void deleteScan(Scan scan)
 	{
-		StringBuffer message = new StringBuffer(256);
+		StringBuilder message = new StringBuilder(256);
 		logger.info(message.append("Deleting scan: ").append(scan));
 		message.setLength(0);
-		message = null;
 
 		DeleteScanWorker thread = new DeleteScanWorker(scan, this.notificationProvider);
 		thread.execute();
-		thread = null;
 	}
 
 	public void restoreDeletedItem(ComparisonResult result)
 	{
-		StringBuffer message = new StringBuffer(256);
+		StringBuilder message = new StringBuilder(256);
 		logger.info(message.append("Restoring deleted item for: ").append(result));
 		message.setLength(0);
-		message = null;
 
 		RestoreDeletedItemWorker thread = new RestoreDeletedItemWorker(result, this.notificationProvider);
 		thread.execute();
-		thread = null;
 	}
 
 	public void addEventObserver(Class<? extends IAssuranceEvent> eventClass, IEventObserver observer)

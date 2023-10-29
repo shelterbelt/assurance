@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -32,9 +28,6 @@ import java.awt.Insets;
 import java.awt.Dialog.ModalityType;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
@@ -180,7 +173,7 @@ public class ScanDefinitionPanel extends AbstractDialogInputPanel implements IDi
 			existingScanMappingsListConstraints.insets = new Insets(5, 5, 5, 5);
 
 			this.definition = (ScanDefinition) ModelUtils.initializeEntity(this.definition, ScanDefinition.SCAN_MAPPING_PROPERTY);
-			this.scanMappingsList = new ListInputPanel<ScanMappingDefinition>(this.definition, this);
+			this.scanMappingsList = new ListInputPanel<>(this.definition, this);
 			existingScanMappingsPanel.add(this.scanMappingsList, existingScanMappingsListConstraints);
 
 			GridBagConstraints optionsPanelConstraints = new GridBagConstraints();
@@ -223,17 +216,11 @@ public class ScanDefinitionPanel extends AbstractDialogInputPanel implements IDi
 			strategyComboBoxConstraints.insets = new Insets(5, 5, 0, 5);
 
 			String[] strategyLabels = { "Source", "Target", "Both" };
-			this.strategyComboBox = new JComboBox<String>(strategyLabels);
+			this.strategyComboBox = new JComboBox<>(strategyLabels);
 			// NOTE: We should have better validation of the data state for these controls.
 			// We could run into problems as the application versions over time.
 			this.strategyComboBox.setSelectedIndex(this.definition.getMergeStrategy().ordinal());
-			this.strategyComboBox.addActionListener(new ActionListener()
-			{
-				public void actionPerformed(ActionEvent e)
-				{
-					validateFormState();
-				}
-			});
+			this.strategyComboBox.addActionListener(e -> validateFormState());
 			optionsPanel.add(this.strategyComboBox, strategyComboBoxConstraints);
 
 			GridBagConstraints autoMergeCheckBoxConstraints = new GridBagConstraints();
@@ -247,13 +234,7 @@ public class ScanDefinitionPanel extends AbstractDialogInputPanel implements IDi
 
 			this.autoMergeCheckBox.setHorizontalTextPosition(SwingConstants.LEFT);
 			this.autoMergeCheckBox.setSelected(this.definition.getAutoResolveConflicts());
-			this.autoMergeCheckBox.addItemListener(new ItemListener()
-			{
-				public void itemStateChanged(ItemEvent e)
-				{
-					validateFormState();
-				}
-			});
+			this.autoMergeCheckBox.addItemListener(e -> validateFormState());
 			optionsPanel.add(this.autoMergeCheckBox, autoMergeCheckBoxConstraints);
 
 			GridBagConstraints includeNonCreationTimestampsCheckBoxConstraints = new GridBagConstraints();
@@ -267,13 +248,7 @@ public class ScanDefinitionPanel extends AbstractDialogInputPanel implements IDi
 
 			this.includeNonCreationTimestampCheckBox.setHorizontalTextPosition(SwingConstants.LEFT);
 			this.includeNonCreationTimestampCheckBox.setSelected(this.definition.getIncludeNonCreationTimestamps());
-			this.includeNonCreationTimestampCheckBox.addItemListener(new ItemListener()
-			{
-				public void itemStateChanged(ItemEvent e)
-				{
-					validateFormState();
-				}
-			});
+			this.includeNonCreationTimestampCheckBox.addItemListener(e -> validateFormState());
 			optionsPanel.add(this.includeNonCreationTimestampCheckBox, includeNonCreationTimestampsCheckBoxConstraints);
 
 			GridBagConstraints advancedAttributesCheckBoxConstraints = new GridBagConstraints();
@@ -287,13 +262,7 @@ public class ScanDefinitionPanel extends AbstractDialogInputPanel implements IDi
 
 			this.includeAdvancedAttributesCheckBox.setHorizontalTextPosition(SwingConstants.LEFT);
 			this.includeAdvancedAttributesCheckBox.setSelected(this.definition.getAutoResolveConflicts());
-			this.includeAdvancedAttributesCheckBox.addItemListener(new ItemListener()
-			{
-				public void itemStateChanged(ItemEvent e)
-				{
-					validateFormState();
-				}
-			});
+			this.includeAdvancedAttributesCheckBox.addItemListener(e -> validateFormState());
 			optionsPanel.add(this.includeAdvancedAttributesCheckBox, advancedAttributesCheckBoxConstraints);
 			
 			this.scanMappingsList.loadData();
@@ -325,7 +294,7 @@ public class ScanDefinitionPanel extends AbstractDialogInputPanel implements IDi
 		{
 			// NOTE:  Leaking model initialization like this into the UI is less than ideal.
 			this.definition = (ScanDefinition) ModelUtils.initializeEntity(this.definition, ScanDefinition.SCAN_MAPPING_PROPERTY);
-			if (this.definition.getUnmodifiableScanMapping().size() > 0)
+			if (!this.definition.getUnmodifiableScanMapping().isEmpty())
 			{
 				this.definition.removeMappingDefinition(selectedItem);
 			}
@@ -389,7 +358,7 @@ public class ScanDefinitionPanel extends AbstractDialogInputPanel implements IDi
 	{
 		if (result == AssuranceDialogResult.CONFIRM)
 		{
-			if ((resultObject != null) && (resultObject instanceof ScanMappingDefinition))
+			if (resultObject instanceof ScanMappingDefinition)
 			{
 				boolean bypass = false;
 				for (ScanMappingDefinition mapping : this.definition.getUnmodifiableScanMapping())
@@ -408,7 +377,7 @@ public class ScanDefinitionPanel extends AbstractDialogInputPanel implements IDi
 					}
 				}
 				
-				if (bypass != true)
+				if (!bypass)
 				{
 					if (!this.definition.getUnmodifiableScanMapping().contains(resultObject))
 					{
@@ -440,7 +409,7 @@ public class ScanDefinitionPanel extends AbstractDialogInputPanel implements IDi
 
 	public void handleSecondaryButtonClick(ScanMappingDefinition item) 
 	{
-		this.deleteScanMappingDefinition(item);;
+		this.deleteScanMappingDefinition(item);
 	}
 
 	public boolean listRequiresRecord() 
@@ -470,5 +439,6 @@ public class ScanDefinitionPanel extends AbstractDialogInputPanel implements IDi
 
 	public void listValueChanged(boolean itemIsSelected) 
 	{
+		// No op
 	}
 }

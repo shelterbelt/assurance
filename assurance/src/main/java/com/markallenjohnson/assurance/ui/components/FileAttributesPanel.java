@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -102,7 +98,6 @@ public class FileAttributesPanel extends JPanel implements IDialogInputPanel
 				StringBuilder title = new StringBuilder(128);
 				this.dialogTitle = title.append("Attributes for ").append(file.getFile().getName()).toString();
 				title.setLength(0);
-				title = null;
 			}
 
 			GridBagLayout gridbag = new GridBagLayout();
@@ -144,10 +139,8 @@ public class FileAttributesPanel extends JPanel implements IDialogInputPanel
 				{
 					filePath = diskFile.getPath();
 				}
-				diskFile = null;
 			}
 			JLabel filePathValue = new JLabel(filePath);
-			filePath = null;
 			filePanel.add(filePathValue, filePathValueConstraints);
 
 			this.add(filePanel, filePanelConstraints);
@@ -190,7 +183,7 @@ public class FileAttributesPanel extends JPanel implements IDialogInputPanel
 
 			FileAttributes attributes = fileReference.getFileAttributes();
 
-			this.addFileAttributeToPanel(attributePanel, anchor, index, "Content Hash: ", (attributes.getContentsHash() != null) ? attributes.getContentsHash().toString() : "");
+			this.addFileAttributeToPanel(attributePanel, anchor, index, "Content Hash: ", (attributes.getContentsHash() != null) ? attributes.getContentsHash() : "");
 			index++;
 			this.addFileAttributeToPanel(attributePanel, anchor, index, "Creation Time: ", (attributes.getCreationTime() != null) ? attributes.getCreationTime().toString() : "");
 			index++;
@@ -232,8 +225,6 @@ public class FileAttributesPanel extends JPanel implements IDialogInputPanel
 			index++;
 			// User-defined Attributes
 			this.addFileAttributeToPanel(attributePanel, anchor, index, "User-defined Attributes Hash: ", (attributes.getUserDefinedAttributesHash() != null) ? attributes.getUserDefinedAttributesHash() : "");
-			
-			attributes = null;
 		}
 
 		return attributePanel;

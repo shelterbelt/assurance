@@ -3,11 +3,7 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
- * 
- */
-/*
- * Copyright 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +31,6 @@ import org.apache.logging.log4j.LogManager;
 import org.springframework.stereotype.Component;
 
 import com.markallenjohnson.assurance.Application;
-import com.markallenjohnson.assurance.exceptions.AssuranceNullFileReferenceException;
 import com.markallenjohnson.assurance.model.concurrency.IAssuranceThreadPool;
 import com.markallenjohnson.assurance.model.concurrency.MergeWorker;
 import com.markallenjohnson.assurance.model.entities.ComparisonResult;
@@ -54,8 +49,6 @@ public abstract class MergeEngine implements IMergeEngine
 	// the possible benefit may warrant.
 	private static String deletedItemsLocationPath = System.getProperty("user.home") + File.separator + "." + Application.applicationShortName.toLowerCase();
 
-	public abstract void mergeResult(ComparisonResult result, IProgressMonitor monitor) throws AssuranceNullFileReferenceException;
-
 	public void mergeScan(Scan scan, IAssuranceThreadPool threadPool, IProgressMonitor monitor)
 	{
 		for (ComparisonResult result : scan.getUnmodifiableResults())
@@ -64,10 +57,7 @@ public abstract class MergeEngine implements IMergeEngine
 			{
 				MergeWorker worker = new MergeWorker(this, result, threadPool, monitor);
 				threadPool.submit(worker);
-				worker = null;
 			}
-			
-			result = null;
 		}
 	}
 
@@ -93,10 +83,9 @@ public abstract class MergeEngine implements IMergeEngine
 				StringBuilder message = new StringBuilder(512);
 				monitor.publish(message.append("Restoring ").append(file.toString()).toString());
 				message.setLength(0);
-				message = null;
 			}
 
-			if (deletedFile.exists())
+			if ((deletedFile != null) && deletedFile.exists())
 			{
 				try
 				{
@@ -105,10 +94,9 @@ public abstract class MergeEngine implements IMergeEngine
 				}
 				catch (IOException e)
 				{
-					StringBuffer message = new StringBuffer(512);
+					StringBuilder message = new StringBuilder(512);
 					logger.warn(message.append("Could not move item from deleted items location ").append(deletedFile.getPath()));
 					message.setLength(0);
-					message = null;
 				}
 			}
 			else
@@ -118,9 +106,6 @@ public abstract class MergeEngine implements IMergeEngine
 				result.setResolutionError("Item to restore does not exist.");
 			}
 		}
-		
-		file = null;
-		deletedFile = null;
 	}
 
 	private boolean shouldMerge(ScanDefinition scanDefinition, ComparisonResult result)
@@ -129,7 +114,7 @@ public abstract class MergeEngine implements IMergeEngine
 
 		if (scanDefinition != null)
 		{
-			if (!scanDefinition.getAutoResolveConflicts())
+			if (Boolean.FALSE.equals(scanDefinition.getAutoResolveConflicts()))
 			{
 				File sourceFile = result.getSource().getFile();
 				File targetFile = result.getTarget().getFile();
@@ -147,9 +132,6 @@ public abstract class MergeEngine implements IMergeEngine
 				{
 					shouldMerge = false;
 				}
-				
-				sourceFile = null;
-				targetFile = null;
 			}
 		}
 
@@ -180,12 +162,7 @@ public abstract class MergeEngine implements IMergeEngine
 		StringBuilder pathBuffer = new StringBuilder(512);
 		String path = pathBuffer.append(getApplicationDeletedItemsLocation().getPath()).append(File.separator).append("unknown_scan").toString();
 		pathBuffer.setLength(0);
-		pathBuffer = null;
 		
-		File result = new File(path);
-		
-		path = null;
-		
-		return result;
+		return new File(path);
 	}
 }

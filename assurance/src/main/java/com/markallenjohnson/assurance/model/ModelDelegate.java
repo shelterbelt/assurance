@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -115,7 +111,6 @@ public class ModelDelegate implements IModelDelegate
 				{
 					Date whenCompleted = new Date();
 					scan.setScanCompleted(whenCompleted);
-					whenCompleted = null;
 				}
 			}
 		}
@@ -149,7 +144,6 @@ public class ModelDelegate implements IModelDelegate
 			{
 				throw new AssuranceNullFileReferenceException("A source or target definition is null.");
 			}
-			mapping = null;
 		}
 
 		Scan scan = new Scan();
@@ -162,7 +156,6 @@ public class ModelDelegate implements IModelDelegate
 		for (ScanMappingDefinition definitionMapping : scanDefinition.getUnmodifiableScanMapping())
 		{
 			scan = this.performScan(scan, definitionMapping.getSource(), definitionMapping.getTarget(), threadPool, options, definitionMapping.getUnmodifiableExclusions(), monitor);
-			definitionMapping = null;
 		}
 
 		threadPool.await();
@@ -173,7 +166,6 @@ public class ModelDelegate implements IModelDelegate
 			{
 				Date whenCompleted = new Date();
 				scan.setScanCompleted(whenCompleted);
-				whenCompleted = null;
 				entityManager.persist(scan);
 				entityManager.flush();
 			}
@@ -199,7 +191,6 @@ public class ModelDelegate implements IModelDelegate
 		Query query = entityManager.createQuery("from ScanDefinition");
 		@SuppressWarnings("unchecked")
 		List<ScanDefinition> results = query.getResultList();
-		query = null;
 		return results;
 	}
 
@@ -221,7 +212,6 @@ public class ModelDelegate implements IModelDelegate
 		Query query = entityManager.createQuery("from ComparisonResult cr where cr.scan = :scan").setParameter("scan", scan);
 		@SuppressWarnings("unchecked")
 		List<ComparisonResult> results = query.getResultList();
-		query = null;
 		return results;
 	}
 	
@@ -248,7 +238,6 @@ public class ModelDelegate implements IModelDelegate
 		Query query = entityManager.createQuery("from Scan");
 		@SuppressWarnings("unchecked")
 		List<Scan> results = query.getResultList();
-		query = null;
 		return results;
 	}
 
@@ -281,17 +270,13 @@ public class ModelDelegate implements IModelDelegate
 		IMergeEngine mergeEngine = this.mergeEngineFactory.createInstance(strategy);
 		try
 		{
-			mergeEngine.mergeResult(result, monitor);;
+			mergeEngine.mergeResult(result, monitor);
 		}
 		catch (AssuranceNullFileReferenceException anfre)
 		{
 			logger.error("An error occurred when merging the source with the target.");
 			result.setResolution(AssuranceResultResolution.PROCESSING_ERROR_ENCOUNTERED);
 			result.setResolutionError(anfre.getMessage());
-		}
-		finally
-		{
-			mergeEngine = null;
 		}
 
 		synchronized (result)
@@ -323,7 +308,6 @@ public class ModelDelegate implements IModelDelegate
 		{
 			strategy = scanDefinition.getMergeStrategy();
 		}
-		scanDefinition = null;
 		IMergeEngine mergeEngine = this.mergeEngineFactory.createInstance(strategy);
 		mergeEngine.mergeScan(scan, threadPool, monitor);
 
@@ -364,7 +348,6 @@ public class ModelDelegate implements IModelDelegate
 
 		IMergeEngine mergeEngine = this.mergeEngineFactory.createInstance(strategy);
 		mergeEngine.restoreDeletedItem(result, monitor);
-		mergeEngine = null;
 
 		entityManager.persist(result);
 		entityManager.flush();
@@ -378,14 +361,13 @@ public class ModelDelegate implements IModelDelegate
 		Query query = entityManager.createQuery("from ApplicationConfiguration");
 		@SuppressWarnings("unchecked")
 		List<ApplicationConfiguration> results = query.getResultList();
-		query = null;
 		if (results.size() > 1)
 		{
 			logger.warn("Multiple application configuration records detected.  Using the first.");
 		}
 		else
 		{
-			if (results.size() == 0)
+			if (results.isEmpty())
 			{
 				logger.warn("No application configuration found.  Creating default.");
 				results.add(ApplicationConfiguration.createDefaultConfiguration());

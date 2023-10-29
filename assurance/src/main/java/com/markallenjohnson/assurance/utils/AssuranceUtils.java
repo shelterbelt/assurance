@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -34,6 +30,10 @@ import org.apache.logging.log4j.LogManager;
 
 public class AssuranceUtils
 {
+	private AssuranceUtils() {
+		throw new IllegalStateException("Utility class");
+	}
+
 	public static Platform getPlatform()
 	{
 		String os = System.getProperty("os.name").toLowerCase();
@@ -50,8 +50,6 @@ public class AssuranceUtils
 		{
 			return Platform.LINUX;
 		}
-		
-		os = null;
 	
 		return Platform.UNRECOGNIZED;
 	}
@@ -80,9 +78,6 @@ public class AssuranceUtils
 				result = true;
 			}
 		}
-		
-		logger = null;
-		fileAttributes = null;
 
 		return result;
 	}
@@ -92,9 +87,8 @@ public class AssuranceUtils
 		String formattedProcessingTime = "";
 
 		StringBuilder timestampString = new StringBuilder(128);
-		formattedProcessingTime = timestampString.append(/*new Long(timestamp / (24 * 60 * 60 *1000))*/Long.valueOf(timestamp / (24 * 60 * 60 *1000)).toString()).append(" days, ").append(String.format("%02d", /*new Long((timestamp / (60 * 60 *1000) % 24))*/Long.valueOf(timestamp / (60 * 60 *1000) % 24))).append(":").append(String.format("%02d", /*new Long((timestamp / (60 *1000) % 60))*/Long.valueOf(timestamp / (60 *1000) % 60))).append(":").append(String.format("%02d", /*new Long((timestamp / (1000) % 60))*/Long.valueOf(timestamp / (1000) % 60))).toString();
+		formattedProcessingTime = timestampString.append(/*new Long(timestamp / (24 * 60 * 60 *1000))*/Long.toString(timestamp / (24 * 60 * 60 *1000))).append(" days, ").append(String.format("%02d", /*new Long((timestamp / (60 * 60 *1000) % 24))*/Long.valueOf(timestamp / (60 * 60 *1000) % 24))).append(":").append(String.format("%02d", /*new Long((timestamp / (60 *1000) % 60))*/Long.valueOf(timestamp / (60 *1000) % 60))).append(":").append(String.format("%02d", /*new Long((timestamp / (1000) % 60))*/Long.valueOf(timestamp / (1000) % 60))).toString();
 		timestampString.setLength(0);
-		timestampString = null;
 		
 		return formattedProcessingTime;
 	}

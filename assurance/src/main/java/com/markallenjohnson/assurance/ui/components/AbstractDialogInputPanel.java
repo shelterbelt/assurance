@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,15 +21,13 @@
 
 package com.markallenjohnson.assurance.ui.components;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import com.markallenjohnson.assurance.ui.components.dialogs.AssuranceDialogMode;
 import com.markallenjohnson.assurance.ui.components.dialogs.AssuranceDialogResult;
 import com.markallenjohnson.assurance.ui.components.dialogs.IDialogInputPanel;
-import com.markallenjohnson.assurance.ui.components.validators.IFormStateValidator;
 
-public abstract class AbstractDialogInputPanel extends AbstractInputPanel implements ActionListener, IDialogInputPanel, IFormStateValidator 
+public abstract class AbstractDialogInputPanel extends AbstractInputPanel implements ActionListener, IDialogInputPanel 
 {
 	private static final long serialVersionUID = 1L;
 
@@ -69,10 +63,6 @@ public abstract class AbstractDialogInputPanel extends AbstractInputPanel implem
 	{
 		this.dialogTitle = title;
 	}
-
-	public abstract Object getResultObject();
-
-	public abstract void actionPerformed(ActionEvent e);
 
 	// NOTE:  This is not a great abstraction.  While it works well, all an 
 	// implementer would need to do to bypass the base validation is override 

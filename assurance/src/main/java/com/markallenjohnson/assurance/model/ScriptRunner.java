@@ -5,8 +5,8 @@ package com.markallenjohnson.assurance.model;
  * from the iBATIS Apache project. Only removed dependency on Resource class
  * and a constructor
  * 
- */
-/*
+ * ------------------------------
+ * 
  *  Copyright 2004 Clinton Begin
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");

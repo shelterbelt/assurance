@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -86,7 +82,7 @@ public class ScanHistoryPanel extends JPanel implements IEventObserver, IListInp
 			existingScansPanelConstraints.gridwidth = 1;
 			existingScansPanelConstraints.insets = new Insets(0, 0, 0, 0);
 
-			this.existingScansListPanel = new ListInputPanel<Scan>(this, this, true, true);
+			this.existingScansListPanel = new ListInputPanel<>(this, this, true, true);
 			this.add(this.existingScansListPanel, existingScansPanelConstraints);
 
 			this.addAncestorListener(new AncestorListener()
@@ -109,6 +105,7 @@ public class ScanHistoryPanel extends JPanel implements IEventObserver, IListInp
 
 				public void ancestorMoved(AncestorEvent event)
 				{
+					// No op
 				}
 			});
 
@@ -147,7 +144,7 @@ public class ScanHistoryPanel extends JPanel implements IEventObserver, IListInp
 
 	public void handlePrimaryButtonClick(Scan item)
 	{
-		this.applicationDelegate.deleteScan(this.existingScansListPanel.getSelectedValue());;
+		this.applicationDelegate.deleteScan(this.existingScansListPanel.getSelectedValue());
 	}
 
 	public void handleSecondaryButtonClick() 
@@ -157,7 +154,7 @@ public class ScanHistoryPanel extends JPanel implements IEventObserver, IListInp
 
 	public void handleSecondaryButtonClick(Scan item)
 	{
-		this.applicationDelegate.mergeScan(this.existingScansListPanel.getSelectedValue());;
+		this.applicationDelegate.mergeScan(this.existingScansListPanel.getSelectedValue());
 	}
 
 	public boolean listRequiresRecord()
@@ -192,7 +189,7 @@ public class ScanHistoryPanel extends JPanel implements IEventObserver, IListInp
 		// NOTE: Having to pass a value to the event on error isn't ideal.
 		applicationDelegate.fireEvent(new SelectedScanChangedEvent(((existingScansListPanel.getSelectedIndex() < 0) || (existingScansListPanel.getSelectedValue() == null)) ? new Scan() : existingScansListPanel.getSelectedValue()));
 		
-		if (itemIsSelected == true)
+		if (itemIsSelected)
 		{
 			Scan selectedValue = existingScansListPanel.getSelectedValue();
 			if (selectedValue != null)

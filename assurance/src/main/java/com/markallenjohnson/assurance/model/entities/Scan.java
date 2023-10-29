@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -66,14 +62,14 @@ public class Scan implements IInitializableEntity
 	// a Join Table. Best to treat them as bi-directional unless there is a
 	// compelling reason not to.
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "scan")
-	private Collection<ComparisonResult> results = new LinkedHashSet<ComparisonResult>();
+	private Collection<ComparisonResult> results = new LinkedHashSet<>();
 
 	@OneToOne
 	@JoinColumn(name = "SCAN_DEF_ID")
 	private ScanDefinition scanDef;
 
 	@Transient
-	private List<Thread> processingThreads = new ArrayList<Thread>();
+	private List<Thread> processingThreads = new ArrayList<>();
 
 	@Column(name = "WHEN_STARTED")
 	private Date scanStarted = null;
@@ -86,7 +82,7 @@ public class Scan implements IInitializableEntity
 		this.setScanStarted(new Date());
 	}
 
-	public ScanDefinition getScanDef()
+	public synchronized ScanDefinition getScanDef()
 	{
 		return scanDef;
 	}
@@ -117,8 +113,9 @@ public class Scan implements IInitializableEntity
 			{
 				Hibernate.initialize(results);
 			}
+
+			return results;
 		}
-		return results;
 	}
 
 	// NOTE: Review if immutable should be the public default.
@@ -167,10 +164,6 @@ public class Scan implements IInitializableEntity
 		String description = (this.scanDef != null) ? descriptionBuffer.append(scanName).append(" - ").append(dateFormat.format(this.getScanStarted())).append(", Time: ").append(formattedProcessingTime).toString() : "<annonymous scan>";
 		descriptionBuffer.setLength(0);
 		
-		formattedProcessingTime = null;
-		dateFormat = null;
-		descriptionBuffer = null;
-		
 		return description;
 	}
 
@@ -181,15 +174,12 @@ public class Scan implements IInitializableEntity
 
 	private void setScanStarted(Date scanStarted)
 	{
-		// The database schema has a constraint against scanStarted
-		// being null;
+		// There is a database constraint on this field being null				
 		if (scanStarted == null)
 		{
 			scanStarted = new Date();
 		}
 		this.scanStarted = scanStarted;
-
-		scanStarted = null;
 	}
 
 	public Date getScanCompleted() 
@@ -210,10 +200,6 @@ public class Scan implements IInitializableEntity
 		buffer.setLength(0);
 		String path = buffer.append(appDeletedItemsLocation.getPath()).append(File.separator).append(scanFolderName).toString();
 		buffer.setLength(0);
-		
-		buffer = null;
-		dateFormat = null;
-		scanFolderName = null;
 
 		return new File(path);
 	}

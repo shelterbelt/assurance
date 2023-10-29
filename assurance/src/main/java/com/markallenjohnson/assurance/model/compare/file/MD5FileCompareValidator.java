@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -46,12 +42,9 @@ public abstract class MD5FileCompareValidator extends FileCompareValidator
 		byte[] file2Hash = this.calculateHashForFile(file2);
 
 		boolean result = MessageDigest.isEqual(file1Hash, file2Hash);
-		file1Hash = null;
-		file2Hash = null;
-		StringBuffer message = new StringBuffer(512);
+		StringBuilder message = new StringBuilder(512);
 		logger.info(message.append("Comparison for ").append(file1).append(" and ").append(file2).append(" is: ").append(result));
 		message.setLength(0);
-		message = null;
 		return result;
 	}
 

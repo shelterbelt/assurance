@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -60,7 +56,7 @@ public class RestoreDeletedItemWorker extends SwingWorker<ComparisonResult, Obje
 	{
 		this.notifier.fireEvent(new DeletedItemRestoreStartedEvent(this.result));
 
-		ComparisonResult result = null;
+		ComparisonResult localResult = null;
 
 		// Because we are operating in a Swing application, the session context
 		// closes after the initial bootstrap run. There appears to be an
@@ -78,7 +74,7 @@ public class RestoreDeletedItemWorker extends SwingWorker<ComparisonResult, Obje
 			springContext = new ClassPathXmlApplicationContext("/META-INF/spring/app-context.xml");
 			IModelDelegate modelDelegate = (IModelDelegate) springContext.getBean("ModelDelegate");
 
-			result = modelDelegate.restoreDeletedItem(this.result, this);
+			localResult = modelDelegate.restoreDeletedItem(this.result, this);
 			modelDelegate = null;
 		}
 		finally
@@ -90,7 +86,7 @@ public class RestoreDeletedItemWorker extends SwingWorker<ComparisonResult, Obje
 			springContext = null;
 		}
 
-		return result;
+		return localResult;
 	}
 
 	@Override
@@ -103,6 +99,7 @@ public class RestoreDeletedItemWorker extends SwingWorker<ComparisonResult, Obje
 		catch (InterruptedException e)
 		{
 			logger.info("Restore deleted item was aborted.");
+			Thread.currentThread().interrupt();
 		}
 		catch (ExecutionException e)
 		{

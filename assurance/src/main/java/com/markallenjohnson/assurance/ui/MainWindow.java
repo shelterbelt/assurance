@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -44,8 +40,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -85,7 +79,7 @@ public class MainWindow extends JFrame implements IApplicationUI, IEventObserver
 
 	private int viewHistoryMenuItemIndex = 1;
 
-	private JMenuBar menuBar;
+	private JMenuBar appMenuBar;
 	private JRadioButtonMenuItem viewScanMenuItem;
 	private JRadioButtonMenuItem viewHistoryMenuItem;
 
@@ -172,20 +166,16 @@ public class MainWindow extends JFrame implements IApplicationUI, IEventObserver
 
 			this.resultsPanel.setPreferredSize(new Dimension(600, 400));
 
-			this.topArea.addChangeListener(new ChangeListener()
-			{
-				public void stateChanged(ChangeEvent e)
+			this.topArea.addChangeListener(e -> {
+				resultsPanel.resetPanel();
+				// NOTE:  This isn't ideal.  It feels brittle.
+				if (topArea.getSelectedIndex() == viewHistoryMenuItemIndex)
 				{
-					resultsPanel.resetPanel();
-					// NOTE:  This isn't ideal.  It feels brittle.
-					if (topArea.getSelectedIndex() == viewHistoryMenuItemIndex)
-					{
-						viewHistoryMenuItem.setSelected(true);
-					}
-					else
-					{
-						viewScanMenuItem.setSelected(true);
-					}
+					viewHistoryMenuItem.setSelected(true);
+				}
+				else
+				{
+					viewScanMenuItem.setSelected(true);
 				}
 			});
 
@@ -224,7 +214,7 @@ public class MainWindow extends JFrame implements IApplicationUI, IEventObserver
 			JMenu menu;
 			JMenuItem menuItem;
 
-			menuBar = new JMenuBar();
+			appMenuBar = new JMenuBar();
 
 			StringBuilder accessiblityLabel = new StringBuilder(128);
 			if (AssuranceUtils.getPlatform() != Platform.MAC)
@@ -232,7 +222,7 @@ public class MainWindow extends JFrame implements IApplicationUI, IEventObserver
 				menu = new JMenu(Application.applicationShortName);
 				menu.getAccessibleContext().setAccessibleDescription(accessiblityLabel.append("Actions for ").append(Application.applicationShortName).append(" application").toString());
 				accessiblityLabel.setLength(0);
-				menuBar.add(menu);
+				appMenuBar.add(menu);
 
 				menuItem = new JMenuItem(MainWindow.quitApplicationMenuLabel, KeyEvent.VK_Q);
 				menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
@@ -255,7 +245,7 @@ public class MainWindow extends JFrame implements IApplicationUI, IEventObserver
 			menu = new JMenu("Scan");
 			menu.setMnemonic(KeyEvent.VK_S);
 			menu.getAccessibleContext().setAccessibleDescription("Actions for file scans");
-			menuBar.add(menu);
+			appMenuBar.add(menu);
 
 			menuItem = new JMenuItem(MainWindow.newScanDefinitonMenuLabel, KeyEvent.VK_N);
 			menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
@@ -290,7 +280,7 @@ public class MainWindow extends JFrame implements IApplicationUI, IEventObserver
 			menu = new JMenu("Results");
 			menu.setMnemonic(KeyEvent.VK_R);
 			menu.getAccessibleContext().setAccessibleDescription("Actions for scan results");
-			menuBar.add(menu);
+			appMenuBar.add(menu);
 
 			menuItem = new JMenuItem(MainWindow.replaceSourceMenuLabel, KeyEvent.VK_O);
 			menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
@@ -324,7 +314,7 @@ public class MainWindow extends JFrame implements IApplicationUI, IEventObserver
 			menu.setMnemonic(KeyEvent.VK_V);
 			menu.getAccessibleContext().setAccessibleDescription(accessiblityLabel.append("Views within ").append(Application.applicationShortName).toString());
 			accessiblityLabel.setLength(0);
-			menuBar.add(menu);
+			appMenuBar.add(menu);
 
 			ButtonGroup group = new ButtonGroup();
 
@@ -347,7 +337,7 @@ public class MainWindow extends JFrame implements IApplicationUI, IEventObserver
 				menu = new JMenu("Tools");
 				menu.getAccessibleContext().setAccessibleDescription(accessiblityLabel.append("Additional actions for ").append(Application.applicationShortName).append(" application").toString());
 				accessiblityLabel.setLength(0);
-				menuBar.add(menu);
+				appMenuBar.add(menu);
 
 				menuItem = new JMenuItem(MainWindow.settingsMenuLabel, KeyEvent.VK_COMMA);
 				menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_COMMA, ActionEvent.CTRL_MASK));
@@ -358,7 +348,7 @@ public class MainWindow extends JFrame implements IApplicationUI, IEventObserver
 				menu.add(menuItem);
 			}
 
-			this.setJMenuBar(menuBar);
+			this.setJMenuBar(appMenuBar);
 
 			this.initialized = true;
 		}
@@ -424,18 +414,17 @@ public class MainWindow extends JFrame implements IApplicationUI, IEventObserver
 				menuIndex = this.resultsMenuIndex;
 			}
 			this.setMenuState(menuIndex, enabled);
-			enabled = null;
 		}
 	}
 
-	private void setMenuState(int menuIndex, Boolean enabled)
+	private void setMenuState(int menuIndex, boolean enabled)
 	{
 		this.setMenuState(menuIndex, enabled, false);
 	}
 	
-	private void setMenuState(int menuIndex, Boolean enabled, Boolean ignoreExceptions)
+	private void setMenuState(int menuIndex, boolean enabled, boolean ignoreExceptions)
 	{
-		JMenu relevantMenu = this.menuBar.getMenu(menuIndex);
+		JMenu relevantMenu = this.appMenuBar.getMenu(menuIndex);
 		
 		if (relevantMenu != null)
 		{

@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -30,29 +26,32 @@ import com.apple.eawt.ApplicationEvent;
 
 public class MacApplicationAdapter extends ApplicationAdapter {
 	
-	  private IApplicationUI handler;
-	   
-	  public MacApplicationAdapter(IApplicationUI handler)
-	  {
-		  this.handler = handler;
-	  }
-	 
-	  public void handleQuit(ApplicationEvent e)
-	  {
-		  System.exit(0);
-	  }
-	 
-	  public void handleAbout(ApplicationEvent e)
-	  {
-		  // NOTE:  Enable these lines to display the application-provided
-		  // About dialog on OS X.
-		  // Choosing to use the Mac provided dialog on OSX.
-		  //e.setHandled(true);
-		  //this.handler.displayAboutDialog();
-	  }
-	 
-	  public void handlePreferences(ApplicationEvent e)
-	  {
-		  this.handler.displayPreferencesDialog();
-	  }
+	private IApplicationUI handler;
+	
+	public MacApplicationAdapter(IApplicationUI handler)
+	{
+		this.handler = handler;
+	}
+	
+	@Override
+	public void handleQuit(ApplicationEvent e)
+	{
+		System.exit(0);
+	}
+	
+	@Override
+	public void handleAbout(ApplicationEvent e)
+	{
+		// NOTE:  Enable these lines to display the application-provided
+		// About dialog on OS X.
+		// Choosing to use the Mac provided dialog on OSX.
+		//e.setHandled(true);
+		//this.handler.displayAboutDialog();
+	}
+	
+	@Override
+	public void handlePreferences(ApplicationEvent e)
+	{
+		this.handler.displayPreferencesDialog();
+	}
 }

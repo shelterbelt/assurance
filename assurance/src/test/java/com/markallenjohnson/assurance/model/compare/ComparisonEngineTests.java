@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -114,7 +110,7 @@ public class ComparisonEngineTests
 			entityManager.persist(scan);
 			entityManager.flush();
 
-			assertTrue(scan.getUnmodifiableResults().size() == 0);
+			assertEquals(0, scan.getUnmodifiableResults().size());
 		}
 		finally
 		{
@@ -143,7 +139,7 @@ public class ComparisonEngineTests
 			entityManager.persist(scan);
 			entityManager.flush();
 
-			assertTrue(scan.getUnmodifiableResults().size() == 0);
+			assertEquals(0, scan.getUnmodifiableResults().size());
 		}
 		finally
 		{
@@ -172,11 +168,11 @@ public class ComparisonEngineTests
 			entityManager.persist(scan);
 			entityManager.flush();
 
-			assertEquals(scan.getUnmodifiableResults().size(), 1);
+			assertEquals(1, scan.getUnmodifiableResults().size());
 			for (ComparisonResult result : scan.getUnmodifiableResults())
 			{
-				assertEquals(result.getReason(), AssuranceResultReason.FILE_DIRECTORY_MISMATCH);
-				assertEquals(result.getResolution(), AssuranceResultResolution.UNRESOLVED);
+				assertEquals(AssuranceResultReason.FILE_DIRECTORY_MISMATCH, result.getReason());
+				assertEquals(AssuranceResultResolution.UNRESOLVED, result.getResolution());
 				assertNotNull(result.getScan());
 				assertNotNull(result.getSource());
 				assertNotNull(result.getSource().getFile());
@@ -217,11 +213,11 @@ public class ComparisonEngineTests
 			entityManager.persist(scan);
 			entityManager.flush();
 
-			assertEquals(scan.getUnmodifiableResults().size(), 1);
+			assertEquals(1, scan.getUnmodifiableResults().size());
 			for (ComparisonResult result : scan.getUnmodifiableResults())
 			{
-				assertEquals(result.getReason(), AssuranceResultReason.FILE_DIRECTORY_MISMATCH);
-				assertEquals(result.getResolution(), AssuranceResultResolution.UNRESOLVED);
+				assertEquals(AssuranceResultReason.FILE_DIRECTORY_MISMATCH, result.getReason());
+				assertEquals(AssuranceResultResolution.UNRESOLVED, result.getResolution());
 				assertNotNull(result.getScan());
 				assertNotNull(result.getSource());
 				assertNotNull(result.getSource().getFile());
@@ -262,7 +258,7 @@ public class ComparisonEngineTests
 			entityManager.persist(scan);
 			entityManager.flush();
 
-			assertEquals(scan.getUnmodifiableResults().size(), 0);
+			assertEquals(0, scan.getUnmodifiableResults().size());
 		}
 		finally
 		{
@@ -291,11 +287,11 @@ public class ComparisonEngineTests
 			entityManager.persist(scan);
 			entityManager.flush();
 
-			assertEquals(scan.getUnmodifiableResults().size(), 1);
+			assertEquals(1, scan.getUnmodifiableResults().size());
 			for (ComparisonResult result : scan.getUnmodifiableResults())
 			{
-				assertEquals(result.getReason(), AssuranceResultReason.COMPARE_FAILED);
-				assertEquals(result.getResolution(), AssuranceResultResolution.UNRESOLVED);
+				assertEquals(AssuranceResultReason.COMPARE_FAILED, result.getReason());
+				assertEquals(AssuranceResultResolution.UNRESOLVED, result.getResolution());
 				assertNotNull(result.getScan());
 				assertNotNull(result.getSource());
 				assertNotNull(result.getSource().getFile());
@@ -338,7 +334,7 @@ public class ComparisonEngineTests
 			entityManager.persist(scan);
 			entityManager.flush();
 
-			assertEquals(scan.getUnmodifiableResults().size(), 0);
+			assertEquals(0, scan.getUnmodifiableResults().size());
 		}
 		finally
 		{
@@ -373,7 +369,7 @@ public class ComparisonEngineTests
 				assertThat(result.getReason(), not(equalTo(AssuranceResultReason.FILE_DIRECTORY_MISMATCH)));
 				assertThat(result.getReason(), not(equalTo(AssuranceResultReason.FILE_NULL)));
 				assertThat(result.getReason(), not(equalTo(AssuranceResultReason.UNDETERMINED)));
-				assertEquals(result.getResolution(), AssuranceResultResolution.UNRESOLVED);
+				assertEquals(AssuranceResultResolution.UNRESOLVED, result.getResolution());
 				assertNotNull(result.getScan());
 				assertNotNull(result.getSource());
 				assertNotNull(result.getSource().getFile());
@@ -426,7 +422,7 @@ public class ComparisonEngineTests
 				assertThat(result.getReason(), not(equalTo(AssuranceResultReason.FILE_DIRECTORY_MISMATCH)));
 				assertThat(result.getReason(), not(equalTo(AssuranceResultReason.FILE_NULL)));
 				assertThat(result.getReason(), not(equalTo(AssuranceResultReason.UNDETERMINED)));
-				assertEquals(result.getResolution(), AssuranceResultResolution.UNRESOLVED);
+				assertEquals(AssuranceResultResolution.UNRESOLVED, result.getResolution());
 				assertNotNull(result.getScan());
 				assertNotNull(result.getSource());
 				assertNotNull(result.getSource().getFile());
@@ -478,7 +474,7 @@ public class ComparisonEngineTests
 				assertThat(result.getReason(), not(equalTo(AssuranceResultReason.FILE_DIRECTORY_MISMATCH)));
 				assertThat(result.getReason(), not(equalTo(AssuranceResultReason.FILE_NULL)));
 				assertThat(result.getReason(), not(equalTo(AssuranceResultReason.UNDETERMINED)));
-				assertEquals(result.getResolution(), AssuranceResultResolution.UNRESOLVED);
+				assertEquals(AssuranceResultResolution.UNRESOLVED, result.getResolution());
 				assertNotNull(result.getScan());
 				assertNotNull(result.getSource());
 				assertNotNull(result.getSource().getFile());
@@ -515,11 +511,11 @@ public class ComparisonEngineTests
 			entityManager.persist(scan);
 			entityManager.flush();
 
-			assertEquals(scan.getUnmodifiableResults().size(), 1);
+			assertEquals(1, scan.getUnmodifiableResults().size());
 			for (ComparisonResult result : scan.getUnmodifiableResults())
 			{
-				assertEquals(result.getReason(), AssuranceResultReason.FILE_NULL);
-				assertEquals(result.getResolution(), AssuranceResultResolution.UNRESOLVED);
+				assertEquals(AssuranceResultReason.FILE_NULL, result.getReason());
+				assertEquals(AssuranceResultResolution.UNRESOLVED, result.getResolution());
 				assertNotNull(result.getScan());
 				assertNotNull(result.getSource());
 				assertNull(result.getSource().getFile());
@@ -555,11 +551,11 @@ public class ComparisonEngineTests
 			entityManager.persist(scan);
 			entityManager.flush();
 
-			assertEquals(scan.getUnmodifiableResults().size(), 1);
+			assertEquals(1, scan.getUnmodifiableResults().size());
 			for (ComparisonResult result : scan.getUnmodifiableResults())
 			{
-				assertEquals(result.getReason(), AssuranceResultReason.FILE_NULL);
-				assertEquals(result.getResolution(), AssuranceResultResolution.UNRESOLVED);
+				assertEquals(AssuranceResultReason.FILE_NULL, result.getReason());
+				assertEquals(AssuranceResultResolution.UNRESOLVED, result.getResolution());
 				assertNotNull(result.getScan());
 				assertNotNull(result.getSource());
 				assertNotNull(result.getSource().getFile());
@@ -595,7 +591,7 @@ public class ComparisonEngineTests
 			entityManager.persist(scan);
 			entityManager.flush();
 
-			assertEquals(scan.getUnmodifiableResults().size(), 0);
+			assertEquals(0, scan.getUnmodifiableResults().size());
 		}
 		finally
 		{
@@ -624,7 +620,7 @@ public class ComparisonEngineTests
 			entityManager.persist(scan);
 			entityManager.flush();
 
-			assertTrue(scan.getUnmodifiableResults().size() == 0);
+			assertEquals(0, scan.getUnmodifiableResults().size());
 		}
 		finally
 		{
@@ -653,7 +649,7 @@ public class ComparisonEngineTests
 			entityManager.persist(scan);
 			entityManager.flush();
 
-			assertTrue(scan.getUnmodifiableResults().size() == 0);
+			assertEquals(0, scan.getUnmodifiableResults().size());
 		}
 		finally
 		{
@@ -682,11 +678,11 @@ public class ComparisonEngineTests
 			entityManager.persist(scan);
 			entityManager.flush();
 
-			assertEquals(scan.getUnmodifiableResults().size(), 1);
+			assertEquals(1, scan.getUnmodifiableResults().size());
 			for (ComparisonResult result : scan.getUnmodifiableResults())
 			{
-				assertEquals(result.getReason(), AssuranceResultReason.FILE_DIRECTORY_MISMATCH);
-				assertEquals(result.getResolution(), AssuranceResultResolution.UNRESOLVED);
+				assertEquals(AssuranceResultReason.FILE_DIRECTORY_MISMATCH, result.getReason());
+				assertEquals(AssuranceResultResolution.UNRESOLVED, result.getResolution());
 				assertNotNull(result.getScan());
 				assertNotNull(result.getSource());
 				assertNotNull(result.getSource().getFile());
@@ -727,11 +723,11 @@ public class ComparisonEngineTests
 			entityManager.persist(scan);
 			entityManager.flush();
 
-			assertEquals(scan.getUnmodifiableResults().size(), 1);
+			assertEquals(1, scan.getUnmodifiableResults().size());
 			for (ComparisonResult result : scan.getUnmodifiableResults())
 			{
-				assertEquals(result.getReason(), AssuranceResultReason.FILE_DIRECTORY_MISMATCH);
-				assertEquals(result.getResolution(), AssuranceResultResolution.UNRESOLVED);
+				assertEquals(AssuranceResultReason.FILE_DIRECTORY_MISMATCH, result.getReason());
+				assertEquals(AssuranceResultResolution.UNRESOLVED, result.getResolution());
 				assertNotNull(result.getScan());
 				assertNotNull(result.getSource());
 				assertNotNull(result.getSource().getFile());
@@ -772,7 +768,7 @@ public class ComparisonEngineTests
 			entityManager.persist(scan);
 			entityManager.flush();
 
-			assertEquals(scan.getUnmodifiableResults().size(), 0);
+			assertEquals(0, scan.getUnmodifiableResults().size());
 		}
 		finally
 		{
@@ -801,11 +797,11 @@ public class ComparisonEngineTests
 			entityManager.persist(scan);
 			entityManager.flush();
 
-			assertEquals(scan.getUnmodifiableResults().size(), 1);
+			assertEquals(1, scan.getUnmodifiableResults().size());
 			for (ComparisonResult result : scan.getUnmodifiableResults())
 			{
-				assertEquals(result.getReason(), AssuranceResultReason.COMPARE_FAILED);
-				assertEquals(result.getResolution(), AssuranceResultResolution.UNRESOLVED);
+				assertEquals(AssuranceResultReason.COMPARE_FAILED, result.getReason());
+				assertEquals(AssuranceResultResolution.UNRESOLVED, result.getResolution());
 				assertNotNull(result.getScan());
 				assertNotNull(result.getSource());
 				assertNotNull(result.getSource().getFile());
@@ -906,7 +902,7 @@ public class ComparisonEngineTests
 			entityManager.persist(scan);
 			entityManager.flush();
 
-			assertEquals(scan.getUnmodifiableResults().size(), 0);
+			assertEquals(0, scan.getUnmodifiableResults().size());
 		}
 		finally
 		{
@@ -941,7 +937,7 @@ public class ComparisonEngineTests
 				assertThat(result.getReason(), not(equalTo(AssuranceResultReason.FILE_DIRECTORY_MISMATCH)));
 				assertThat(result.getReason(), not(equalTo(AssuranceResultReason.FILE_NULL)));
 				assertThat(result.getReason(), not(equalTo(AssuranceResultReason.UNDETERMINED)));
-				assertEquals(result.getResolution(), AssuranceResultResolution.UNRESOLVED);
+				assertEquals(AssuranceResultResolution.UNRESOLVED, result.getResolution());
 				assertNotNull(result.getScan());
 				assertNotNull(result.getSource());
 				assertNotNull(result.getSource().getFile());
@@ -994,7 +990,7 @@ public class ComparisonEngineTests
 				assertThat(result.getReason(), not(equalTo(AssuranceResultReason.FILE_DIRECTORY_MISMATCH)));
 				assertThat(result.getReason(), not(equalTo(AssuranceResultReason.FILE_NULL)));
 				assertThat(result.getReason(), not(equalTo(AssuranceResultReason.UNDETERMINED)));
-				assertEquals(result.getResolution(), AssuranceResultResolution.UNRESOLVED);
+				assertEquals(AssuranceResultResolution.UNRESOLVED, result.getResolution());
 				assertNotNull(result.getScan());
 				assertNotNull(result.getSource());
 				assertNotNull(result.getSource().getFile());
@@ -1047,7 +1043,7 @@ public class ComparisonEngineTests
 				assertThat(result.getReason(), not(equalTo(AssuranceResultReason.FILE_DIRECTORY_MISMATCH)));
 				assertThat(result.getReason(), not(equalTo(AssuranceResultReason.FILE_NULL)));
 				assertThat(result.getReason(), not(equalTo(AssuranceResultReason.UNDETERMINED)));
-				assertEquals(result.getResolution(), AssuranceResultResolution.UNRESOLVED);
+				assertEquals(AssuranceResultResolution.UNRESOLVED, result.getResolution());
 				assertNotNull(result.getScan());
 				assertNotNull(result.getSource());
 				assertNotNull(result.getSource().getFile());
@@ -1084,11 +1080,11 @@ public class ComparisonEngineTests
 			entityManager.persist(scan);
 			entityManager.flush();
 
-			assertEquals(scan.getUnmodifiableResults().size(), 1);
+			assertEquals(1, scan.getUnmodifiableResults().size());
 			for (ComparisonResult result : scan.getUnmodifiableResults())
 			{
-				assertEquals(result.getReason(), AssuranceResultReason.FILE_NULL);
-				assertEquals(result.getResolution(), AssuranceResultResolution.UNRESOLVED);
+				assertEquals(AssuranceResultReason.FILE_NULL, result.getReason());
+				assertEquals(AssuranceResultResolution.UNRESOLVED, result.getResolution());
 				assertNotNull(result.getScan());
 				assertNotNull(result.getSource());
 				assertNull(result.getSource().getFile());
@@ -1124,11 +1120,11 @@ public class ComparisonEngineTests
 			entityManager.persist(scan);
 			entityManager.flush();
 
-			assertEquals(scan.getUnmodifiableResults().size(), 1);
+			assertEquals(1, scan.getUnmodifiableResults().size());
 			for (ComparisonResult result : scan.getUnmodifiableResults())
 			{
-				assertEquals(result.getReason(), AssuranceResultReason.FILE_NULL);
-				assertEquals(result.getResolution(), AssuranceResultResolution.UNRESOLVED);
+				assertEquals(AssuranceResultReason.FILE_NULL, result.getReason());
+				assertEquals(AssuranceResultResolution.UNRESOLVED, result.getResolution());
 				assertNotNull(result.getScan());
 				assertNotNull(result.getSource());
 				assertNotNull(result.getSource().getFile());
@@ -1164,7 +1160,7 @@ public class ComparisonEngineTests
 			entityManager.persist(scan);
 			entityManager.flush();
 
-			assertEquals(scan.getUnmodifiableResults().size(), 0);
+			assertEquals(0, scan.getUnmodifiableResults().size());
 		}
 		finally
 		{

@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -47,7 +43,6 @@ public class AboutPanel extends AbstractDialogPanel
 {
 	private Logger logger = LogManager.getLogger(AboutPanel.class);
 	private static final long serialVersionUID = 1L;
-	private boolean initialized = false;
 
 	// NOTE:  Since these are statics, using a SB to construct the labels is more complex than
 	// the possible benefit may warrant.
@@ -122,11 +117,13 @@ public class AboutPanel extends AbstractDialogPanel
 	    }
 	}
 
+	@Override
 	public String getDialogTitle()
 	{
 		return dialogTitle;
 	}
 	
+	@Override
 	public void setDialogTitle(String title)
 	{
 		// No-op

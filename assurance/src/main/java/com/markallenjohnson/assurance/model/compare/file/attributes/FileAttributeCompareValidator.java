@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,7 +21,6 @@
 
 package com.markallenjohnson.assurance.model.compare.file.attributes;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
@@ -33,17 +28,12 @@ import java.nio.file.attribute.UserDefinedFileAttributeView;
 
 public abstract class FileAttributeCompareValidator implements IFileAttributeComparer
 {
-	public abstract boolean compareFileAttributes(File file1, File file2, boolean includeTimestamps, boolean includeAdvancedAttributes) throws IOException;
-
 	protected String readUserDefinedFileAttribute(UserDefinedFileAttributeView fileAttributes, String attribute) throws IOException
 	{
 		ByteBuffer buffer = ByteBuffer.allocate(fileAttributes.size(attribute));
 		fileAttributes.read(attribute, buffer);
 		buffer.flip();
 		
-		String result = Charset.defaultCharset().decode(buffer).toString();
-		buffer = null;
-		
-		return result;
+		return Charset.defaultCharset().decode(buffer).toString();
 	}
 }

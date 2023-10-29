@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -39,10 +35,9 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -113,18 +108,14 @@ public class ResultsPanel extends JPanel implements IEventObserver
 			GridBagLayout gridbag = new GridBagLayout();
 			this.setLayout(gridbag);
 
-			((DefaultTableCellRenderer) resultsTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+			((DefaultTableCellRenderer) resultsTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 			this.resultsTable.setRowHeight(150);
 
 			ListSelectionModel selectionModel = this.resultsTable.getSelectionModel();
 
-			selectionModel.addListSelectionListener(new ListSelectionListener()
-			{
-				public void valueChanged(ListSelectionEvent e)
-				{
-					applicationDelegate.fireEvent(new SetScanResultsMenuStateEvent(false));
-					resultsTable.editCellAt(resultsTable.getSelectedRow(), 0);
-				}
+			selectionModel.addListSelectionListener(e -> {
+				applicationDelegate.fireEvent(new SetScanResultsMenuStateEvent(false));
+				resultsTable.editCellAt(resultsTable.getSelectedRow(), 0);
 			});
 
 			GridBagConstraints resultsLabelConstraints = new GridBagConstraints();
@@ -200,6 +191,7 @@ public class ResultsPanel extends JPanel implements IEventObserver
 
 				public void ancestorMoved(AncestorEvent event)
 				{
+					// No op
 				}
 			});
 
@@ -236,10 +228,9 @@ public class ResultsPanel extends JPanel implements IEventObserver
 
 	public void notify(IAssuranceEvent event)
 	{
-		StringBuffer loggingMessage = new StringBuffer(256);
+		StringBuilder loggingMessage = new StringBuilder(256);
 		logger.info(loggingMessage.append("ResultsPanel received event: ").append(event));
 		loggingMessage.setLength(0);
-		loggingMessage = null;
 
 		if (event instanceof SelectedScanChangedEvent)
 		{
@@ -247,7 +238,6 @@ public class ResultsPanel extends JPanel implements IEventObserver
 			StringBuilder labelText = new StringBuilder(512);
 			this.resultsLabel.setText(labelText.append("Results for ").append(event.getSource().toString()).toString());
 			labelText.setLength(0);
-			labelText = null;
 		}
 
 		if (event instanceof ScanStartedEvent)
@@ -256,7 +246,6 @@ public class ResultsPanel extends JPanel implements IEventObserver
 			StringBuilder labelText = new StringBuilder(512);
 			this.resultsLabel.setText(labelText.append("Loading results for ").append(event.getSource().toString()).toString());
 			labelText.setLength(0);
-			labelText = null;
 			this.add(this.progressIndicator, this.progressIndicatorConstraints);
 			this.validate();
 			this.progressIndicator.repaint();
@@ -293,37 +282,31 @@ public class ResultsPanel extends JPanel implements IEventObserver
 			for (ComparisonResult result : list)
 			{
 				this.resultsTableModel.addRow(result);
-				result = null;
 			}
 
 			this.resultsTable.setModel(this.resultsTableModel);
 
-			this.conditionallyShowMessagePanel(list.size() == 0, "The source and target locations are identical.");
-			list = null;
+			this.conditionallyShowMessagePanel(list.isEmpty(), "The source and target locations are identical.");
 
 			StringBuilder labelText = new StringBuilder(512);
 			this.resultsLabel.setText(labelText.append("Results for ").append(scan.toString()).toString());
 			labelText.setLength(0);
-			labelText = null;
 
 			if ((selectedResultIndex >= 0) && (this.resultsTableModel.getRowCount() > selectedResultIndex))
 			{
 				this.resultsTable.setRowSelectionInterval(selectedResultIndex, selectedResultIndex);
 			}
-			
-			scan = null;
 		}
 
 		if ((event instanceof ResultMergeCompletedEvent) || (event instanceof DeletedItemRestoreCompletedEvent))
 		{
 			for (int index = 0; index < this.resultsTableModel.getRowCount(); index++)
 			{
-				List<List<ComparisonResult>> resultList = new ArrayList<List<ComparisonResult>>(this.resultsTableModel.data);
-				if (((ComparisonResult) event.getSource()).getId() == resultList.get(index).get(0).getId())
+				List<List<ComparisonResult>> resultList = new ArrayList<>(this.resultsTableModel.data);
+				if (((ComparisonResult) event.getSource()).getId().equals(resultList.get(index).get(0).getId()))
 				{
 					this.resultsTableModel.updateRow(index, (ComparisonResult) event.getSource());
 				}
-				resultList = null;
 			}
 		}
 
@@ -333,14 +316,12 @@ public class ResultsPanel extends JPanel implements IEventObserver
 			StringBuilder labelText = new StringBuilder(512);
 			this.resultsLabel.setText(labelText.append("Merging ").append(event.getSource().toString()).toString());
 			labelText.setLength(0);
-			labelText = null;
 			this.add(this.progressIndicator, this.progressIndicatorConstraints);
 			this.validate();
 			this.progressIndicator.repaint();
 			StringBuilder message = new StringBuilder(512);
 			this.conditionallyShowMessagePanel(true, message.append("Merging ").append(event.getSource().toString()).toString());
 			message.setLength(0);
-			message = null;
 		}
 
 		if (event instanceof ScanMergeProgressEvent)
@@ -367,7 +348,7 @@ public class ResultsPanel extends JPanel implements IEventObserver
 		private static final long serialVersionUID = 1L;
 
 		private String[] columnNames = { "Results" };
-		private List<List<ComparisonResult>> data = new ArrayList<List<ComparisonResult>>();
+		private List<List<ComparisonResult>> data = new ArrayList<>();
 
 		public int getRowCount()
 		{
@@ -379,11 +360,13 @@ public class ResultsPanel extends JPanel implements IEventObserver
 			return 1;
 		}
 
+		@Override
 		public String getColumnName(int columnIndex)
 		{
 			return columnNames[columnIndex];
 		}
 
+		@Override
 		public Class<? extends Object> getColumnClass(int columnIndex)
 		{
 			return ComparisonResult.class;
@@ -391,37 +374,34 @@ public class ResultsPanel extends JPanel implements IEventObserver
 
 		public Object getValueAt(int rowIndex, int columnIndex)
 		{
-			if (data.size() == 0)
+			if (data.isEmpty())
 			{
 				return null;
 			}
 			List<ComparisonResult> row = data.get(rowIndex);
 
-			ComparisonResult result = row.get(0);
-			row = null;
-			
-			return result;
+			return row.get(0);
 		}
 
+		@Override
 		public void setValueAt(Object value, int rowIndex, int columnIndex)
 		{
 			if (data.size() <= rowIndex)
 			{
-				List<ComparisonResult> row = new ArrayList<ComparisonResult>();
+				List<ComparisonResult> row = new ArrayList<>();
 				row.add((ComparisonResult) value);
 				data.add(row);
-				row = null;
 			}
 			else
 			{
 				List<ComparisonResult> row = data.get(rowIndex);
 				row.set(columnIndex, (ComparisonResult) value);
-				row = null;
 			}
 
 			fireTableCellUpdated(rowIndex, columnIndex);
 		}
 
+		@Override
 		public boolean isCellEditable(int rowIndex, int columnIndex)
 		{
 			return true;

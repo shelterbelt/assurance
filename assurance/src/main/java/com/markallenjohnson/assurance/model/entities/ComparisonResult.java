@@ -3,11 +3,7 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
- * 
- */
-/*
- * Copyright 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -135,7 +131,6 @@ public class ComparisonResult
 		{
 			FileAttributes attributes = new FileAttributes(source.getFile(), source.getComparer());
 			source.setFileAttributes(attributes);
-			attributes = null;
 		}
 		this.source = source;
 	}
@@ -144,7 +139,6 @@ public class ComparisonResult
 	{
 		FileReference sourceRef = new FileReference(source);
 		this.setSource(sourceRef);
-		sourceRef = null;
 	}
 
 	// NOTE:  Cascading the comparer down in this fashion just to facilitate the hash calculation is 
@@ -154,7 +148,6 @@ public class ComparisonResult
 	{
 		FileReference sourceRef = new FileReference(source, comparer);
 		this.setSource(sourceRef);
-		sourceRef = null;
 	}
 
 	public FileReference getTarget()
@@ -168,7 +161,6 @@ public class ComparisonResult
 		{
 			FileAttributes attributes = new FileAttributes(target.getFile(), target.getComparer());
 			target.setFileAttributes(attributes);
-			attributes = null;
 		}
 		this.target = target;
 	}
@@ -177,7 +169,6 @@ public class ComparisonResult
 	{
 		FileReference targetRef = new FileReference(target);
 		this.setTarget(targetRef);
-		targetRef = null;
 	}
 
 	// NOTE:  Cascading the comparer down in this fashion just to facilitate the hash calculation is 
@@ -187,7 +178,6 @@ public class ComparisonResult
 	{
 		FileReference targetRef = new FileReference(target, comparer);
 		this.setTarget(targetRef);
-		targetRef = null;
 	}
 
 	public AssuranceResultReason getReason()
@@ -252,7 +242,7 @@ public class ComparisonResult
 				deletedFilePath = deletedFile.getPath();
 				if (deletedFilePath.charAt(1) == ':')
 				{
-					deletedFilePath.replace(':', '~');
+					deletedFilePath = deletedFilePath.replace(':', '~');
 				}
 			}
 
@@ -261,10 +251,7 @@ public class ComparisonResult
 				StringBuilder path = new StringBuilder(512);
 				scanDeletedItemLocation = new File(path.append(scanDeletedItemLocation.getPath()).append(File.separator).append(deletedFilePath).toString());
 				path.setLength(0);
-				path = null;
 			}
-			
-			deletedFilePath = null;
 		}
 
 		return scanDeletedItemLocation;

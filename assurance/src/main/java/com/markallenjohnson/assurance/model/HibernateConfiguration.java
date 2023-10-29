@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -55,13 +51,11 @@ public class HibernateConfiguration
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setPersistenceUnitName("assurancePersistenceUnit");
 		em.setDataSource(this.dataSource);
-		em.setPackagesToScan(new String[] { "com.markallenjohnson.assurance.model.entities" });
+		em.setPackagesToScan("com.markallenjohnson.assurance.model.entities");
 
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);
-		vendorAdapter = null;
 		em.setJpaProperties(props);
-		props = null;
 		
 		return em;
 	}

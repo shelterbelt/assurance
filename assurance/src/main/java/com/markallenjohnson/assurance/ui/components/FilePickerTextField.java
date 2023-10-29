@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -42,11 +38,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import com.markallenjohnson.assurance.ui.components.validators.IFormStateValidator;
-
 @Component("FilePickerTextField")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class FilePickerTextField extends AbstractInputPanel implements ActionListener, IFormStateValidator
+public class FilePickerTextField extends AbstractInputPanel implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -155,10 +149,6 @@ public class FilePickerTextField extends AbstractInputPanel implements ActionLis
 				{
 					this.pathTextField.setText(file.getAbsolutePath());
 				}
-				file = null;
-			}
-			else
-			{
 			}
 		}
 	}

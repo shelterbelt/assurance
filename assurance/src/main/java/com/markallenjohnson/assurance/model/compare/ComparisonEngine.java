@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -87,25 +83,22 @@ public class ComparisonEngine implements IComparisonEngine
 	{
 		IFileComparer comparer = comparerFactory.createInstance(performDeepScan);
 		this.determineDifferences(source, target, scan, comparer, threadPool, options, exclusions, monitor);
-		comparer = null;
 	}
 	
 	private void determineDifferences(File source, File target, Scan scan, IFileComparer comparer, IAssuranceThreadPool threadPool, IScanOptions options, Collection<FileReference> exclusions, IProgressMonitor monitor)
 	{
 		if (monitor != null)
 		{
-			StringBuffer message = new StringBuffer(512);
+			StringBuilder message = new StringBuilder(512);
 			monitor.publish(message.append("Comparing ").append(source.toString()).append(" to ").append(target.toString()));
 			message.setLength(0);
-			message = null;
 		}
 
 		if ((source == null) && (target == null))
 		{
-			StringBuffer message = new StringBuffer(512);
+			StringBuilder message = new StringBuilder(512);
 			logger.info(message.append(source).append(" and ").append(target).append(" are both null."));
 			message.setLength(0);
-			message = null;
 		}
 		else
 		{
@@ -129,11 +122,9 @@ public class ComparisonEngine implements IComparisonEngine
 					{
 						ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.FILE_DIRECTORY_MISMATCH, comparer);
 						scan.addResult(result);
-						result = null;
-						StringBuffer message = new StringBuffer(512);
+						StringBuilder message = new StringBuilder(512);
 						logger.info(message.append(source).append(" does not match ").append(target));
 						message.setLength(0);
-						message = null;
 					}
 					else
 					{
@@ -150,11 +141,9 @@ public class ComparisonEngine implements IComparisonEngine
 							{
 								ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.COMPARE_FAILED, comparer);
 								scan.addResult(result);
-								result = null;
-								StringBuffer message = new StringBuffer(512);
+								StringBuilder message = new StringBuilder(512);
 								logger.info(message.append(source).append(" does not match ").append(target));
 								message.setLength(0);
-								message = null;
 							}
 						}
 						else
@@ -166,11 +155,9 @@ public class ComparisonEngine implements IComparisonEngine
 							{
 								ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.SYMBOLIC_LINK_MISMATCH, comparer);
 								scan.addResult(result);
-								result = null;
-								StringBuffer message = new StringBuffer(512);
+								StringBuilder message = new StringBuilder(512);
 								logger.info(message.append(source).append(" does not match ").append(target));
 								message.setLength(0);
-								message = null;
 							}
 						}
 
@@ -186,7 +173,6 @@ public class ComparisonEngine implements IComparisonEngine
 									StringBuilder path = new StringBuilder(512);
 									File targetFile = new File(path.append(target.getPath()).append(File.separator).append(sourceFile.getName()).toString());
 									path.setLength(0);
-									path = null;
 									// If the source file or target file is in the the global
 									// ignore or exclusion list, just bypass it.
 									// Checking both files in case one is null, in which case
@@ -204,16 +190,13 @@ public class ComparisonEngine implements IComparisonEngine
 										{
 											ComparisonResult result = new ComparisonResult(sourceFile, targetFile, AssuranceResultReason.TARGET_DOES_NOT_EXIST, comparer);
 											scan.addResult(result);
-											result = null;
-											StringBuffer message = new StringBuffer(512);
+											StringBuilder message = new StringBuilder(512);
 											logger.info(message.append(targetFile).append(" does not exist."));
 											message.setLength(0);
 											logger.info(message.append(sourceFile).append(" does not match ").append(targetFile));
 											message.setLength(0);
-											message = null;
 										}
 									}
-									targetFile = null;
 								}
 	
 								this.identifyTargetItemsNotInSource(source, target, scan, comparer, options, exclusions, monitor);
@@ -232,49 +215,31 @@ public class ComparisonEngine implements IComparisonEngine
 										includeTimestamps = scanDefinition.getIncludeNonCreationTimestamps();
 										includeAdvancedAttributes = scanDefinition.getIncludeAdvancedAttributes();
 									}
-									scanDefinition = null;
 									
 									if (comparer.compare(source, target, includeTimestamps, includeAdvancedAttributes))
 									{
-										StringBuffer message = new StringBuffer(512);
+										StringBuilder message = new StringBuilder(512);
 										logger.info(message.append(source).append(" is identical to ").append(target));
 										message.setLength(0);
-										message = null;
 									}
 									else
 									{
 										ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.COMPARE_FAILED, comparer);
 										scan.addResult(result);
-										result = null;
-										StringBuffer message = new StringBuffer(512);
+										StringBuilder message = new StringBuilder(512);
 										logger.info(message.append(source).append(" does not match ").append(target));
 										message.setLength(0);
-										message = null;
 									}
 								}
-								catch (NoSuchAlgorithmException e)
+								catch (NoSuchAlgorithmException | IOException e)
 								{
 									ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.UNDETERMINED, comparer);
 									result.setResolution(AssuranceResultResolution.PROCESSING_ERROR_ENCOUNTERED);
 									result.setResolutionError(e.getMessage());
 									scan.addResult(result);
-									result = null;
-									StringBuffer message = new StringBuffer(512);
+									StringBuilder message = new StringBuilder(512);
 									logger.error(message.append("Error comparing ").append(source).append(" to ").append(target), e);
 									message.setLength(0);
-									message = null;
-								}
-								catch (IOException e)
-								{
-									ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.UNDETERMINED, comparer);
-									result.setResolution(AssuranceResultResolution.PROCESSING_ERROR_ENCOUNTERED);
-									result.setResolutionError(e.getMessage());
-									scan.addResult(result);
-									result = null;
-									StringBuffer message = new StringBuffer(512);
-									logger.error(message.append("Error comparing ").append(source).append(" to ").append(target), e);
-									message.setLength(0);
-									message = null;
 								}
 							}
 						}
@@ -284,11 +249,9 @@ public class ComparisonEngine implements IComparisonEngine
 				{
 					ComparisonResult result = new ComparisonResult(source, target, AssuranceResultReason.FILE_NULL, comparer);
 					scan.addResult(result);
-					result = null;
-					StringBuffer message = new StringBuffer(512);
+					StringBuilder message = new StringBuilder(512);
 					logger.info(message.append(source).append(" does not match ").append(target));
 					message.setLength(0);
-					message = null;
 				}
 			}
 		}
@@ -303,32 +266,26 @@ public class ComparisonEngine implements IComparisonEngine
 				StringBuilder path = new StringBuilder(512);
 				File sourceFile = new File(path.append(source.getPath()).append(File.separator).append(targetFile.getName()).toString());
 				path.setLength(0);
-				path = null;
 				// If the source file or target file is in the the global
 				// ignore or exclusion list, just bypass it.
 				// Checking both files in case one is null, in which case
 				// we would have a mismatch.
 				if (((!this.fileIsInGlobalIgnore(sourceFile, options)) && 
-						(!this.fileIsInGlobalIgnore(targetFile, options))) && 
-						((!this.fileIsInExclusions(sourceFile, exclusions)) &&
-						(!this.fileIsInExclusions(targetFile, exclusions))))
+					(!this.fileIsInGlobalIgnore(targetFile, options))) && 
+					((!this.fileIsInExclusions(sourceFile, exclusions)) &&
+					(!this.fileIsInExclusions(targetFile, exclusions))))
 				{
 					if (!sourceFile.exists())
 					{
 						ComparisonResult result = new ComparisonResult(sourceFile, targetFile, AssuranceResultReason.SOURCE_DOES_NOT_EXIST, comparer);
 						scan.addResult(result);
-						result = null;
-						StringBuffer message = new StringBuffer(512);
+						StringBuilder message = new StringBuilder(512);
 						logger.info(message.append(sourceFile).append(" does not exist."));
 						message.setLength(0);
 						logger.info(message.append(sourceFile).append(" does not match ").append(targetFile));
 						message.setLength(0);
-						message = null;
 					}
 				}
-				
-				sourceFile = null;
-				targetFile = null;
 			}
 		}
 	}

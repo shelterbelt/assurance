@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -27,7 +23,6 @@ package com.markallenjohnson.assurance.model.compare.file;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 
 import org.apache.logging.log4j.Logger;
@@ -54,33 +49,13 @@ public class ComprehensiveMD5FileCompareValidator extends MD5FileCompareValidato
 	{
 		logger.info("Using Comprehensive MD5 Validator");
 
-		InputStream is = null;
-
-		try
+		if (this.areFilesComparable(file1, file2))
 		{
-			if (this.areFilesComparable(file1, file2))
-			{
-				boolean fileAttributesResult = attributeComparer.compareFileAttributes(file1, file2, includeTimestamps, includeAdvancedAttributes);
-				boolean fileContentsResult = this.performMD5Compare(file1, file2);
-				return(fileAttributesResult && fileContentsResult);
-			}
+			boolean fileAttributesResult = attributeComparer.compareFileAttributes(file1, file2, includeTimestamps, includeAdvancedAttributes);
+			boolean fileContentsResult = this.performMD5Compare(file1, file2);
+			return(fileAttributesResult && fileContentsResult);
 		}
-		finally
-		{
-			if (is != null)
-			{
-				try
-				{
-					is.close();
-					is = null;
-				}
-				catch (IOException e)
-				{
-					logger.error(e);
-				}
-			}
-		}
-
+		
 		return false;
 	}
 

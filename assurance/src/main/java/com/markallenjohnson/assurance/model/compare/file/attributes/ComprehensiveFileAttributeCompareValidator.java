@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -49,7 +45,7 @@ public class ComprehensiveFileAttributeCompareValidator extends FileAttributeCom
 		boolean posixResult = true;
 		boolean fileOwnerResult = true;
 		boolean aclResult = true;
-		if (includeAdvancedAttributes == true)
+		if (includeAdvancedAttributes)
 		{
 			posixResult = this.comparePOSIXAttributes(file1, file2);
 			fileOwnerResult = this.compareFileOwnerAttributes(file1, file2);
@@ -79,27 +75,14 @@ public class ComprehensiveFileAttributeCompareValidator extends FileAttributeCom
 
 		if ((file1Attributes == null) || (file2Attributes == null))
 		{
-			StringBuffer message = new StringBuffer(512);
+			StringBuilder message = new StringBuilder(512);
 			logger.info(message.append("Could not query the basic attributes of one of the files: file1: ").append(file1).append(" and file2: ").append(file2));
 			message.setLength(0);
 			logger.info(message.append("file1Attributes: ").append(file1Attributes));
 			message.setLength(0);
 			logger.info(message.append("file2Attributes: ").append(file2Attributes));
 			message.setLength(0);
-			if (file1Attributes == file2Attributes)
-			{
-				file1Attributes = null;
-				file2Attributes = null;
-				message = null;
-				
-				return true;
-			}
-			
-			file1Attributes = null;
-			file2Attributes = null;
-			message = null;
-			
-			return false;
+			return (file1Attributes == file2Attributes);
 		}
 		// File creation time leads to false positives.
 		//if (!file1Attributes.creationTime().equals(file2Attributes.creationTime()))
@@ -127,7 +110,7 @@ public class ComprehensiveFileAttributeCompareValidator extends FileAttributeCom
 			logger.info("The basic attributes of the two files do not match.");
 			result = false;
 		}
-		if (includeTimestamps == true)
+		if (includeTimestamps)
 		{
 			if (!file1Attributes.lastAccessTime().equals(file2Attributes.lastAccessTime()))
 			{
@@ -150,9 +133,6 @@ public class ComprehensiveFileAttributeCompareValidator extends FileAttributeCom
 			logger.info("The basic attributes of the two files match.");
 		}
 		
-		file1Attributes = null;
-		file2Attributes = null;
-
 		return result;
 	}
 
@@ -176,27 +156,14 @@ public class ComprehensiveFileAttributeCompareValidator extends FileAttributeCom
 
 		if ((file1Attributes == null) || (file2Attributes == null))
 		{
-			StringBuffer message = new StringBuffer(512);
+			StringBuilder message = new StringBuilder(512);
 			logger.info(message.append("Could not query the DOS attributes of one of the files: file1: ").append(file1).append(" and file2: ").append(file2));
 			message.setLength(0);
 			logger.info(message.append("file1Attributes: ").append(file1Attributes));
 			message.setLength(0);
 			logger.info(message.append("file2Attributes: ").append(file2Attributes));
 			message.setLength(0);
-			if (file1Attributes == file2Attributes)
-			{
-				file1Attributes = null;
-				file2Attributes = null;
-				message = null;
-				
-				return true;
-			}
-			
-			file1Attributes = null;
-			file2Attributes = null;
-			message = null;
-			
-			return false;
+			return (file1Attributes == file2Attributes);
 		}
 		if (file1Attributes.isArchive() != file2Attributes.isArchive())
 		{
@@ -221,9 +188,6 @@ public class ComprehensiveFileAttributeCompareValidator extends FileAttributeCom
 
 		logger.info("The DOS attributes of the two files match.");
 		
-		file1Attributes = null;
-		file2Attributes = null;
-		
 		return result;
 	}
 
@@ -247,27 +211,14 @@ public class ComprehensiveFileAttributeCompareValidator extends FileAttributeCom
 
 		if ((file1Attributes == null) || (file2Attributes == null))
 		{
-			StringBuffer message = new StringBuffer(512);
+			StringBuilder message = new StringBuilder(512);
 			logger.info(message.append("Could not query the POSIX attributes of one of the files: file1: ").append(file1).append(" and file2: ").append(file2));
 			message.setLength(0);
 			logger.info(message.append("file1Attributes: ").append(file1Attributes));
 			message.setLength(0);
 			logger.info(message.append("file2Attributes: ").append(file1Attributes));
 			message.setLength(0);
-			if (file1Attributes == file2Attributes)
-			{
-				file1Attributes = null;
-				file2Attributes = null;
-				message = null;
-				
-				return true;
-			}
-			
-			file1Attributes = null;
-			file2Attributes = null;
-			message = null;
-			
-			return false;
+			return (file1Attributes == file2Attributes);
 		}
 		if (!file1Attributes.group().equals(file2Attributes.group()))
 		{
@@ -289,9 +240,6 @@ public class ComprehensiveFileAttributeCompareValidator extends FileAttributeCom
 			logger.info("The POSIX attributes of the two files match.");
 		}
 		
-		file1Attributes = null;
-		file2Attributes = null;
-
 		return result;
 	}
 
@@ -315,27 +263,14 @@ public class ComprehensiveFileAttributeCompareValidator extends FileAttributeCom
 
 		if ((file1Attributes == null) || (file2Attributes == null))
 		{
-			StringBuffer message = new StringBuffer(512);
+			StringBuilder message = new StringBuilder(512);
 			logger.info(message.append("Could not query the ACL attributes of one of the files: file1: ").append(file1).append(" and file2: ").append(file2));
 			message.setLength(0);
 			logger.info(message.append("file1Attributes: ").append(file1Attributes));
 			message.setLength(0);
 			logger.info(message.append("file2Attributes: ").append(file1Attributes));
 			message.setLength(0);
-			if (file1Attributes == file2Attributes)
-			{
-				file1Attributes = null;
-				file2Attributes = null;
-				message = null;
-				
-				return true;
-			}
-			
-			file1Attributes = null;
-			file2Attributes = null;
-			message = null;
-			
-			return false;
+			return (file1Attributes == file2Attributes);
 		}
 		if (!file1Attributes.getOwner().equals(file2Attributes.getOwner()))
 		{
@@ -346,9 +281,6 @@ public class ComprehensiveFileAttributeCompareValidator extends FileAttributeCom
 		{
 			logger.info("The file-owner attributes of the two files match.");
 		}
-		
-		file1Attributes = null;
-		file2Attributes = null;
 
 		return result;
 	}
@@ -373,27 +305,14 @@ public class ComprehensiveFileAttributeCompareValidator extends FileAttributeCom
 
 		if ((file1Attributes == null) || (file2Attributes == null))
 		{
-			StringBuffer message = new StringBuffer(512);
+			StringBuilder message = new StringBuilder(512);
 			logger.info(message.append("Could not query the ACL attributes of one of the files: file1: ").append(file1).append(" and file2: ").append(file2));
 			message.setLength(0);
 			logger.info(message.append("file1Attributes: ").append(file1Attributes));
 			message.setLength(0);
 			logger.info(message.append("file2Attributes: ").append(file1Attributes));
 			message.setLength(0);
-			if (file1Attributes == file2Attributes)
-			{
-				file1Attributes = null;
-				file2Attributes = null;
-				message = null;
-				
-				return true;
-			}
-			
-			file1Attributes = null;
-			file2Attributes = null;
-			message = null;
-			
-			return false;
+			return (file1Attributes == file2Attributes);
 		}
 		if (!file1Attributes.getAcl().equals(file2Attributes.getAcl()))
 		{
@@ -404,9 +323,6 @@ public class ComprehensiveFileAttributeCompareValidator extends FileAttributeCom
 		{
 			logger.info("The ACL attributes of the two files match.");
 		}
-		
-		file1Attributes = null;
-		file2Attributes = null;
 
 		return result;
 	}

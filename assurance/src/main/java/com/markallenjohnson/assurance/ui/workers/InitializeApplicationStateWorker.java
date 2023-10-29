@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -56,7 +52,7 @@ public class InitializeApplicationStateWorker extends SwingWorker<List<Object>, 
 	@Override
 	protected List<Object> doInBackground() throws Exception
 	{
-		List<Object> bootstrapObjects = new ArrayList<Object>();
+		List<Object> bootstrapObjects = new ArrayList<>();
 		List<ScanDefinition> scanDefinitions = null;
 		ApplicationConfiguration config = null;
 
@@ -111,11 +107,11 @@ public class InitializeApplicationStateWorker extends SwingWorker<List<Object>, 
 			{
 				Object loadedObject = loadedObjects.get(i);
 				// NOTE:  The nature of this check isn't ideal. It won't scale once we add multiple lists.
-				if ((loadedObject != null) && (loadedObject instanceof List<?>))
+				if (loadedObject instanceof List<?>)
 				{
 					this.notifier.fireEvent(new ScanDefinitionsLoadedEvent(loadedObject));
 				}
-				if ((loadedObject != null) && (loadedObject instanceof ApplicationConfiguration))
+				if (loadedObject instanceof ApplicationConfiguration)
 				{
 					this.notifier.fireEvent(new ApplicationConfigurationLoadedEvent(loadedObject));
 				}
@@ -124,6 +120,7 @@ public class InitializeApplicationStateWorker extends SwingWorker<List<Object>, 
 		catch (InterruptedException e)
 		{
 			logger.info("Application bootstrap was aborted.");
+			Thread.currentThread().interrupt();
 		}
 		catch (ExecutionException e)
 		{
@@ -131,7 +128,6 @@ public class InitializeApplicationStateWorker extends SwingWorker<List<Object>, 
 		}
 		finally
 		{
-			loadedObjects = null;
 			this.notifier = null;
 			this.logger = null;
 		}

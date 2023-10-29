@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -196,7 +192,7 @@ public class ScanPathMappingPanel extends AbstractDialogInputPanel implements ID
 			existingExclusionsListConstraints.insets = new Insets(5, 5, 5, 5);
 
 			this.mappingDefinition = (ScanMappingDefinition) ModelUtils.initializeEntity(this.mappingDefinition, ScanMappingDefinition.EXCLUSIONS_PROPERTY);
-			this.exclusionsPanel = new ListInputPanel<FileReference>(this.mappingDefinition, this);
+			this.exclusionsPanel = new ListInputPanel<>(this.mappingDefinition, this);
 			existingExclusionsPanel.add(this.exclusionsPanel, existingExclusionsListConstraints);
 
 			this.initialized = true;
@@ -219,7 +215,7 @@ public class ScanPathMappingPanel extends AbstractDialogInputPanel implements ID
 	{
 		if (selectedItem != null)
 		{
-			if (this.mappingDefinition.getUnmodifiableExclusions().size() > 0)
+			if (!this.mappingDefinition.getUnmodifiableExclusions().isEmpty())
 			{
 				this.mappingDefinition.removeExclusion(selectedItem);
 			}
@@ -264,7 +260,7 @@ public class ScanPathMappingPanel extends AbstractDialogInputPanel implements ID
 	{
 		if (result == AssuranceDialogResult.CONFIRM)
 		{
-			if ((resultObject != null) && (resultObject instanceof FileReference))
+			if (resultObject instanceof FileReference)
 			{
 				boolean bypass = false;
 				for (FileReference exclusion : this.mappingDefinition.getUnmodifiableExclusions())
@@ -283,7 +279,7 @@ public class ScanPathMappingPanel extends AbstractDialogInputPanel implements ID
 					}
 				}
 				
-				if (bypass != true)
+				if (!bypass)
 				{
 					if (!this.mappingDefinition.getUnmodifiableExclusions().contains(resultObject))
 					{
@@ -355,6 +351,6 @@ public class ScanPathMappingPanel extends AbstractDialogInputPanel implements ID
 
 	public void listValueChanged(boolean itemIsSelected) 
 	{
-		
+		// No op
 	}
 }

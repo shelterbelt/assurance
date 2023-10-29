@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -37,6 +33,7 @@ import java.nio.file.attribute.PosixFileAttributes;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.Date;
 
 import jakarta.persistence.CascadeType;
@@ -370,13 +367,9 @@ public class FileAttributes
 			{
 				try 
 				{
-					this.contentsHash = comparer.calculateHashForFile(file).toString();
+					this.contentsHash = Arrays.toString(comparer.calculateHashForFile(file));
 				}
-				catch (NoSuchAlgorithmException e)
-				{
-					this.contentsHash = "";
-				}
-				catch (IOException e)
+				catch (NoSuchAlgorithmException | IOException e)
 				{
 					this.contentsHash = "";
 				}
@@ -395,7 +388,7 @@ public class FileAttributes
 
 			if (basicFileAttributes == null)
 			{
-				StringBuffer message = new StringBuffer(512);
+				StringBuilder message = new StringBuilder(512);
 				logger.info(message.append("Could not query the basic attributes of the file: ").append(file));
 				message.setLength(0);
 				message = null;
@@ -435,7 +428,7 @@ public class FileAttributes
 
 			if (dosFileAttributes == null)
 			{
-				StringBuffer message = new StringBuffer(512);
+				StringBuilder message = new StringBuilder(512);
 				logger.info(message.append("Could not query the DOS attributes of the file: ").append(file));
 				message.setLength(0);
 				message = null;
@@ -462,7 +455,7 @@ public class FileAttributes
 
 			if (posixFileAttributes == null)
 			{
-				StringBuffer message = new StringBuffer(512);
+				StringBuilder message = new StringBuilder(512);
 				logger.info(message.append("Could not query the POSIX attributes of the file: ").append(file));
 				message.setLength(0);
 				message = null;
@@ -478,7 +471,7 @@ public class FileAttributes
 					this.owner = posixFileAttributes.owner().getName();
 				}
 
-				String permissions = "";
+				String localPermissions = "";
 				StringBuilder buffer = new StringBuilder(128);
 				for (PosixFilePermission permission : posixFileAttributes.permissions())
 				{
@@ -488,13 +481,13 @@ public class FileAttributes
 					}
 					buffer.append(permission.toString());
 				}
-				permissions = buffer.toString();
+				localPermissions = buffer.toString();
 				buffer.setLength(0);
-				if (permissions.length() > 0)
+				if (localPermissions.length() > 0)
 				{
-					this.permissions = permissions;
+					this.permissions = localPermissions;
 				}
-				permissions = null;
+				localPermissions = null;
 				buffer = null;
 			}
 			posixFileAttributes = null;
@@ -512,7 +505,7 @@ public class FileAttributes
 
 			if (fileOwnerFileAttributes == null)
 			{
-				StringBuffer message = new StringBuffer(512);
+				StringBuilder message = new StringBuilder(512);
 				logger.info(message.append("Could not query the file-owner attributes of the file: ").append(file));
 				message.setLength(0);
 				message = null;
@@ -546,7 +539,7 @@ public class FileAttributes
 
 			if (aclFileAttributes == null)
 			{
-				StringBuffer message = new StringBuffer(512);
+				StringBuilder message = new StringBuilder(512);
 				logger.info(message.append("Could not query the ACL attributes of the file: ").append(file));
 				message.setLength(0);
 				message = null;
@@ -596,7 +589,7 @@ public class FileAttributes
 
 			if (userDefinedFileAttributes == null)
 			{
-				StringBuffer message = new StringBuffer(512);
+				StringBuilder message = new StringBuilder(512);
 				logger.info(message.append("Could not query the user-defined attributes of the file: ").append(file));
 				message.setLength(0);
 				message = null;
@@ -605,7 +598,7 @@ public class FileAttributes
 			{
 				// TODO:  Build out.  Currently not comparing the UDFAs in a Windows environment.
 				StringBuilder hash = new StringBuilder(128);
-				this.userDefinedAttributesHash = hash.append("Not Implemented: ").append(Integer.valueOf(userDefinedFileAttributes.hashCode())/*Integer(userDefinedFileAttributes.hashCode())*/.toString()).toString();
+				this.userDefinedAttributesHash = hash.append("Not Implemented: ").append(Integer.toString(userDefinedFileAttributes.hashCode())/*Integer(userDefinedFileAttributes.hashCode())*/).toString();
 				hash.setLength(0);
 				hash = null;
 			}

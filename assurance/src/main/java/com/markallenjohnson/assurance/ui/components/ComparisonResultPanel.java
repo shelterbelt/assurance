@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,6 +20,8 @@
  */
 
 package com.markallenjohnson.assurance.ui.components;
+
+import static javax.swing.SwingConstants.CENTER;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -199,10 +197,8 @@ public class ComparisonResultPanel extends JPanel implements ActionListener, IEv
 				{
 					sourcePath = sourceFile.getPath();
 				}
-				sourceFile = null;
 			}
 			JLabel sourceFileLabel = new JLabel(sourcePath);
-			sourcePath = null;
 			sourcePanel.add(sourceFileLabel, sourceFileLabelConstraints);
 
 			GridBagConstraints sourceAttributesPanelConstraints = new GridBagConstraints();
@@ -304,10 +300,8 @@ public class ComparisonResultPanel extends JPanel implements ActionListener, IEv
 				{
 					targetPath = targetFile.getPath();
 				}
-				targetFile = null;
 			}
 			JLabel targetFileLabel = new JLabel(targetPath);
-			targetPath = null;
 			targetPanel.add(targetFileLabel, targetFileLabelConstraints);
 
 			GridBagConstraints targetAttributesPanelConstraints = new GridBagConstraints();
@@ -323,9 +317,6 @@ public class ComparisonResultPanel extends JPanel implements ActionListener, IEv
 
 			JPanel targetAttributesPanel = this.createFileAttributesPanel(targetReference, sourceReference, GridBagConstraints.EAST);
 			targetPanel.add(targetAttributesPanel, targetAttributesPanelConstraints);
-			
-			sourceReference = null;
-			targetReference = null;
 			
 			this.moreTargetAttributesButton.setHorizontalAlignment(SwingConstants.RIGHT);
 			this.moreTargetAttributesButton.setBorderPainted(false);
@@ -371,7 +362,7 @@ public class ComparisonResultPanel extends JPanel implements ActionListener, IEv
 			mergingLabelConstraints.gridwidth = 1;
 			mergingLabelConstraints.insets = new Insets(10, 10, 10, 10);
 
-			this.mergingLabel.setHorizontalAlignment(JLabel.CENTER);
+			this.mergingLabel.setHorizontalAlignment(CENTER);
 			mergingPanel.add(this.mergingLabel, mergingLabelConstraints);
 
 			GridBagConstraints mergingStatusIndicatorConstraints = new GridBagConstraints();
@@ -419,6 +410,7 @@ public class ComparisonResultPanel extends JPanel implements ActionListener, IEv
 
 				public void ancestorMoved(AncestorEvent event)
 				{
+					// This event does not to be handled in this application implementation.
 				}
 			});
 
@@ -451,157 +443,156 @@ public class ComparisonResultPanel extends JPanel implements ActionListener, IEv
 		if (result != null)
 		{
 			resolution = result.getResolution();
-		}
 
-		if (resolution == AssuranceResultResolution.UNRESOLVED)
-		{
-			if (this.editable)
+			if (resolution == AssuranceResultResolution.UNRESOLVED)
 			{
-				GridBagConstraints mergeTargetToSourceButtonConstraints = new GridBagConstraints();
-				mergeTargetToSourceButtonConstraints.anchor = GridBagConstraints.CENTER;
-				mergeTargetToSourceButtonConstraints.gridx = 0;
-				mergeTargetToSourceButtonConstraints.gridy = 0;
-				mergeTargetToSourceButtonConstraints.weightx = 1.0;
-				mergeTargetToSourceButtonConstraints.weighty = 1.0;
-				mergeTargetToSourceButtonConstraints.gridheight = 1;
-				mergeTargetToSourceButtonConstraints.gridwidth = 1;
-				mergeTargetToSourceButtonConstraints.insets = new Insets(5, 5, 5, 5);
-
-				this.mergeTargetToSourceButton.addActionListener(this);
-				Image icon;
-				try
+				if (this.editable)
 				{
-					icon = ImageIO.read(Application.class.getClassLoader().getResource("replace-source.png"));
-					icon = icon.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-					this.mergeTargetToSourceButton.setIcon(new ImageIcon(icon));
-					this.mergeTargetToSourceButton.setText("");
-					this.mergeTargetToSourceButton.setToolTipText("Replace source with target.");
-				}
-				catch (IOException e)
-				{
-					logger.warn("Unable to load icon resources.", e);
-				}
-				this.mergeTargetToSourceButton.setActionCommand(AssuranceActions.replaceSourceAction);
-				this.mergePanel.add(this.mergeTargetToSourceButton, mergeTargetToSourceButtonConstraints);
+					GridBagConstraints mergeTargetToSourceButtonConstraints = new GridBagConstraints();
+					mergeTargetToSourceButtonConstraints.anchor = GridBagConstraints.CENTER;
+					mergeTargetToSourceButtonConstraints.gridx = 0;
+					mergeTargetToSourceButtonConstraints.gridy = 0;
+					mergeTargetToSourceButtonConstraints.weightx = 1.0;
+					mergeTargetToSourceButtonConstraints.weighty = 1.0;
+					mergeTargetToSourceButtonConstraints.gridheight = 1;
+					mergeTargetToSourceButtonConstraints.gridwidth = 1;
+					mergeTargetToSourceButtonConstraints.insets = new Insets(5, 5, 5, 5);
 
-				GridBagConstraints mergeSourceToTargetButtonConstraints = new GridBagConstraints();
-				mergeSourceToTargetButtonConstraints.anchor = GridBagConstraints.CENTER;
-				mergeSourceToTargetButtonConstraints.gridx = 0;
-				mergeSourceToTargetButtonConstraints.gridy = 1;
-				mergeSourceToTargetButtonConstraints.weightx = 1.0;
-				mergeSourceToTargetButtonConstraints.weighty = 1.0;
-				mergeSourceToTargetButtonConstraints.gridheight = 1;
-				mergeSourceToTargetButtonConstraints.gridwidth = 1;
-				mergeSourceToTargetButtonConstraints.insets = new Insets(5, 5, 5, 5);
-
-				this.mergeSourceToTargetButton.addActionListener(this);
-				try
-				{
-					icon = ImageIO.read(Application.class.getClassLoader().getResource("replace-target.png"));
-					icon = icon.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-					this.mergeSourceToTargetButton.setIcon(new ImageIcon(icon));
-					this.mergeSourceToTargetButton.setText("");
-					this.mergeSourceToTargetButton.setToolTipText("Replace target with source.");
-				}
-				catch (IOException e)
-				{
-					logger.warn("Unable to load icon resources.", e);
-				}
-				this.mergeSourceToTargetButton.setActionCommand(AssuranceActions.replaceTargetAction);
-				this.mergePanel.add(this.mergeSourceToTargetButton, mergeSourceToTargetButtonConstraints);
-			}
-		}
-		else
-		{
-			Image resolutionLabelValue = null;
-			try
-			{
-				switch (result.getResolution())
-				{
-					case REPLACE_SOURCE:
-					case DELETE_SOURCE:
-						resolutionLabelValue = ImageIO.read(Application.class.getClassLoader().getResource("replace-source.png"));
-						resolutionLabelValue = resolutionLabelValue.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-						break;
-					case REPLACE_TARGET:
-					case DELETE_TARGET:
-						resolutionLabelValue = ImageIO.read(Application.class.getClassLoader().getResource("replace-target.png"));
-						resolutionLabelValue = resolutionLabelValue.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-						break;
-					case PROCESSING_ERROR_ENCOUNTERED:
-						resolutionLabelValue = ImageIO.read(Application.class.getClassLoader().getResource("resolution-error.png"));
-						resolutionLabelValue = resolutionLabelValue.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-						break;
-					default:
-						resolutionLabelValue = ImageIO.read(Application.class.getClassLoader().getResource("undetermined.png"));
-						resolutionLabelValue = resolutionLabelValue.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-						break;
-				}
-			}
-			catch (IOException e)
-			{
-				logger.warn("Unable to load icon resources.", e);
-			}
-
-			GridBagConstraints mergeResolutionLabelConstraints = new GridBagConstraints();
-			mergeResolutionLabelConstraints.anchor = GridBagConstraints.CENTER;
-			mergeResolutionLabelConstraints.gridx = 0;
-			mergeResolutionLabelConstraints.gridy = 0;
-			mergeResolutionLabelConstraints.weightx = 1.0;
-			mergeResolutionLabelConstraints.weighty = 1.0;
-			mergeResolutionLabelConstraints.gridheight = 1;
-			mergeResolutionLabelConstraints.gridwidth = 1;
-			mergeResolutionLabelConstraints.insets = new Insets(5, 5, 5, 5);
-
-			JLabel mergeResolutionLabel = new JLabel(new ImageIcon(resolutionLabelValue));
-			this.mergePanel.add(mergeResolutionLabel, mergeResolutionLabelConstraints);
-
-			if ((result.getResolution() == AssuranceResultResolution.DELETE_SOURCE) || (result.getResolution() == AssuranceResultResolution.DELETE_TARGET))
-			{
-				File deletedFile = null;
-				if (result.getResolution() == AssuranceResultResolution.DELETE_SOURCE)
-				{
-					deletedFile = result.getSourceDeletedItemLocation(MergeEngine.getApplicationDeletedItemsLocation());
-				}
-				if (result.getResolution() == AssuranceResultResolution.DELETE_TARGET)
-				{
-					deletedFile = result.getTargetDeletedItemLocation(MergeEngine.getApplicationDeletedItemsLocation());
-				}
-
-				if (deletedFile.exists())
-				{
-					GridBagConstraints mergeRestoreButtonConstraints = new GridBagConstraints();
-					mergeRestoreButtonConstraints.anchor = GridBagConstraints.CENTER;
-					mergeRestoreButtonConstraints.gridx = 0;
-					mergeRestoreButtonConstraints.gridy = 1;
-					mergeRestoreButtonConstraints.weightx = 1.0;
-					mergeRestoreButtonConstraints.weighty = 1.0;
-					mergeRestoreButtonConstraints.gridheight = 1;
-					mergeRestoreButtonConstraints.gridwidth = 1;
-					mergeRestoreButtonConstraints.insets = new Insets(5, 5, 5, 5);
-
-					Image icon = null;
+					this.mergeTargetToSourceButton.addActionListener(this);
+					Image icon;
 					try
 					{
-						icon = ImageIO.read(Application.class.getClassLoader().getResource("restore.png"));
+						icon = ImageIO.read(Application.class.getClassLoader().getResource("replace-source.png"));
 						icon = icon.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+						this.mergeTargetToSourceButton.setIcon(new ImageIcon(icon));
+						this.mergeTargetToSourceButton.setText("");
+						this.mergeTargetToSourceButton.setToolTipText("Replace source with target.");
 					}
 					catch (IOException e)
 					{
 						logger.warn("Unable to load icon resources.", e);
 					}
-					this.mergeRestoreButton.setIcon(new ImageIcon(icon));
-					this.mergeRestoreButton.setText("");
-					this.mergeRestoreButton.setToolTipText("Restore");
-					this.mergeRestoreButton.addActionListener(this);
-					this.mergeRestoreButton.setActionCommand(AssuranceActions.restoreDeletedItemAction);
-					this.mergePanel.add(this.mergeRestoreButton, mergeRestoreButtonConstraints);
+					this.mergeTargetToSourceButton.setActionCommand(AssuranceActions.replaceSourceAction);
+					this.mergePanel.add(this.mergeTargetToSourceButton, mergeTargetToSourceButtonConstraints);
+
+					GridBagConstraints mergeSourceToTargetButtonConstraints = new GridBagConstraints();
+					mergeSourceToTargetButtonConstraints.anchor = GridBagConstraints.CENTER;
+					mergeSourceToTargetButtonConstraints.gridx = 0;
+					mergeSourceToTargetButtonConstraints.gridy = 1;
+					mergeSourceToTargetButtonConstraints.weightx = 1.0;
+					mergeSourceToTargetButtonConstraints.weighty = 1.0;
+					mergeSourceToTargetButtonConstraints.gridheight = 1;
+					mergeSourceToTargetButtonConstraints.gridwidth = 1;
+					mergeSourceToTargetButtonConstraints.insets = new Insets(5, 5, 5, 5);
+
+					this.mergeSourceToTargetButton.addActionListener(this);
+					try
+					{
+						icon = ImageIO.read(Application.class.getClassLoader().getResource("replace-target.png"));
+						icon = icon.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+						this.mergeSourceToTargetButton.setIcon(new ImageIcon(icon));
+						this.mergeSourceToTargetButton.setText("");
+						this.mergeSourceToTargetButton.setToolTipText("Replace target with source.");
+					}
+					catch (IOException e)
+					{
+						logger.warn("Unable to load icon resources.", e);
+					}
+					this.mergeSourceToTargetButton.setActionCommand(AssuranceActions.replaceTargetAction);
+					this.mergePanel.add(this.mergeSourceToTargetButton, mergeSourceToTargetButtonConstraints);
 				}
-				deletedFile = null;
 			}
-			else if (result.getResolution() == AssuranceResultResolution.PROCESSING_ERROR_ENCOUNTERED)
+			else
 			{
-				mergeResolutionLabel.setToolTipText(result.getResolutionError());
+				Image resolutionLabelValue = null;
+				try
+				{
+					switch (result.getResolution())
+					{
+						case REPLACE_SOURCE:
+						case DELETE_SOURCE:
+							resolutionLabelValue = ImageIO.read(Application.class.getClassLoader().getResource("replace-source.png"));
+							resolutionLabelValue = resolutionLabelValue.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+							break;
+						case REPLACE_TARGET:
+						case DELETE_TARGET:
+							resolutionLabelValue = ImageIO.read(Application.class.getClassLoader().getResource("replace-target.png"));
+							resolutionLabelValue = resolutionLabelValue.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+							break;
+						case PROCESSING_ERROR_ENCOUNTERED:
+							resolutionLabelValue = ImageIO.read(Application.class.getClassLoader().getResource("resolution-error.png"));
+							resolutionLabelValue = resolutionLabelValue.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+							break;
+						default:
+							resolutionLabelValue = ImageIO.read(Application.class.getClassLoader().getResource("undetermined.png"));
+							resolutionLabelValue = resolutionLabelValue.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+							break;
+					}
+				}
+				catch (IOException e)
+				{
+					logger.warn("Unable to load icon resources.", e);
+				}
+
+				GridBagConstraints mergeResolutionLabelConstraints = new GridBagConstraints();
+				mergeResolutionLabelConstraints.anchor = GridBagConstraints.CENTER;
+				mergeResolutionLabelConstraints.gridx = 0;
+				mergeResolutionLabelConstraints.gridy = 0;
+				mergeResolutionLabelConstraints.weightx = 1.0;
+				mergeResolutionLabelConstraints.weighty = 1.0;
+				mergeResolutionLabelConstraints.gridheight = 1;
+				mergeResolutionLabelConstraints.gridwidth = 1;
+				mergeResolutionLabelConstraints.insets = new Insets(5, 5, 5, 5);
+
+				JLabel mergeResolutionLabel = new JLabel(new ImageIcon(resolutionLabelValue));
+				this.mergePanel.add(mergeResolutionLabel, mergeResolutionLabelConstraints);
+
+				if ((result.getResolution() == AssuranceResultResolution.DELETE_SOURCE) || (result.getResolution() == AssuranceResultResolution.DELETE_TARGET))
+				{
+					File deletedFile = null;
+					if (result.getResolution() == AssuranceResultResolution.DELETE_SOURCE)
+					{
+						deletedFile = result.getSourceDeletedItemLocation(MergeEngine.getApplicationDeletedItemsLocation());
+					}
+					if (result.getResolution() == AssuranceResultResolution.DELETE_TARGET)
+					{
+						deletedFile = result.getTargetDeletedItemLocation(MergeEngine.getApplicationDeletedItemsLocation());
+					}
+
+					if ((deletedFile != null) && deletedFile.exists())
+					{
+						GridBagConstraints mergeRestoreButtonConstraints = new GridBagConstraints();
+						mergeRestoreButtonConstraints.anchor = GridBagConstraints.CENTER;
+						mergeRestoreButtonConstraints.gridx = 0;
+						mergeRestoreButtonConstraints.gridy = 1;
+						mergeRestoreButtonConstraints.weightx = 1.0;
+						mergeRestoreButtonConstraints.weighty = 1.0;
+						mergeRestoreButtonConstraints.gridheight = 1;
+						mergeRestoreButtonConstraints.gridwidth = 1;
+						mergeRestoreButtonConstraints.insets = new Insets(5, 5, 5, 5);
+
+						Image icon = null;
+						try
+						{
+							icon = ImageIO.read(Application.class.getClassLoader().getResource("restore.png"));
+							icon = icon.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+						}
+						catch (IOException e)
+						{
+							logger.warn("Unable to load icon resources.", e);
+						}
+						this.mergeRestoreButton.setIcon(new ImageIcon(icon));
+						this.mergeRestoreButton.setText("");
+						this.mergeRestoreButton.setToolTipText("Restore");
+						this.mergeRestoreButton.addActionListener(this);
+						this.mergeRestoreButton.setActionCommand(AssuranceActions.restoreDeletedItemAction);
+						this.mergePanel.add(this.mergeRestoreButton, mergeRestoreButtonConstraints);
+					}
+				}
+				else if (result.getResolution() == AssuranceResultResolution.PROCESSING_ERROR_ENCOUNTERED)
+				{
+					mergeResolutionLabel.setToolTipText(result.getResolutionError());
+				}
 			}
 		}
 	}
@@ -624,7 +615,7 @@ public class ComparisonResultPanel extends JPanel implements ActionListener, IEv
 
 			if (((attributes.getContentsHash() == null) && (comparisonAttributes.getContentsHash() != null)) || ((attributes.getContentsHash() != null) && (!attributes.getContentsHash().equals(comparisonAttributes.getContentsHash()))))
 			{
-				this.addFileAttributeToPanel(attributePanel, anchor, index, "Contents Hash: ", (attributes.getContentsHash() != null) ? attributes.getContentsHash().toString() : "");
+				this.addFileAttributeToPanel(attributePanel, anchor, index, "Contents Hash: ", (attributes.getContentsHash() != null) ? attributes.getContentsHash() : "");
 				index++;
 			}
 			if (((attributes.getCreationTime() == null) && (comparisonAttributes.getCreationTime() != null)) || ((attributes.getCreationTime() != null) && (!attributes.getCreationTime().equals(comparisonAttributes.getCreationTime()))))
@@ -867,7 +858,7 @@ public class ComparisonResultPanel extends JPanel implements ActionListener, IEv
 				actionLabel = "Restoring ";
 			}
 
-			if (((ComparisonResult) event.getSource()).getId() == this.result.getId())
+			if (((ComparisonResult) event.getSource()).getId().equals(this.result.getId()))
 			{
 				this.result = (ComparisonResult) event.getSource();
 
@@ -875,18 +866,17 @@ public class ComparisonResultPanel extends JPanel implements ActionListener, IEv
 				StringBuilder message = new StringBuilder(128);
 				this.conditionallyShowMergingPanel(this.merging, message.append(actionLabel).append(result.getSource().getFile().getName()).toString());
 				message.setLength(0);
-				message = null;
 			}
-			
-			actionLabel = null;
 		}
 
 		if (event instanceof ResultMergeProgressEvent)
 		{
+			// TODO: Currently unhandled.
 		}
 
 		if (event instanceof DeletedItemRestoreProgressEvent)
 		{
+			// TODO: Currently unhandled.
 		}
 
 		if ((event instanceof ResultMergeCompletedEvent) || (event instanceof DeletedItemRestoreCompletedEvent))

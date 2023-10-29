@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -43,24 +39,21 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import com.markallenjohnson.assurance.model.IInitializableEntity;
 import com.markallenjohnson.assurance.model.IListDataProvider;
 import com.markallenjohnson.assurance.model.ModelUtils;
-import com.markallenjohnson.assurance.ui.components.validators.IFormStateValidator;
 
 // NOTE:  This implementation isn't as scalable as it could be.  The notion of applying behavior
 // to the button controls specifically won't scale well.
-public class ListInputPanel<T> extends AbstractInputPanel implements ActionListener, IFormStateValidator 
+public class ListInputPanel<T> extends AbstractInputPanel implements ActionListener 
 {
 	private static final long serialVersionUID = 1L;
 
 	private int selectedIndex = 0;
 	
-	private final DefaultListModel<T> dataListModel = new DefaultListModel<T>();
-	private final JList<T> existingDataList = new JList<T>(this.dataListModel);
+	private final DefaultListModel<T> dataListModel = new DefaultListModel<>();
+	private final JList<T> existingDataList = new JList<>(this.dataListModel);
 	private final JButton primaryButton = new JButton("New");
 	private final JButton secondaryButton = new JButton("Delete");
 	
@@ -155,11 +148,11 @@ public class ListInputPanel<T> extends AbstractInputPanel implements ActionListe
 			this.primaryButton.addActionListener(this);
 			this.secondaryButton.addActionListener(this);
 
-			if (this.primaryButtonRequiresSelection == true)
+			if (this.primaryButtonRequiresSelection)
 			{
 				this.primaryButton.setEnabled(false);
 			}
-			if (this.secondaryButtonRequiresSelection == true)
+			if (this.secondaryButtonRequiresSelection)
 			{
 				this.secondaryButton.setEnabled(false);
 			}
@@ -172,6 +165,7 @@ public class ListInputPanel<T> extends AbstractInputPanel implements ActionListe
 
 			MouseListener mouseListener = new MouseAdapter()
 			{
+				@Override
 				public void mouseClicked(MouseEvent e)
 				{
 					if (e.getClickCount() == 2)
@@ -186,46 +180,42 @@ public class ListInputPanel<T> extends AbstractInputPanel implements ActionListe
 			};
 			this.existingDataList.addMouseListener(mouseListener);
 
-			this.existingDataList.addListSelectionListener(new ListSelectionListener()
-			{
-				public void valueChanged(ListSelectionEvent event)
+			this.existingDataList.addListSelectionListener(event -> {
+				if (!event.getValueIsAdjusting())
 				{
-					if (!event.getValueIsAdjusting())
+					if (delegate != null)
 					{
-						if (delegate != null)
+						@SuppressWarnings("unchecked")
+						JList<T> source = (JList<T>) event.getSource();
+						selectedIndex = source.getSelectedIndex();
+						if (selectedIndex < 0)
 						{
-							@SuppressWarnings("unchecked")
-							JList<T> source = (JList<T>) event.getSource();
-							selectedIndex = source.getSelectedIndex();
-							if (selectedIndex < 0)
+							if (primaryButtonRequiresSelection)
 							{
-								if (primaryButtonRequiresSelection == true)
-								{
-									primaryButton.setEnabled(false);
-								}
-								if (secondaryButtonRequiresSelection == true)
-								{
-									secondaryButton.setEnabled(false);
-								}
-								if (delegate != null)
-								{
-									delegate.listValueChanged(false);
-								}
+								primaryButton.setEnabled(false);
 							}
-							else
+							if (secondaryButtonRequiresSelection)
 							{
-								if (primaryButtonRequiresSelection == true)
-								{
-									primaryButton.setEnabled(true);
-								}
-								if (secondaryButtonRequiresSelection == true)
-								{
-									secondaryButton.setEnabled(true);
-								}
-								if (delegate != null)
-								{
-									delegate.listValueChanged(true);
-								}
+								secondaryButton.setEnabled(false);
+							}
+							if (delegate != null)
+							{
+								delegate.listValueChanged(false);
+							}
+						}
+						else
+						{
+							if (primaryButtonRequiresSelection)
+							{
+								primaryButton.setEnabled(true);
+							}
+							if (secondaryButtonRequiresSelection)
+							{
+								secondaryButton.setEnabled(true);
+							}
+							if (delegate != null)
+							{
+								delegate.listValueChanged(true);
 							}
 						}
 					}
@@ -271,7 +261,7 @@ public class ListInputPanel<T> extends AbstractInputPanel implements ActionListe
 			{
 				if (this.delegate != null)
 				{
-					if (this.primaryButtonRequiresSelection == true)
+					if (this.primaryButtonRequiresSelection)
 					{
 						this.delegate.handlePrimaryButtonClick(existingDataList.getSelectedValue());
 					}
@@ -289,7 +279,7 @@ public class ListInputPanel<T> extends AbstractInputPanel implements ActionListe
 			{
 				if (this.delegate != null)
 				{
-					if (this.secondaryButtonRequiresSelection == true)
+					if (this.secondaryButtonRequiresSelection)
 					{
 						this.delegate.handleSecondaryButtonClick(existingDataList.getSelectedValue());
 					}
@@ -305,11 +295,11 @@ public class ListInputPanel<T> extends AbstractInputPanel implements ActionListe
 	@SuppressWarnings("unchecked")
 	public void loadData()
 	{
-		int selectedIndex = existingDataList.getSelectedIndex();
+		int localSelectedIndex = existingDataList.getSelectedIndex();
 		
 		// NOTE:  Swapping the list model out to suppress change
 		// notifications during a data reload feels less than ideal.
-		this.existingDataList.setModel(new DefaultListModel<T>());
+		this.existingDataList.setModel(new DefaultListModel<>());
 
 		Collection<T> list = null;
 		this.dataListModel.removeAllElements();
@@ -330,21 +320,19 @@ public class ListInputPanel<T> extends AbstractInputPanel implements ActionListe
 			{
 				if (!this.dataListModel.contains(exclusion))
 				{
-					if (selectedIndex < 0)
+					if (localSelectedIndex < 0)
 					{
-						selectedIndex = 0;
+						localSelectedIndex = 0;
 					}
 					this.dataListModel.addElement(exclusion);
 				}
-				exclusion = null;
 			}
-			list = null;
 			
 			this.existingDataList.setModel(this.dataListModel);
 
-			if ((selectedIndex >= 0) && (this.dataListModel.getSize() > selectedIndex))
+			if ((localSelectedIndex >= 0) && (this.dataListModel.getSize() > localSelectedIndex))
 			{
-				this.existingDataList.setSelectedIndex(selectedIndex);
+				this.existingDataList.setSelectedIndex(localSelectedIndex);
 			}
 		}
 	}

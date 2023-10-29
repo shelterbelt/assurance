@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -28,6 +24,7 @@ package com.markallenjohnson.assurance.model;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -38,6 +35,10 @@ import com.markallenjohnson.assurance.model.compare.file.IFileComparer;
 
 public class ModelUtils 
 {
+	private ModelUtils() {
+		throw new IllegalStateException("Utility class");
+	  }
+	
 	public static IInitializableEntity initializeEntity(IInitializableEntity entity, String propertyKey) 
 	{
 
@@ -61,7 +62,7 @@ public class ModelUtils
 				try
 				{
 					springContext = new ClassPathXmlApplicationContext("/META-INF/spring/app-context.xml");
-					IModelDelegate modelDelegate = (IModelDelegate) springContext.getBean("ModelDelegate");
+									IModelDelegate modelDelegate = (IModelDelegate) springContext.getBean("ModelDelegate");
 
 					result = modelDelegate.initializeEntity(entity, propertyKey);
 					
@@ -112,7 +113,7 @@ public class ModelUtils
 				byte[] hash = comparer.calculateHashForFile(file);
 				if (hash != null)
 				{
-					result = hash.toString();
+					result = Arrays.toString(hash);
 				}
 				else
 				{
@@ -125,12 +126,7 @@ public class ModelUtils
 				
 				comparer = null;
 			}
-			catch (NoSuchAlgorithmException e)
-			{
-				result = "";
-				logger.warn(e);
-			}
-			catch (IOException e)
+			catch (NoSuchAlgorithmException | IOException e)
 			{
 				result = "";
 				logger.warn(e);

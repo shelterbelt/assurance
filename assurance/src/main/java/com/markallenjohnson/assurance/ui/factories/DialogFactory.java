@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -94,8 +90,7 @@ public class DialogFactory implements IDialogFactory, BeanFactoryAware
 		// Feel I have a problem with my Spring hierarchy because of it.
 		scanDefinitionPanel.setApplicationDelegate(this.applicationDelegate);
 
-		JDialog scanDefinitionDialog = createDialogInstance(parent, modality, responseHandler, scanDefinitionPanel, new Dimension(400, 500));
-		return scanDefinitionDialog;
+		return createDialogInstance(parent, modality, responseHandler, scanDefinitionPanel, new Dimension(400, 500));
 	}
 
 	public JDialog createFileAttributesDialogInstance(Window parent, ModalityType modality, FileReference file)
@@ -144,8 +139,7 @@ public class DialogFactory implements IDialogFactory, BeanFactoryAware
 
 		scanMappingDefinitionPanel.setMapping(mappingDefinition);
 
-		JDialog scanDefinitionDialog = createDialogInstance(parent, modality, responseHandler, scanMappingDefinitionPanel, new Dimension(400, 400));
-		return scanDefinitionDialog;
+		return createDialogInstance(parent, modality, responseHandler, scanMappingDefinitionPanel, new Dimension(400, 400));
 	}
 	
 	public JDialog createExclusionDialogInstance(Window parent, ModalityType modality, FileReference exclusion)
@@ -159,8 +153,7 @@ public class DialogFactory implements IDialogFactory, BeanFactoryAware
 
 		exclusionsPanel.setExclusion(exclusion);
 
-		JDialog exclusionsDialog = createDialogInstance(parent, modality, responseHandler, exclusionsPanel, new Dimension(400, 135));
-		return exclusionsDialog;
+		return createDialogInstance(parent, modality, responseHandler, exclusionsPanel, new Dimension(400, 135));
 	}
 
 	public JDialog createSettingsDialogInstance(Window parent, ModalityType modality, ApplicationConfiguration configuration)
@@ -174,7 +167,6 @@ public class DialogFactory implements IDialogFactory, BeanFactoryAware
 
 		settingsPanel.setConfiguration(configuration);
 
-		JDialog settingsDialog = createDialogInstance(parent, modality, responseHandler, settingsPanel, new Dimension(400, 250));
-		return settingsDialog;
+		return createDialogInstance(parent, modality, responseHandler, settingsPanel, new Dimension(400, 250));
 	}
 }

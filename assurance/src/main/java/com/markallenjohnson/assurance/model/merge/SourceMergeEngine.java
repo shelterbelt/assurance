@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -39,7 +35,7 @@ import com.markallenjohnson.assurance.model.enums.AssuranceResultResolution;
 import com.markallenjohnson.assurance.notification.IProgressMonitor;
 
 @Component("SourceMergeEngine")
-public class SourceMergeEngine extends MergeEngine implements IMergeEngine
+public class SourceMergeEngine extends MergeEngine
 {
 	private Logger logger = LogManager.getLogger(SourceMergeEngine.class);
 
@@ -59,7 +55,6 @@ public class SourceMergeEngine extends MergeEngine implements IMergeEngine
 			StringBuilder message = new StringBuilder(512);
 			monitor.publish(message.append("Merging ").append(sourceFile.toString()).append(" to ").append(targetFile.toString()).toString());
 			message.setLength(0);
-			message = null;
 		}
 
 		if (sourceFile.exists())
@@ -93,7 +88,6 @@ public class SourceMergeEngine extends MergeEngine implements IMergeEngine
 					StringBuilder deletedItemPath = new StringBuilder(512);
 					scanDeletedItemsLocation = new File(deletedItemPath.append(this.getDefaultDeletedItemsLocation()).append(File.separator).append(targetFile.getName()).toString());
 					deletedItemPath.setLength(0);
-					deletedItemPath = null;
 				}
 				try
 				{
@@ -109,18 +103,13 @@ public class SourceMergeEngine extends MergeEngine implements IMergeEngine
 				}
 				catch (IOException e)
 				{
-					StringBuffer message = new StringBuffer(512);
+					StringBuilder message = new StringBuilder(512);
 					logger.warn(message.append("Could not move item to deleted items location ").append(sourceFile.getPath()));
 					message.setLength(0);
-					message = null;
 					result.setResolution(AssuranceResultResolution.PROCESSING_ERROR_ENCOUNTERED);
 					result.setResolutionError(e.getMessage());
 				}
-				scanDeletedItemsLocation = null;
 			}
 		}
-		
-		sourceFile = null;
-		targetFile = null;
 	}
 }

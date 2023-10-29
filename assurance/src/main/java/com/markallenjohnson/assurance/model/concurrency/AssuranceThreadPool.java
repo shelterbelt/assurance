@@ -3,12 +3,8 @@
  * 
  * Created by Mark Johnson
  * 
- * Copyright (c) 2015 Mark Johnson
+ * Copyright (c) 2015 - 2023 Mark Johnson
  * 
- */
-/*
- * Copyright 2015 Mark Johnson
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -44,7 +40,7 @@ public class AssuranceThreadPool implements IAssuranceThreadPool {
 
 	private Logger logger = LogManager.getLogger(AssuranceThreadPool.class);
 
-	private Collection<Future<?>> futures = new LinkedList<Future<?>>();
+	private Collection<Future<?>> futures = new LinkedList<>();
 	
 	private Phaser lock = new Phaser(0);
 	
