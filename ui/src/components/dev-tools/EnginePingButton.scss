@@ -1,0 +1,47 @@
+.dev-tools-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+.dev-tools-ping-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    padding: 0;
+    border-radius: 999px;
+    border: 1px solid rgba(128, 128, 128, 0.55);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.dev-tools-ping-icon {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    box-shadow: 0 0 0 0.18rem rgba(108, 117, 125, 0.25);
+}
+
+.dev-tools-ping-icon-checking {
+    background: #f0ad4e;
+    box-shadow: 0 0 0 0.18rem rgba(240, 173, 78, 0.28);
+}
+
+.dev-tools-ping-icon-connected {
+    background: #28a745;
+    box-shadow: 0 0 0 0.18rem rgba(40, 167, 69, 0.28);
+}
+
+.dev-tools-ping-icon-disconnected {
+    background: #dc3545;
+    box-shadow: 0 0 0 0.18rem rgba(220, 53, 69, 0.28);
+}
+
+.dev-tools-status {
+    font-family: monospace;
+    color: #555;
+}

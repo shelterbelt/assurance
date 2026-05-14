@@ -1,0 +1,22 @@
+.nav-bar {
+    width: 150pt;
+
+    border: 0;
+
+    .nav-item {
+        .nav-link {
+            border: 1pt solid gray;
+            border-radius: 0;
+        }
+
+        .nav-link.nav-bar-left-cap {
+            border-bottom-left-radius: 5pt;
+            border-top-left-radius: 5pt;
+        }
+
+        .nav-link.nav-bar-right-cap {
+            border-bottom-right-radius: 5pt;
+            border-top-right-radius: 5pt;
+        }
+    }
+}

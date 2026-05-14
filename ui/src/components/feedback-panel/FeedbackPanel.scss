@@ -1,0 +1,87 @@
+// Fixed minimum strip: container padding + one btn-sm Dismiss row (extra
+// vertical padding on the button), matching Bootstrap sm metrics.
+.feedback-panel-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4pt;
+    box-sizing: border-box;
+    width: 100%;
+    padding-block: 12px;
+    padding-inline: 0.5rem;
+    min-height: calc(
+        24px + (2 * (var(--bs-btn-padding-y-sm, 0.25rem) + 4px)) +
+            (var(--bs-btn-font-size-sm, 0.875rem) * var(--bs-btn-line-height-sm, 1.5))
+    );
+    overflow: hidden;
+
+    .feedback-dismiss-button.btn {
+        padding-top: calc(var(--bs-btn-padding-y-sm, 0.25rem) + 3px);
+        padding-bottom: calc(var(--bs-btn-padding-y-sm, 0.25rem) + 3px);
+    }
+
+    // Bootstrap default progress height is 1rem; tighten feedback strip.
+    .feedback-progress.progress {
+        --bs-progress-height: calc(1rem - 9px);
+    }
+
+    .feedback-row {
+        display: flex;
+        flex-direction: column;
+        gap: 4pt;
+        font-size: 9pt;
+
+        .feedback-headline {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .feedback-headline--progress {
+            gap: 0.5rem;
+            min-width: 0;
+        }
+
+        .feedback-headline-primary {
+            display: flex;
+            align-items: baseline;
+            gap: 0.35rem;
+            flex-shrink: 0;
+            min-width: 0;
+        }
+
+        .feedback-headline--progress .feedback-current-item {
+            flex: 1 1 auto;
+            min-width: 0;
+            text-align: right;
+        }
+
+        .feedback-phase {
+            text-transform: uppercase;
+            font-size: 8pt;
+            opacity: 0.7;
+            letter-spacing: 0.5pt;
+        }
+
+        .feedback-current-item {
+            opacity: 0.75;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .feedback-row-success {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--bs-success, #198754);
+    }
+
+    .feedback-row-error {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--bs-danger, #dc3545);
+    }
+}

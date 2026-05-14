@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "hooks": {
+      "sessionStart": [{ "command": "hooks/session-start.sh" }],
+      "preToolUse": [{ 
+        "command": "hooks/simplify-ignore.sh",
+        "matcher": "Read"
+      }],
+      "postToolUse": [{ 
+        "command": "hooks/simplify-ignore.sh",
+        "matcher": "Write"
+      }]
+    }
+}
