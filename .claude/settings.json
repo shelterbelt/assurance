@@ -1,0 +1,36 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-start.sh"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command":"bash \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/simplify-ignore.sh",
+            "matcher": "Read"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command":"bash \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/simplify-ignore.sh",
+            "matcher": "Edit|Write"
+          }
+        ]
+      }
+    ]
+  }
+}

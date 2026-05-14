@@ -1,0 +1,15 @@
+@use "../scan-list/ScanList";
+@use "../actions-panel/ActionsPanel";
+@use "../scan-definition-panel/ScanDefinitionPanel";
+
+.scan-operations-container {
+    max-width: none;
+
+    .col.ps-0 {
+        padding-right: 4px;
+    }
+
+    .col.pe-0 {
+        padding-left: 4px;
+    }
+}

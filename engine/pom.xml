@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Assurance
+ 
+ Created by Mark Johnson
+ 
+ Copyright (c) 2015 - 2023 Mark Johnson
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+    http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.markallenjohnson</groupId>
+	<artifactId>assurance</artifactId>
+	<version>2.0.0${release.identifier}</version>
+	<packaging>jar</packaging>
+	<name>Assurance Backup Manager</name>
+	<url>http://www.markallenjohnson.com/assurance</url>
+	<description>Cross-platform application to analyze and synchronize the contents of file system directories.</description>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	   	<timestamp>${maven.build.timestamp}</timestamp>
+   		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>		
+		<maven.test.failure.ignore>false</maven.test.failure.ignore>
+		<spring.framework.version>6.0.11</spring.framework.version>
+		<slf4j.version>2.0.9</slf4j.version>
+		<app.shortName>Assurance</app.shortName>
+		<app.buildNumber>DEVBUILD</app.buildNumber>
+		<app.iconFile>${basedir}/src/main/resources/assurance.icns</app.iconFile>
+		<app.windowsIconFile>${basedir}/src/main/resources/assurance.ico</app.windowsIconFile>
+		<!-- Having to define the version number twice is sub-optimal, but seems necessary
+		     given the tooling behavior and how I want the numbers to propagate per platform. -->
+		<app.windowsVersionNumber>2.0.0.${app.buildNumber}</app.windowsVersionNumber>
+		
+		<!-- These properties can be defined as environment variables (and referenced via ${env.<var_name>) in 
+		     /etc/launchd.conf on OSX < Yosemite.  But the mechanism for passing env variables to GUI apps 
+		     significantly changed in Yosemite. So for my own development, I explicitly set the targets
+		     here.  On a build server via a command line build, environment variables should work on all platforms. -->
+		<ant.home>/usr/local/ant</ant.home>
+		<java.embedJDK>/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home</java.embedJDK>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.framework.version}</version>
+		   	<exclusions>
+		 		<!-- Swap out the standard JCL logging framework for SLF -->
+		      	<exclusion>
+		        	<groupId>commons-logging</groupId>
+		         	<artifactId>commons-logging</artifactId>
+		   		</exclusion>
+		 		<!-- END:  Swap out the standard JCL logging framework for SLF -->
+		   	</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.framework.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>6.2.8.Final</version>
+		</dependency>
+ 		
+ 		<!-- Swap out the standard JCL logging framework for SLF -->
+		<dependency>
+		   <groupId>org.slf4j</groupId>
+		   <artifactId>jcl-over-slf4j</artifactId>
+		   <version>${slf4j.version}</version>
+		   <scope>runtime</scope>
+		</dependency>
+		<dependency>
+		   <groupId>org.slf4j</groupId>
+		   <artifactId>slf4j-api</artifactId>
+		   <version>${slf4j.version}</version>
+		   <scope>runtime</scope>
+		</dependency>
+		<dependency>
+		   <groupId>org.slf4j</groupId>
+		   <artifactId>slf4j-reload4j</artifactId>
+		   <version>${slf4j.version}</version>
+		   <scope>runtime</scope>
+		</dependency>
+   		<!-- END:  Swap out the standard JCL logging framework for SLF -->
+  
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.20.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+  			<version>3.13.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-text</artifactId>
+  			<version>1.10.0</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.13.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.h2database</groupId>
+		    <artifactId>h2</artifactId>
+		    <version>2.1.214</version>
+		</dependency>
+		<dependency>
+			<groupId>com.apple</groupId>
+			<artifactId>AppleJavaExtensions</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.java-websocket</groupId>
+			<artifactId>Java-WebSocket</artifactId>
+			<version>1.5.7</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.17.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.hamcrest</groupId>
+		    <artifactId>hamcrest</artifactId>
+		    <version>2.2</version>
+		    <scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<scm>
+		<connection>scm:git:git@github.com:shelterbelt/assurance.git</connection>
+		<developerConnection>scm:git:git@github.com:shelterbelt/assurance.git/</developerConnection>
+		<url>https://github.com/shelterbelt/assurance</url>
+	</scm>
+	
+	<profiles>
+		<profile>
+			<id>development</id>
+			<activation>
+      			<activeByDefault>true</activeByDefault>
+     			<property>
+	        		<name>profile</name>
+	        		<value>development</value>
+	        	</property>
+        	</activation>
+        	<properties>
+        		<release.identifier>-SNAPSHOT</release.identifier>
+        		<project.buildprefix>DEV</project.buildprefix>
+        		<release.tagname>snapshot</release.tagname>
+        	</properties>
+        	<build>
+        		<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.7</version>
+						<executions>
+						</executions>
+					</plugin>
+        		</plugins>
+        	</build>
+		</profile>
+		<profile>
+			<id>development-windows</id>
+			<activation>
+     			<property>
+	        		<name>profile</name>
+	        		<value>development-windows</value>
+	        	</property>
+        	</activation>
+        	<properties>
+        		<release.identifier>-SNAPSHOT</release.identifier>
+        		<project.buildprefix>DEV</project.buildprefix>
+        		<release.tagname>snapshot</release.tagname>
+				<app.buildNumber>0</app.buildNumber>
+        	</properties>
+        	<build>
+        		<plugins>
+	        		<!-- NOTE: Should use POM inheritance for these common definitions. -->
+					<plugin>
+					    <groupId>com.akathist.maven.plugins.launch4j</groupId>
+					    <artifactId>launch4j-maven-plugin</artifactId>
+					    <version>2.4.1</version>
+					    <executions>
+					
+					        <execution>
+					            <id>l4j-gui</id>
+					            <phase>package</phase>
+					            <goals>
+					                <goal>launch4j</goal>
+					            </goals>
+					            <configuration>
+					                <headerType>gui</headerType>
+					                <outfile>target/${project.artifactId}.exe</outfile>
+					                <jar>target/${project.artifactId}-${project.version}.jar</jar>
+					                <errTitle>${app.shortName} Error</errTitle>
+					                <classPath>
+					                    <mainClass>com.markallenjohnson.assurance.Application</mainClass>
+                    					<preCp>dependency_libs/*.jar</preCp>
+					                </classPath>
+					                <icon>${app.windowsIconFile}</icon>
+					                <jre>
+					                    <minVersion>17</minVersion>
+					                    <maxVersion>17</maxVersion>
+					                    <initialHeapSize>128</initialHeapSize>
+					                    <maxHeapSize>1024</maxHeapSize>
+					                </jre>
+					                <versionInfo>
+					                    <fileVersion>${app.windowsVersionNumber}</fileVersion>
+					                    <txtFileVersion>${project.version}</txtFileVersion>
+					                    <fileDescription>${project.description}</fileDescription>
+					                    <copyright>2015 - ${project.organization.name}</copyright>
+					                    <productVersion>${app.windowsVersionNumber}</productVersion>
+					                    <txtProductVersion>${project.version}</txtProductVersion>
+					                    <productName>${project.name}</productName>
+					                    <internalName>${app.shortName}</internalName>
+					                    <originalFilename>${project.artifactId}.exe</originalFilename>
+					                </versionInfo>
+					            </configuration>
+					        </execution>
+					    </executions>
+					</plugin>
+					<plugin>
+					    <groupId>org.apache.maven.plugins</groupId>
+					    <artifactId>maven-dependency-plugin</artifactId>
+					    <version>3.6.0</version>
+					    <executions>
+					        <execution>
+					            <id>copy-dependencies</id>
+					            <phase>package</phase>
+					            <goals>
+					                <goal>copy-dependencies</goal>
+					            </goals>
+					            <configuration>
+					                <outputDirectory>${project.build.directory}/dependency_libs</outputDirectory>
+					                <overWriteReleases>false</overWriteReleases>
+					                <overWriteSnapshots>false</overWriteSnapshots>
+					                <overWriteIfNewer>true</overWriteIfNewer>
+					            </configuration>
+					        </execution>
+					    </executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>intrelease</id>
+			<activation>
+				<property>
+	        		<name>profile</name>
+	        		<value>intrelease</value>
+	        	</property>
+			</activation>
+        	<properties>
+        		<release.identifier>-RC</release.identifier>
+        		<project.buildprefix>RC</project.buildprefix>
+        		<release.tagname>RC</release.tagname>
+				<app.buildNumber>${timestamp}</app.buildNumber>
+        	</properties>
+        	<build>
+        		<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>3.1.0</version>
+						<executions>
+						</executions>
+					</plugin>
+        		</plugins>
+        	</build>
+		</profile>
+		<profile>
+			<id>intrelease-windows</id>
+			<activation>
+				<property>
+	        		<name>profile</name>
+	        		<value>intrelease-windows</value>
+	        	</property>
+			</activation>
+        	<properties>
+        		<release.identifier>-RC</release.identifier>
+        		<project.buildprefix>RC</project.buildprefix>
+        		<release.tagname>RC</release.tagname>
+				<app.buildNumber>0</app.buildNumber>
+        	</properties>
+        	<build>
+        		<plugins>
+	        		<!-- NOTE: Should use POM inheritance for these common definitions. -->
+					<plugin>
+					    <groupId>com.akathist.maven.plugins.launch4j</groupId>
+					    <artifactId>launch4j-maven-plugin</artifactId>
+					    <version>2.4.1</version>
+					    <executions>
+					
+					        <execution>
+					            <id>l4j-gui</id>
+					            <phase>package</phase>
+					            <goals>
+					                <goal>launch4j</goal>
+					            </goals>
+					            <configuration>
+					                <headerType>gui</headerType>
+					                <outfile>target/${project.artifactId}.exe</outfile>
+					                <jar>target/${project.artifactId}-${project.version}.jar</jar>
+					                <errTitle>${app.shortName} Error</errTitle>
+					                <classPath>
+					                    <mainClass>com.markallenjohnson.assurance.Application</mainClass>
+                    					<preCp>dependency_libs/*.jar</preCp>
+					                </classPath>
+					                <icon>${app.windowsIconFile}</icon>
+					                <jre>
+					                    <minVersion>17</minVersion>
+					                    <maxVersion>17</maxVersion>
+					                    <initialHeapSize>128</initialHeapSize>
+					                    <maxHeapSize>1024</maxHeapSize>
+					                </jre>
+					                <versionInfo>
+					                    <fileVersion>${app.windowsVersionNumber}</fileVersion>
+					                    <txtFileVersion>${project.version}</txtFileVersion>
+					                    <fileDescription>${project.description}</fileDescription>
+					                    <copyright>2015 - ${project.organization.name}</copyright>
+					                    <productVersion>${app.windowsVersionNumber}</productVersion>
+					                    <txtProductVersion>${project.version}</txtProductVersion>
+					                    <productName>${project.name}</productName>
+					                    <internalName>${app.shortName}</internalName>
+					                    <originalFilename>${project.artifactId}.exe</originalFilename>
+					                </versionInfo>
+					            </configuration>
+					        </execution>
+					    </executions>
+					</plugin>
+					<plugin>
+					    <groupId>org.apache.maven.plugins</groupId>
+					    <artifactId>maven-dependency-plugin</artifactId>
+					    <version>3.6.0</version>
+					    <executions>
+					        <execution>
+					            <id>copy-dependencies</id>
+					            <phase>package</phase>
+					            <goals>
+					                <goal>copy-dependencies</goal>
+					            </goals>
+					            <configuration>
+					                <outputDirectory>${project.build.directory}/dependency_libs</outputDirectory>
+					                <overWriteReleases>false</overWriteReleases>
+					                <overWriteSnapshots>false</overWriteSnapshots>
+					                <overWriteIfNewer>true</overWriteIfNewer>
+					            </configuration>
+					        </execution>
+					    </executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>release</id>
+			<activation>
+				<property>
+	        		<name>profile</name>
+	        		<value>release</value>
+				</property>
+			</activation>
+        	<properties>
+        		<release.identifier></release.identifier>
+        		<project.buildprefix>REL</project.buildprefix>
+        		<release.tagname>release</release.tagname>
+				<app.buildNumber>${timestamp}</app.buildNumber>
+        	</properties>
+        	<build>
+        		<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>3.1.0</version>
+						<executions>
+						</executions>
+					</plugin>
+        		</plugins>
+        	</build>
+		</profile>
+		<profile>
+			<id>release-windows</id>
+			<activation>
+				<property>
+	        		<name>profile</name>
+	        		<value>release-windows</value>
+				</property>
+			</activation>
+        	<properties>
+        		<release.identifier></release.identifier>
+        		<project.buildprefix>REL</project.buildprefix>
+        		<release.tagname>release</release.tagname>
+				<app.buildNumber>0</app.buildNumber>
+        	</properties>
+        	<build>
+        		<plugins>
+	        		<!-- NOTE: Should use POM inheritance for these common definitions. -->
+					<plugin>
+					    <groupId>com.akathist.maven.plugins.launch4j</groupId>
+					    <artifactId>launch4j-maven-plugin</artifactId>
+					    <version>2.4.1</version>
+					    <executions>
+					
+					        <execution>
+					            <id>l4j-gui</id>
+					            <phase>package</phase>
+					            <goals>
+					                <goal>launch4j</goal>
+					            </goals>
+					            <configuration>
+					                <headerType>gui</headerType>
+					                <outfile>target/${project.artifactId}.exe</outfile>
+					                <jar>target/${project.artifactId}-${project.version}.jar</jar>
+					                <errTitle>${app.shortName} Error</errTitle>
+					                <classPath>
+					                    <mainClass>com.markallenjohnson.assurance.Application</mainClass>
+                    					<preCp>dependency_libs/*.jar</preCp>
+					                </classPath>
+					                <icon>${app.windowsIconFile}</icon>
+					                <jre>
+					                    <minVersion>17</minVersion>
+					                    <maxVersion>17</maxVersion>
+					                    <initialHeapSize>128</initialHeapSize>
+					                    <maxHeapSize>1024</maxHeapSize>
+					                </jre>
+					                <versionInfo>
+					                    <fileVersion>${app.windowsVersionNumber}</fileVersion>
+					                    <txtFileVersion>${project.version}</txtFileVersion>
+					                    <fileDescription>${project.description}</fileDescription>
+					                    <copyright>2015 - ${project.organization.name}</copyright>
+					                    <productVersion>${app.windowsVersionNumber}</productVersion>
+					                    <txtProductVersion>${project.version}</txtProductVersion>
+					                    <productName>${project.name}</productName>
+					                    <internalName>${app.shortName}</internalName>
+					                    <originalFilename>${project.artifactId}.exe</originalFilename>
+					                </versionInfo>
+					            </configuration>
+					        </execution>
+					    </executions>
+					</plugin>
+					<plugin>
+					    <groupId>org.apache.maven.plugins</groupId>
+					    <artifactId>maven-dependency-plugin</artifactId>
+					    <version>3.6.0</version>
+					    <executions>
+					        <execution>
+					            <id>copy-dependencies</id>
+					            <phase>package</phase>
+					            <goals>
+					                <goal>copy-dependencies</goal>
+					            </goals>
+					            <configuration>
+					                <outputDirectory>${project.build.directory}/dependency_libs</outputDirectory>
+					                <overWriteReleases>false</overWriteReleases>
+					                <overWriteSnapshots>false</overWriteSnapshots>
+					                <overWriteIfNewer>true</overWriteIfNewer>
+					            </configuration>
+					        </execution>
+					    </executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<!--
+			package-engine: 2.0 packaging profile for the headless JSON-RPC engine.
+			Produces, under target/engine-bundle/current/:
+			  - engine.jar  : an executable shaded jar (Main-Class set, all deps inlined)
+			  - jre/        : a jlink-trimmed runtime image
+			Invoked from electron-forge's packageAfterCopy hook (see forge.config.ts);
+			the path is host-shaped (current host = current produced bundle) — the per-
+			platform variants are produced by running this profile on each target host.
+		-->
+		<profile>
+			<id>package-engine</id>
+			<activation>
+				<property>
+					<name>profile</name>
+					<value>package-engine</value>
+				</property>
+			</activation>
+			<properties>
+				<release.identifier></release.identifier>
+				<project.buildprefix></project.buildprefix>
+				<release.tagname>snapshot</release.tagname>
+				<engine.bundle.dir>${project.build.directory}/engine-bundle/current</engine.bundle.dir>
+				<engine.jar.path>${engine.bundle.dir}/engine.jar</engine.jar.path>
+				<engine.jre.path>${engine.bundle.dir}/jre</engine.jre.path>
+				<engine.jlink.modules>java.se,jdk.crypto.ec,jdk.crypto.cryptoki,jdk.unsupported,jdk.management,jdk.management.agent,jdk.naming.dns,jdk.naming.rmi,jdk.localedata</engine.jlink.modules>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-shade-plugin</artifactId>
+						<version>3.5.1</version>
+						<executions>
+							<execution>
+								<id>shade-engine</id>
+								<phase>package</phase>
+								<goals>
+									<goal>shade</goal>
+								</goals>
+								<configuration>
+									<createDependencyReducedPom>false</createDependencyReducedPom>
+									<outputFile>${engine.jar.path}</outputFile>
+									<filters>
+										<filter>
+											<!-- Drop signed-jar signatures: shading combines jars and the originals' signatures no longer match. -->
+											<artifact>*:*</artifact>
+											<excludes>
+												<exclude>META-INF/*.SF</exclude>
+												<exclude>META-INF/*.DSA</exclude>
+												<exclude>META-INF/*.RSA</exclude>
+												<exclude>module-info.class</exclude>
+											</excludes>
+										</filter>
+									</filters>
+									<transformers>
+										<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+											<mainClass>com.markallenjohnson.assurance.Application</mainClass>
+											<manifestEntries>
+												<Implementation-Build>${project.buildprefix}${buildNumber}</Implementation-Build>
+												<Implementation-Version>${project.version}</Implementation-Version>
+											</manifestEntries>
+										</transformer>
+										<!-- Coalesce ServiceLoader registrations across all dependency jars. -->
+										<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+										<!-- Coalesce Spring's namespace-handler / schema / factories descriptors. -->
+										<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+											<resource>META-INF/spring.handlers</resource>
+										</transformer>
+										<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+											<resource>META-INF/spring.schemas</resource>
+										</transformer>
+										<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+											<resource>META-INF/spring.factories</resource>
+										</transformer>
+										<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+											<resource>META-INF/spring.tooling</resource>
+										</transformer>
+									</transformers>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<!-- Drive the JDK's bundled jlink to produce a trimmed runtime image. The
+							 module set covers Spring + Hibernate + Jackson + Java-WebSocket + log4j
+							 needs without pulling in the full JDK; trim further only after a
+							 measured packaged-app smoke. -->
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>3.1.1</version>
+						<executions>
+							<execution>
+								<id>jlink-engine-jre</id>
+								<phase>package</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+									<executable>${java.home}/bin/jlink</executable>
+									<arguments>
+										<argument>--add-modules</argument>
+										<argument>${engine.jlink.modules}</argument>
+										<argument>--strip-debug</argument>
+										<argument>--no-header-files</argument>
+										<argument>--no-man-pages</argument>
+										<argument>--compress=2</argument>
+										<argument>--output</argument>
+										<argument>${engine.jre.path}</argument>
+									</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<!-- Wipe target/engine-bundle/current/jre/ before jlink runs (jlink refuses
+							 to overwrite). Also wipe the shaded engine.jar so re-runs are clean. -->
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+						<version>3.3.2</version>
+						<executions>
+							<execution>
+								<id>clean-engine-bundle</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>clean</goal>
+								</goals>
+								<configuration>
+									<excludeDefaultDirectories>true</excludeDefaultDirectories>
+									<filesets>
+										<fileset>
+											<directory>${engine.bundle.dir}</directory>
+										</fileset>
+									</filesets>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	
+	<build>
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+			    	<filtering>true</filtering>
+				<excludes>
+					<exclude>*.icns</exclude>
+					<exclude>*.ico</exclude>
+					<!-- Bundled binaries (e.g. the H2 1.4 migration driver) must not be text-filtered. -->
+					<exclude>**/*.jar</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+			    	<include>**/version.txt</include>
+				</includes>
+			</resource>
+			<resource>
+			  	<directory>${basedir}/src/main/resources</directory>
+			  	<filtering>false</filtering>
+			  	<excludes>
+			    	<exclude>**/version.txt</exclude>
+			  	</excludes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version>
+				<configuration>
+					<source>17</source>
+					<target>17</target>
+				</configuration>
+			</plugin>
+			<plugin>
+			  	<groupId>org.apache.maven.plugins</groupId>
+			  	<artifactId>maven-surefire-plugin</artifactId>
+			  	<version>3.1.2</version>
+				<configuration>
+				    <includes>
+            			<include>**/*Tests.java</include>
+		        	</includes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<version>1.3</version>
+			    <configuration>
+				    <revisionOnScmFailure>DEVBUILD</revisionOnScmFailure>
+				    <useLastCommittedRevision>false</useLastCommittedRevision>
+			    	<doCheck>false</doCheck>
+			    	<doUpdate>false</doUpdate>
+      				<format>{0,date,yyyyMMddHHmmss}</format>
+	      			<items>
+        				<item>timestamp</item>
+      				</items>
+				</configuration>
+    			<executions>
+					<execution>
+				     	<phase>validate</phase>
+				     	<goals>
+				     		<goal>create</goal>
+				   		</goals>
+				 	</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.3.0</version>
+				<configuration>
+				  	<archive>
+				    	<manifest>
+				      		<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+				    	</manifest>
+				    	<manifestEntries>
+				      		<Implementation-Build>${project.buildprefix}${buildNumber}</Implementation-Build>
+				    	</manifestEntries>
+				  	</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-scm-plugin</artifactId>
+				<dependencies>
+					<dependency>
+						<groupId>org.codehaus.plexus</groupId>
+						<artifactId>plexus-utils</artifactId>
+						<version>4.0.0</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.maven.scm</groupId>
+						<artifactId>maven-scm-provider-gitexe</artifactId>
+						<version>2.0.1</version>
+					</dependency>
+				</dependencies>
+				<version>2.0.1</version>
+				<configuration>
+					<tag>${release.tagname}${project.version}</tag>
+				</configuration>
+				<executions>
+					<execution>
+						<id>tag</id>
+						<phase>install</phase>
+						<goals>
+							<goal>tag</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>	
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>org.maven.repo1.maven2</id>
+			<name>MavenCentral Repository</name>
+			<url>https://repo1.maven.org/maven2/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>org.jboss.repository.releases</id>
+			<name>JBoss Maven Release Repository</name>
+			<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+	</repositories>
+
+	<organization>
+		<name>Mark Johnson</name>
+		<url>http://www.markallenjohnson.com</url>
+	</organization>
+</project>

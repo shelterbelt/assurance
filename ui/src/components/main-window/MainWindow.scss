@@ -1,0 +1,56 @@
+// Equal vertical rhythm between the scan tab pane and results so feedback
+// does not read as hugging the definitions/actions block above.
+.main-window-feedback-row {
+    padding-block: 2pt;
+}
+
+.main-window-dev-tools-row {
+    padding-top: 10pt;
+}
+
+.main-window-nav-row {
+    position: relative;
+    justify-content: center;
+    margin-bottom: 12pt;
+
+    .main-window-settings-col {
+        position: absolute;
+        left: calc(6pt + 12px);
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 0;
+        z-index: 1;
+    }
+
+    .main-window-nav-center-col {
+        display: flex;
+        justify-content: center;
+    }
+
+    .main-window-settings-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 999px;
+        border: 1px solid rgba(128, 128, 128, 0.55);
+        background: rgba(255, 255, 255, 0.06);
+        color: inherit;
+        text-decoration: none;
+        line-height: 1;
+        padding: 0;
+    }
+
+    .main-window-settings-button:hover,
+    .main-window-settings-button:focus-visible {
+        background: rgba(255, 255, 255, 0.14);
+        border-color: rgba(160, 160, 160, 0.75);
+    }
+
+    .main-window-settings-glyph {
+        display: inline-block;
+        font-size: 1.2rem;
+        transform: translateY(-1px);
+    }
+}
